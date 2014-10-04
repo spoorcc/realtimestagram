@@ -22,3 +22,8 @@ $ cat .gitignore
 
 # Tempory folder
 tmp
+# Generated targets
+bld
+
+# Doxygen documentation
+doc/html
