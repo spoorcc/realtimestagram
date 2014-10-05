@@ -17,20 +17,31 @@
 CC=ghdl
 # 
 # To seperate source from build files, export them to the seperate bld folder
+BLDTMPDIR=../bld/tmp
 BLDDIR=../bld
 DOXYDIR=../doc/html
-CFLAGS=--workdir=$(BLDDIR)
+AFLAGS='--workdir=$(BLDTMPDIR)'
+EFLAGS='--workdir=$(BLDTMPDIR)'
 
-all: hello
+MKDIR_P = mkdir -p
 
-hello: hello.o
-	$(CC) $(CFLAGS) -e hello.o -o hello
+.PHONY: all clean directories docs test
 
-hello.o: hello_world.vhd
-	$(CC) $(CFLAGS) -a hello.vhd
+
+all: directories hello_world
+
+hello_world: hello_world.o
+	$(CC) -e $(AFLAGS) -o ${BLDDIR}/hello_world hello_world 
+
+hello_world.o: hello_world.vhd
+	$(CC) -a $(EFLAGS) hello_world.vhd
 
 clean:
 	@rm -rf $(BLDDIR)/*;rm -rf $(DOXYDIR)/*;echo "Cleared $(BLDDIR) and $(DOXYDIR)"
+
+directories:
+	${MKDIR_P} ${BLDDIR}
+	${MKDIR_P} ${BLDTMPDIR}
 
 docs:
 	@doxygen Doxyfile
