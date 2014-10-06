@@ -14,29 +14,31 @@
 #   along with Realtimestagram.  If not, see <http://www.gnu.org/licenses/>.
 
 
-CC=ghdl
 # 
 # To seperate source from build files, export them to the seperate bld folder
-BLDTMPDIR=../bld/tmp
-BLDDIR=../bld
-AFLAGS='--workdir=$(BLDTMPDIR)'
-EFLAGS='--workdir=$(BLDTMPDIR)'
+BLDTMPDIR=bld/tmp
+BLDDIR=bld
+DOXYDIR=doc/html
 
 MKDIR_P = mkdir -p
 
 .PHONY: all clean directories docs test
 
-all: curve_adjust_tb
+all: directories curve_adjust_tb
 
-curve_adjust_tb: image_io_pkg.o curve_adjust.o curve_adjust_tb.o 
-	$(CC) -e $(AFLAGS) -o ${BLDDIR}/curve_adjust_tb curve_adjust_tb 
+curve_adjust_tb: 
+	@cd src; make
 
-image_io_pkg.o: image_io_pkg.vhd
-	$(CC) -a $(EFLAGS) image_io_pkg.vhd
+clean:
+	@rm -rf $(BLDDIR)/*;rm -rf $(DOXYDIR)/*;echo "Cleared $(BLDDIR) and $(DOXYDIR)"
 
-curve_adjust.o: curve_adjust.vhd
-	$(CC) -a $(EFLAGS) curve_adjust.vhd
+directories:
+	${MKDIR_P} ${BLDDIR}
+	${MKDIR_P} ${BLDTMPDIR}
 
-curve_adjust_tb.o: curve_adjust_tb.vhd
-	$(CC) -a $(EFLAGS) curve_adjust_tb.vhd
+docs:
+	@doxygen doc/Doxyfile
+
+test:
+	@echo "Nothing yet!"
 
