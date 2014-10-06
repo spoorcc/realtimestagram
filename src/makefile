@@ -28,13 +28,19 @@ MKDIR_P = mkdir -p
 .PHONY: all clean directories docs test
 
 
-all: directories hello_world
+all: directories curve_adjust_tb
 
-hello_world: hello_world.o
-	$(CC) -e $(AFLAGS) -o ${BLDDIR}/hello_world hello_world 
+curve_adjust_tb: image_io_pkg.o curve_adjust.o curve_adjust_tb.o 
+	$(CC) -e $(AFLAGS) -o ${BLDDIR}/curve_adjust_tb curve_adjust_tb 
 
-hello_world.o: hello_world.vhd
-	$(CC) -a $(EFLAGS) hello_world.vhd
+image_io_pkg.o: image_io_pkg.vhd
+	$(CC) -a $(EFLAGS) image_io_pkg.vhd
+
+curve_adjust.o: curve_adjust.vhd
+	$(CC) -a $(EFLAGS) curve_adjust.vhd
+
+curve_adjust_tb.o: curve_adjust_tb.vhd
+	$(CC) -a $(EFLAGS) curve_adjust_tb.vhd
 
 clean:
 	@rm -rf $(BLDDIR)/*;rm -rf $(DOXYDIR)/*;echo "Cleared $(BLDDIR) and $(DOXYDIR)"
