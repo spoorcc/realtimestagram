@@ -30,6 +30,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
+
 --============================================================================--
 
 ENTITY curve_adjust IS
@@ -53,14 +54,22 @@ ARCHITECTURE curve_adjust_stub OF curve_adjust IS
   -- signal declarations
   SIGNAL the_signal:       std_logic_vector((wordsize-1) downto 0);
 
+type array_integer is array (natural range <>) of integer;
 
+function create_lookup_table(size: integer) return array_integer is
+    variable return_value: array_integer(0 to size - 1);
+begin
+    for i in return_value'range loop
+        array_integer(i) := INTEGER(i);
+    end loop;
+end function create_lookup_table;
+
+constant LUT_SIZE: natural := 2**wordsize;
+constant LUT_CONTENTS: array_integer(0 to (LUT_SIZE-1)) := create_lookup_table(LUT_SIZE);
 BEGIN
 
   PROCESS(clk, rst)
   BEGIN
-
-   output_pixel <= the_signal;
-
     IF rst = '1' THEN
       the_signal  <= (others => '0');
 
@@ -68,7 +77,8 @@ BEGIN
 
       IF enable = '1' THEN
 
-        the_signal <= input_pixel;
+        the_signal <= STD_LOGIC_VECTOR(TO_UNSIGNED(LUT_CONTENTS(INTEGER(input_pixel)), wordsize-1));
+        output_pixel <= the_signal;
 
       END IF; -- end if enable = '1'
 
