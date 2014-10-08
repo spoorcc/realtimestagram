@@ -18,9 +18,38 @@
 --! \class curve_adjust
 --! \brief Applies a curve adjustment
 --!
---! Description
---! -----------
+--! \dot
+--! digraph curve_adjust{
+--!  
+--!  graph [rankdir=LR, splines=ortho, sep=5];
+--!  edge  [penwidth=2.2, arrowsize=.5]
+--!  node  [height=0.25, width=0.25, style=filled, fontname=sans]
 --!
+--!  /* Single or multibit registers */
+--!  subgraph registers{
+--!      node [fontcolor=white, fontname=serif, fillcolor=gray32, shape=box, headport=w, tailport=e]
+--!      clk rst enable input_pixel output_pixel
+--!  }
+--!
+--!  subgraph cluster_0 {
+--!
+--!      color=gray128;
+--!      label=CURVE_ADJUST;
+--!      fontcolor=black;
+--!      fontname=sans;
+--!
+--!      LUT  [label="LUT", height=2, shape=box, fillcolor=gray96, fontcolor=black, tailport=e]
+--!      and0 [label="&", shape=circle, fillcolor=white, fontcolor=black, fixedsize=true]
+--!  }
+--!
+--!  clk -> and0
+--!  enable -> and0
+--!  rst -> and0 [arrowhead=odot, arrowsize=0.6]
+--!  and0 -> LUT 
+--!  input_pixel -> LUT -> output_pixel
+--!
+--!}
+--! \enddot
 --! <!------------------------------------------------------------------------------>
 --! <!------------------------------------------------------------------------------>
 
@@ -32,7 +61,10 @@ use ieee.numeric_std.all;
 
 
 --============================================================================--
-
+--!
+--!
+--!
+--!
 ENTITY curve_adjust IS
   GENERIC (
     wordsize:             integer  --! input image wordsize in bits
@@ -54,7 +86,15 @@ ARCHITECTURE curve_adjust_stub OF curve_adjust IS
   -- signal declarations
   SIGNAL the_signal:       std_logic_vector((wordsize-1) downto 0);
 
+--! \brief Array of integers
 type array_integer is array (natural range <>) of integer;
+
+--! 
+--! \fn create_lookup_table
+--! \brief Creates a lookup table using some predefined formula 
+--! \description
+--!  Calculates every value and after that returns and integer array 
+--! \param[in] size Integer number of elements in returned array
 
 function create_lookup_table(size: integer) return array_integer is
     variable return_value: array_integer(0 to size - 1);
@@ -64,11 +104,15 @@ begin
     end loop;
 end function create_lookup_table;
 
-constant LUT_SIZE: natural := 2**wordsize;
-constant LUT_CONTENTS: array_integer(0 to (LUT_SIZE-1)) := create_lookup_table(LUT_SIZE);
+constant LUT_SIZE: natural := 2**wordsize; --! Size of the lookup-tables
+constant LUT_CONTENTS: array_integer(0 to (LUT_SIZE-1)) := create_lookup_table(LUT_SIZE); --! generated lookup table
+
 BEGIN
 
-  PROCESS(clk, rst)
+  --! \brief Clocked process that outputs the curve on each rising edge if enable is true 
+  --! \param[in] clk clock
+  --! \param[in] rst asynchronous reset
+  curve_adjustment : PROCESS(clk, rst)
   BEGIN
     IF rst = '1' THEN
       the_signal  <= (others => '0');
