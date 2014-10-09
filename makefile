@@ -13,12 +13,10 @@
 #   You should have received a copy of the GNU General Public License
 #   along with Realtimestagram.  If not, see <http://www.gnu.org/licenses/>.
 
-
 # 
 # To seperate source from build files, export them to the seperate bld folder
 BLDTMPDIR=bld/tmp
 BLDDIR=bld
-DOXYDIR=doc/html
 
 MKDIR_P = mkdir -p
 
@@ -32,7 +30,7 @@ curve_adjust_tb:
 clean:
 	@cd doc; make clean
 	@cd src; make clean
-	@rm -rf $(BLDDIR)/*;echo "Cleared $(BLDDIR) and $(DOXYDIR)"
+	@rm -rf $(BLDDIR)/*;echo "Cleared $(BLDDIR)"
 
 directories:
 	${MKDIR_P} ${BLDDIR}
