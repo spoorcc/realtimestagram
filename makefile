@@ -30,14 +30,16 @@ curve_adjust_tb:
 	@cd src; make
 
 clean:
-	@rm -rf $(BLDDIR)/*;rm -rf $(DOXYDIR)/*;echo "Cleared $(BLDDIR) and $(DOXYDIR)"
+	@cd doc; make clean
+	@cd src; make clean
+	@rm -rf $(BLDDIR)/*;echo "Cleared $(BLDDIR) and $(DOXYDIR)"
 
 directories:
 	${MKDIR_P} ${BLDDIR}
 	${MKDIR_P} ${BLDTMPDIR}
 
 docs:
-	@doxygen doc/Doxyfile
+	@cd doc; make
 
 test:
 	@echo "Nothing yet!"
