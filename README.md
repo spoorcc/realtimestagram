@@ -15,4 +15,5 @@ Building/running
 Documentation
 * Doxygen
 * graphviz
+* gnuplot
 
