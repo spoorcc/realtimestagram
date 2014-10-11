@@ -50,6 +50,22 @@
 --!
 --!}
 --! \enddot
+--!
+--! Curves
+--! =========
+--!
+--! Multiple curves are possible:
+--! * Straight (used for testing purposes) 
+--! * Sigmoid (used for contrast enhancement)
+--!
+--! Straight
+--! ---------- 
+--! \image html straight.png
+--!
+--!
+--! Sigmoid
+--! ---------- 
+--! \image html sigmoid.png
 --! <!------------------------------------------------------------------------------>
 --! <!------------------------------------------------------------------------------>
 

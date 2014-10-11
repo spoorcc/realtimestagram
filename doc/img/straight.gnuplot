@@ -5,10 +5,10 @@
 
 # Render settings
 set terminal pngcairo enhanced font "arial,10" fontscale 1.0 size 750, 500 
-set output 'bld/sigmoid.png'
+set output 'bld/straight.png'
 
 # Labels
-set title "Sigmoid"
+set title "Straight"
 set xlabel 'Input intensity'
 set ylabel 'Output intensity'
 set samples 200
@@ -22,14 +22,9 @@ set key left top
 
 # color definitions
 set style line 1  lc rgb '#0025ad' lt 1 lw 1.5
-set style line 3  lc rgb '#0042ad' lt 1 lw 1.5
-set style line 5  lc rgb '#007cad' lt 1 lw 1.5
-set style line 7  lc rgb '#00ada4' lt 1 lw 1.5
-set style line 9  lc rgb '#00ad6b' lt 1 lw 1.5
-set style line 11 lc rgb '#00ad31' lt 1 lw 1.5
 
 max_val=255.
 
-f(x,c) = max_val / (1.+exp( -(c/max_val)*(x-max_val/2.)))
+f(x,c) = x
 
-plot for [c=1:11:2] f(x,c) ls c title sprintf("C = %1.2f",c)
+plot c=1 f(x,c) ls 1 title "f(x) = x"
