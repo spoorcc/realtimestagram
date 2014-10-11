@@ -24,6 +24,7 @@ Documentation
 * [Doxygen](http://www.stack.nl/~dimitri/doxygen/) 
 * [graphviz](http://www.graphviz.org/) 
 * [GNUplot](http://www.gnuplot.info/)
+* [LaTeX](http://www.latex-project.org/) 
 
 Version control
 ---------------
