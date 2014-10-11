@@ -81,30 +81,47 @@ end entity;
 
 --============================================================================--
 
-architecture curve_adjust_stub of curve_adjust is
+architecture curve_adjust of curve_adjust is
 
     --! \brief array of std_logic_vectors
     type array_pixel is array (natural range <>) of std_logic_vector(wordsize-1 downto 0);
+
+	--! three types can be selected, these types are specified in the detailed description
+	type curvetype is (straight, sigmoid);
 
     --! \fn create_lookup_table
     --! \brief creates a lookup table using some predefined formula 
     --! \description
     --!  calculates every value and after that returns and integer array 
     --! \param[in] size integer number of elements in returned array
-    function create_lookup_table(size: integer) return array_pixel is
+    function create_lookup_table(size: integer; 
+                                 curve_type: curvetype := sigmoid) 
+        return array_pixel is
+
         variable return_value: array_pixel(0 to size - 1); --! Filled Look up table
+        
         variable exponent: real := 0.0;
         variable calc_val: real := 0.0;
-        constant max_val: real := 255.0;
-        constant c: real := 15.0;
+        constant max_val:  real := 255.0;
+        constant c:        real := 8.0;
     begin
+    --!TODO: Clean up
         for i in return_value'range loop
-            exponent :=  (c/max_val)*(real(i) - max_val * 0.5 );
-            calc_val := ceil(max_val / (real(1) + exp(-exponent)));
-            assert(1 = 0) report integer'image(integer(calc_val));
+
+            curve_sel: case curve_type is
+                when straight =>
+                    calc_val := real(i);
+                when sigmoid =>
+                    exponent := (c/max_val)*(real(i) - max_val * 0.5 );
+                    calc_val := ceil(max_val / (real(1) + exp(-exponent)));
+                end case;
+
+            report "LUT[" & integer'image(i) & "]: " & integer'image(integer(calc_val));
             assert(integer(calc_val) <= integer(max_val)) report "LUT filled with invalid value: " & integer'image(integer(calc_val)) severity failure;
             assert(integer(calc_val) > 0) report "LUT filled with invalid value" severity failure;
+
             return_value(i) := std_logic_vector(to_unsigned(integer(calc_val), wordsize));
+
         end loop;
         return return_value;
     end function create_lookup_table;
