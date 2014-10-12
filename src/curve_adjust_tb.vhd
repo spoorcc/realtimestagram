@@ -84,7 +84,7 @@ begin
   dut: lookup_table
     generic map(
       wordsize          => wordsize, -- size of input pixel value in bits
-      lut               => create_lookup_table(2**wordsize, sigmoid)
+      lut               => create_sigmoid_lut(2**wordsize, 5.0)
     )
 
     port map(

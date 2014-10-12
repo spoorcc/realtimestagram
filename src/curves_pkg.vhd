@@ -61,7 +61,23 @@ package curves_pkg is
 
     function create_lookup_table(size:  integer;                     --! Number of elements to create 
                                  curve_type: curvetype )  --! The type of curve to calculate
+                                 return array_pixel;
+
+    function create_sigmoid_lut(size:       integer;                     --! Number of elements to create 
+                                c:          real := 1.0)    --! The amplification factor
+                             return array_pixel;
+
+    function create_gamma_lut( size:    integer; --! Number of elements to create 
+                               gamma:   real := 1.0;
+                               c:       real := 1.0)
                                   return array_pixel;
+
+    procedure verify_valid_value( variable value:    in real;
+                                  constant wordsize: in integer);
+                
+    procedure report_lut_value( variable value:  in real;
+                                constant index:  in integer);
+    
 end curves_pkg;
 
 package body curves_pkg is
@@ -77,7 +93,7 @@ package body curves_pkg is
         variable return_value: array_pixel(0 to size-1);   --! 
     begin
         assert(size = 256) report "Invalid size: " & integer'image(size) severity failure;
-    --!TODO: Clean up
+
         for i in return_value'range loop
 
             curve_sel: case curve_type is
@@ -92,9 +108,8 @@ package body curves_pkg is
                     calc_val := c*max_val*(real(i)/max_val)**g;
                 end case;
 
-            report "LUT[" & integer'image(i) & "]: " & integer'image(integer(calc_val));
-            assert(integer(calc_val) <= integer(max_val)) report "LUT filled with invalid value: " & integer'image(integer(calc_val)) severity failure;
-            assert(integer(calc_val) >= 0) report "LUT filled with invalid value" severity failure;
+            report_lut_value( calc_val, i);
+            verify_valid_value(calc_val, wordsize);
 
             return_value(i) := std_logic_vector(to_unsigned(integer(calc_val), wordsize));
 
@@ -102,4 +117,67 @@ package body curves_pkg is
 
         return return_value;
     end  create_lookup_table;
+
+    function create_sigmoid_lut(size:       integer;                     --! Number of elements to create 
+                                c:          real := 1.0)    --! The amplification factor
+                                  return array_pixel is       
+        variable exponent: real := 0.0;                 --! temp variable used for calculation
+        variable calc_val: real := 0.0;                 --! The calculated real_value 
+        constant max_val:  real := real(2**wordsize)-1.0; --! The maximum value possible, used in calculation and asserting the values are in range
+        variable return_value: array_pixel(0 to size-1);   --! 
+    begin
+
+        for i in return_value'range loop
+
+            exponent := (c/max_val)*(real(i) - max_val * 0.5 );
+            calc_val := ceil(max_val / (real(1) + exp(-exponent)));
+
+            report_lut_value( calc_val, i);
+            verify_valid_value(calc_val, wordsize);
+
+            return_value(i) := std_logic_vector(to_unsigned(integer(calc_val), wordsize));
+
+        end loop;
+
+        return return_value;
+    end  create_sigmoid_lut;
+
+    function create_gamma_lut( size:    integer; --! Number of elements to create 
+                               gamma:   real := 1.0;
+                               c:       real := 1.0)
+                                  return array_pixel is       
+        variable calc_val: real := 0.0;   --! The calculated real_value 
+        constant max_val:  real := real(2**wordsize)-1.0; --! The maximum value possible, used in calculation and asserting the values are in range
+        variable return_value: array_pixel(0 to size-1);   --! 
+    begin
+
+        for i in return_value'range loop
+
+            calc_val := c*max_val*(real(i)/max_val)**gamma;
+
+            report_lut_value( calc_val, i);
+            verify_valid_value(calc_val, wordsize);
+
+            return_value(i) := std_logic_vector(to_unsigned(integer(calc_val), wordsize));
+
+        end loop;
+
+        return return_value;
+    end  create_gamma_lut;
+
+
+    procedure verify_valid_value( variable value:    in real;
+                                  constant wordsize: in integer) is
+        constant max_val : integer := integer(2**wordsize)-1;
+    begin
+        assert(integer(value) <= max_val) report "LUT filled with invalid value: " & integer'image(integer(value)) severity failure;
+        assert(integer(value) >= 0) report "LUT filled with invalid value" severity failure;
+    end procedure verify_valid_value;
+
+    procedure report_lut_value( variable value:  in real;
+                                constant index:  in integer) is
+    begin
+        report "LUT[" & integer'image(index) & "]: " & integer'image(integer(value));
+    end procedure report_lut_value;
+
 end curves_pkg;
