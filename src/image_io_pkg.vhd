@@ -35,455 +35,518 @@
 --! <!------------------------------------------------------------------------------>
 --! <!------------------------------------------------------------------------------>
 
---! Use standard library
+--! use standard library
 library ieee;
---! Use std_logic_vector
+--! use std_logic_vector
 use ieee.std_logic_1164.all;
---! Needed for colorscheme calculations
+--! needed for colorscheme calculations
 use ieee.numeric_std.all;
---! Used for writing and reading images
-USE std.textio.all;
-
+--! used for writing and reading images
+use std.textio.all;
+--! used only for calculation of constants
+use ieee.math_real.all;
 
 package image_io_pkg is
 
-	--! Three types can be selected, these types are specified in the detailed description
-	TYPE pbmplustype IS (PBM, PGM, PPM);
+    constant wordsize   : integer := 8; 
 
-	--! To accomodate for unknown arrays of pixels array writing is also possible
-	TYPE pixel_array IS ARRAY ( INTEGER RANGE <> ) OF INTEGER;
+	--! three types can be selected, these types are specified in the detailed description
+	type pbmplustype is (pbm, pgm, ppm);
 
-	--! Generic procedure for writing pbm plus headers
-	--! @param[in] p_width     Width of image in pixels
-	--! @param[in] p_height    Height of image in pixels
-	--! @param[in] max_value   Maximum pixel value possible
-	--! @param[in] type_of_pbm Image type used to determine magic identifier
-	--! @param[in] p_file      Opened target file to write header to
+	--! to accomodate for unknown arrays of pixels array writing is also possible
+	type pixel_array is array ( integer range <> ) of integer;
 
-	PROCEDURE write_pbmplus_header( CONSTANT p_width  : IN INTEGER;			
-                                	CONSTANT p_height : IN INTEGER;
-                                	CONSTANT max_value  : IN INTEGER;
-                                	CONSTANT type_of_pbm : IN pbmplustype;
+	--! generic procedure for writing pbm plus headers
+	--! @param[in] p_width     width of image in pixels
+	--! @param[in] p_height    height of image in pixels
+	--! @param[in] max_value   maximum pixel value possible
+	--! @param[in] type_of_pbm image type used to determine magic identifier
+	--! @param     p_file      opened target file to write header to
 
-                                	FILE p_file : TEXT           	);
+	procedure write_pbmplus_header( constant p_width     : in integer;			
+                                	constant p_height    : in integer;
+                                	constant max_value   : in integer;
+                                	constant type_of_pbm : in pbmplustype;
+                                	file p_file : text           	);
+    ----------------------------------------------------------------------     								
+    --! generic procedure for reading single pixel value from pbm file to variable
+    procedure read_pixel( file pbmplus_file : text;
+                    	  variable pixel : out integer;
+                          signal end_of_file: out std_logic );
+	--! generic procedure for reading single pixel value from pbm file to signal
+	procedure read_pixel( file pbmplus_file : text;
+                          signal pixel:  out std_logic_vector;                      							
+                          signal end_of_file: out std_logic );
 
     ----------------------------------------------------------------------     								
-    --! Generic procedure for writing single pixel value from variable to pbm file                  								
-	PROCEDURE write_pixel( VARIABLE pixel:  IN INTEGER;                      							
-                            FILE pbmplus_file : TEXT       );
+    --! generic procedure for writing single pixel value from variable to pbm file                  								
+	procedure write_pixel( variable pixel:  in integer;                      							
+                           file pbmplus_file : text       );
 
-	--! Generic procedure for writing single pixel value from signal to pbm file
-	PROCEDURE write_pixel( SIGNAL pixel:  IN STD_LOGIC_VECTOR;                      							
-                           FILE pbmplus_file : TEXT       );
+	--! generic procedure for writing single pixel value from signal to pbm file
+	procedure write_pixel( signal pixel:  in std_logic_vector;                      							
+                           file pbmplus_file : text       );
 
 	----------------------------------------------------------------------
 
-	--! Generic procedure to write binary variable of a file
-	--! The header must be written with PBM  as image type
-	PROCEDURE write_bin_pixel( VARIABLE pixel:  IN BOOLEAN;                      							
-                           	   FILE pbmplus_file : TEXT       );
+	--! generic procedure to write binary variable of a file
+	--! the header must be written with pbm  as image type
+	procedure write_bin_pixel( variable pixel:  in boolean;                      							
+                           	   file pbmplus_file : text       );
 
-	--! Generic procedure to write binary signal of a file
-	--! The header must be written with PBM  as image type
-	PROCEDURE write_bin_pixel( SIGNAL pixel:  IN STD_LOGIC;                      							
-                           	   FILE pbmplus_file : TEXT       );
+	--! generic procedure to write binary signal of a file
+	--! the header must be written with pbm  as image type
+	procedure write_bin_pixel( signal pixel:  in std_logic;                      							
+                           	   file pbmplus_file : text       );
 
     ------------------------------------------------------------------------
 
-	--! Generic procedure to write rgb variable of a file
-	--! The header must be written with PPM as image type
-    PROCEDURE write_rgb_pixel( VARIABLE pixel_r:  IN INTEGER;
-    						   VARIABLE pixel_g:  IN INTEGER;
-    						   VARIABLE pixel_b:  IN INTEGER;	
+	--! generic procedure to write rgb variable of a file
+	--! the header must be written with ppm as image type
+    procedure write_rgb_pixel( variable pixel_r:  in integer;
+    						   variable pixel_g:  in integer;
+    						   variable pixel_b:  in integer;	
 
-                           	   FILE pbmplus_file : TEXT       );
+                           	   file pbmplus_file : text       );
 
-	--! Generic procedure to write rgb signal of a file
-	--! The header must be written with PPM as image type
-	PROCEDURE write_rgb_pixel( 	SIGNAL pixel_r:  IN UNSIGNED(7 DOWNTO 0);
-								SIGNAL pixel_g:  IN UNSIGNED(7 DOWNTO 0);
-								SIGNAL pixel_b:  IN UNSIGNED(7 DOWNTO 0);
+	--! generic procedure to write rgb signal of a file
+	--! the header must be written with ppm as image type
+	procedure write_rgb_pixel( 	signal pixel_r:  in unsigned(7 downto 0);
+								signal pixel_g:  in unsigned(7 downto 0);
+								signal pixel_b:  in unsigned(7 downto 0);
 
-                           	   	FILE pbmplus_file : TEXT       );
+                           	   	file pbmplus_file : text       );
 
 	------------------------------------------------------------------------
 
-	--! Generic procedure to write ycbcr variable of a file
-	--! The header must be written with PPM as image type
-	PROCEDURE write_ycbcr_pixel( 	VARIABLE pixel_y:   IN INTEGER;
-    						   		VARIABLE pixel_cb:  IN INTEGER;
-    						   		VARIABLE pixel_cr:  IN INTEGER;	
+	--! generic procedure to write ycbcr variable of a file
+	--! the header must be written with ppm as image type
+	procedure write_ycbcr_pixel( 	variable pixel_y:   in integer;
+    						   		variable pixel_cb:  in integer;
+    						   		variable pixel_cr:  in integer;	
 
-                           	   		FILE pbmplus_file : TEXT       );
+                           	   		file pbmplus_file : text       );
 
-	--! Generic procedure to write ycbcr signal of a file
-	--! The header must be written with PPM as image type
-	PROCEDURE write_ycbcr_pixel( 	SIGNAL pixel_y:   IN UNSIGNED(9 DOWNTO 0);
-									SIGNAL pixel_cb:  IN UNSIGNED(9 DOWNTO 0);
-									SIGNAL pixel_cr:  IN UNSIGNED(9 DOWNTO 0);
+	--! generic procedure to write ycbcr signal of a file
+	--! the header must be written with ppm as image type
+	procedure write_ycbcr_pixel( 	signal pixel_y:   in unsigned(9 downto 0);
+									signal pixel_cb:  in unsigned(9 downto 0);
+									signal pixel_cr:  in unsigned(9 downto 0);
 
-                           	   		FILE pbmplus_file : TEXT       );	
+                           	   		file pbmplus_file : text       );	
 
 	---------------------------------------------------------------------------
 
-	--! Procedure to convert rgb variables into corresponding ycbcr components
-	PROCEDURE rgb_to_ycbcr( VARIABLE R : IN UNSIGNED(7 DOWNTO 0);
-							VARIABLE G : IN UNSIGNED(7 DOWNTO 0);
-							VARIABLE B : IN UNSIGNED(7 DOWNTO 0);
+	--! procedure to convert rgb variables into corresponding ycbcr components
+	procedure rgb_to_ycbcr( variable r : in unsigned(7 downto 0);
+							variable g : in unsigned(7 downto 0);
+							variable b : in unsigned(7 downto 0);
 
-							VARIABLE Y  : OUT UNSIGNED(9 DOWNTO 0);
-							VARIABLE Cb : OUT UNSIGNED(9 DOWNTO 0);
-							VARIABLE Cr : OUT UNSIGNED(9 DOWNTO 0)	);
+							variable y  : out unsigned(9 downto 0);
+							variable cb : out unsigned(9 downto 0);
+							variable cr : out unsigned(9 downto 0)	);
 
-	--! Procedure to convert ycbcr variables into corresponding rgb components
-	PROCEDURE ycbcr_to_rgb( VARIABLE Y  : IN UNSIGNED(9 DOWNTO 0);
-							VARIABLE Cb : IN UNSIGNED(9 DOWNTO 0);
-							VARIABLE Cr : IN UNSIGNED(9 DOWNTO 0);
+	--! procedure to convert ycbcr variables into corresponding rgb components
+	procedure ycbcr_to_rgb( variable y  : in unsigned(9 downto 0);
+							variable cb : in unsigned(9 downto 0);
+							variable cr : in unsigned(9 downto 0);
 
-							VARIABLE R : OUT UNSIGNED(7 DOWNTO 0);
-							VARIABLE G : OUT UNSIGNED(7 DOWNTO 0);
-							VARIABLE B : OUT UNSIGNED(7 DOWNTO 0)	);
+							variable r : out unsigned(7 downto 0);
+							variable g : out unsigned(7 downto 0);
+							variable b : out unsigned(7 downto 0)	);
 
-	--! Function to pad strings with a fill character
-	--! \param[in] arg_str      The input string that has to be padded
-	--! \param[in] ret_len_c    The length of the output string. (Must be larger than length of the input string)
-	--! \param[in] fill_char_c  The filling character that should be used to pad the input string
+	--! function to pad strings with a fill character
+	--! \param[in] arg_str      the input string that has to be padded
+	--! \param[in] ret_len_c    the length of the output string. (must be larger than length of the input string)
+	--! \param[in] fill_char_c  the filling character that should be used to pad the input string
 	--! \returns  string arg_str padded up to length ret_len_c with charachter fill_char_c
-	FUNCTION pad_string( 	arg_str : 		string;
+	function pad_string( 	arg_str : 		string;
 							ret_len_c : 	natural   := 10;
 							fill_char_c : 	character := ' ' )
 
-							RETURN string;
+							return string;
 
-END;
+end;
 
 package body image_io_pkg is
 
 --======================================================================================--
 
-	PROCEDURE write_pbmplus_header (
+	procedure write_pbmplus_header (
 
-		CONSTANT p_width  : IN INTEGER;				
-		CONSTANT p_height : IN INTEGER;				
-		CONSTANT max_value  : IN INTEGER;			
+		constant p_width  : in integer;				
+		constant p_height : in integer;				
+		constant max_value  : in integer;			
 
-		CONSTANT type_of_pbm : IN pbmplustype;
+		constant type_of_pbm : in pbmplustype;
 
-		FILE p_file : TEXT
+		file p_file : text
 
-		) IS
+		) is
 		
-	    CONSTANT width_height     : STRING := INTEGER'IMAGE(p_width) & " " & INTEGER'IMAGE(p_height);
-	    CONSTANT maximum_value    : STRING := INTEGER'IMAGE(max_value);
+	    constant width_height     : string := integer'image(p_width) & " " & integer'image(p_height);
+	    constant maximum_value    : string := integer'image(max_value);
 
-	    VARIABLE magic_identifier : STRING(1 TO 2) := "P0";
-	    VARIABLE text_line:    LINE;
+	    variable magic_identifier : string(1 to 2) := "p0";
+	    variable text_line:    line;
 
-	BEGIN
+	begin
 	
-	  	CASE type_of_pbm IS
-	  		WHEN PBM  	=> magic_identifier := "P1";
-	  		WHEN PGM  	=> magic_identifier := "P2";
-	  		WHEN PPM  	=> magic_identifier := "P3";
-	  		WHEN OTHERS => magic_identifier := "P1";
-	  	END CASE;
+	  	case type_of_pbm is
+	  		when pbm  	=> magic_identifier := "P1";
+	  		when pgm  	=> magic_identifier := "P2";
+	  		when ppm  	=> magic_identifier := "P3";
+	  		when others => magic_identifier := "P1";
+	  	end case;
 
-		--Write the header
-		WRITE( text_line, magic_identifier);
-		WRITELINE( p_file, text_line);
+		--write the header
+		write( text_line, magic_identifier);
+		writeline( p_file, text_line);
 
-		WRITE( text_line, width_height);
-		WRITELINE( p_file, text_line);
+		write( text_line, width_height);
+		writeline( p_file, text_line);
 
-		WRITE( text_line, maximum_value);
-		WRITELINE( p_file, text_line );
+		write( text_line, maximum_value);
+		writeline( p_file, text_line );
 	
-	END PROCEDURE write_pbmplus_header;
+	end procedure write_pbmplus_header;
 
 --======================================================================================--
 
-	PROCEDURE write_pixel(
+	procedure read_pixel(
 	
-	   VARIABLE pixel:  IN INTEGER;
-                      							
-    	FILE pbmplus_file : TEXT
-    ) IS
+       file pbmplus_file : text;
 
-	  	CONSTANT pixel_string :  STRING := INTEGER'IMAGE( pixel );
-    	VARIABLE text_line    :  LINE;
+	   variable pixel:     out integer;
+       signal end_of_file: out std_logic
+    ) is
 
-	BEGIN
+    	variable text_line    : line;
+
+	begin
 	
-		--Write the header
-		WRITE( text_line, pixel_string );
-		WRITELINE( pbmplus_file, text_line);
+        if (not endfile(pbmplus_file)) then
+            end_of_file <= '0';
+            readline(pbmplus_file, text_line);
+            read(text_line, pixel);
+        else
+            pixel := 0;
+            end_of_file <= '1';
+        end if;
 	
-	END PROCEDURE write_pixel;
+	end procedure read_pixel;
+
+	-----------------------------------------------------------------------------------------
+	procedure read_pixel(
+	
+       file pbmplus_file : text;
+
+	   signal pixel:       out std_logic_vector;
+       signal end_of_file: out std_logic
+    ) is
+
+	  	variable pixel_int :  integer;
+    	variable text_line    :  line;
+
+	begin
+        if (not endfile(pbmplus_file)) then
+            end_of_file <= '0';
+            readline(pbmplus_file, text_line);
+            read(text_line, pixel_int);
+
+            pixel <= std_logic_vector(to_unsigned(pixel_int, wordsize));
+        else
+            assert(1 = 0) report "End of file" severity failure;
+            pixel <= std_logic_vector(to_unsigned(0, wordsize));
+            end_of_file <= '1';
+        end if;
+	
+	end procedure read_pixel;
 
 	-----------------------------------------------------------------------------------------
 
-	PROCEDURE write_pixel(
+	procedure write_pixel(
 	
-	   SIGNAL pixel:  IN STD_LOGIC_VECTOR;
+	   variable pixel:  in integer;
                       							
-    	FILE pbmplus_file : TEXT
-    ) IS
+    	file pbmplus_file : text
+    ) is
 
-	  	CONSTANT pixel_string :  STRING := INTEGER'IMAGE( TO_INTEGER( UNSIGNED(pixel) ) );
-    	VARIABLE text_line    :  LINE;
+	  	constant pixel_string :  string := integer'image( pixel );
+    	variable text_line    :  line;
 
-	BEGIN
+	begin
 	
-		--Write the header
-		WRITE( text_line, pixel_string );
-		WRITELINE( pbmplus_file, text_line);
+		--write the header
+		write( text_line, pixel_string );
+		writeline( pbmplus_file, text_line);
 	
-	END PROCEDURE write_pixel;
+	end procedure write_pixel;
+
+	-----------------------------------------------------------------------------------------
+
+	procedure write_pixel(
+	
+	   signal pixel:  in std_logic_vector;
+                      							
+    	file pbmplus_file : text
+    ) is
+
+	  	constant pixel_string :  string := integer'image( to_integer( unsigned(pixel) ) );
+    	variable text_line    :  line;
+
+	begin
+	
+		--write the header
+		write( text_line, pixel_string );
+		writeline( pbmplus_file, text_line);
+	
+	end procedure write_pixel;
 
 	--======================================================================================--
 
 
-	PROCEDURE write_bin_pixel(
+	procedure write_bin_pixel(
 
-		VARIABLE pixel:  IN BOOLEAN;                      							
-        FILE pbmplus_file : TEXT
+		variable pixel:  in boolean;                      							
+        file pbmplus_file : text
 
-    ) IS
-		VARIABLE pixel_val : INTEGER;
-    BEGIN
+    ) is
+		variable pixel_val : integer;
+    begin
 
-    	CASE pixel IS
-    		WHEN TRUE 	=> pixel_val := 1;
-    		WHEN FALSE	=> pixel_val := 0;
-    		WHEN OTHERS => pixel_val := 255;
-    	END CASE;
+    	case pixel is
+    		when true 	=> pixel_val := 1;
+    		when false	=> pixel_val := 0;
+    		when others => pixel_val := 255;
+    	end case;
 
     	write_pixel(pixel_val, pbmplus_file);
 
-    END PROCEDURE write_bin_pixel;
+    end procedure write_bin_pixel;
 
 
 	-----------------------------------------------------------------------------------------
 
-	PROCEDURE write_bin_pixel(
+	procedure write_bin_pixel(
 
-		SIGNAL pixel:  IN STD_LOGIC;                      							
-        FILE pbmplus_file : TEXT
+		signal pixel:  in std_logic;                      							
+        file pbmplus_file : text
 
-    ) IS
-		VARIABLE pixel_val : INTEGER;
-    BEGIN
+    ) is
+		variable pixel_val : integer;
+    begin
 
-    	CASE pixel IS
-    		WHEN '1' 	=> pixel_val := 1;
-    		WHEN '0'	=> pixel_val := 0;
-    		WHEN OTHERS => pixel_val := 255;
-    	END CASE;
+    	case pixel is
+    		when '1' 	=> pixel_val := 1;
+    		when '0'	=> pixel_val := 0;
+    		when others => pixel_val := 255;
+    	end case;
 
     	write_pixel(pixel_val, pbmplus_file);
 
-    END PROCEDURE write_bin_pixel;
+    end procedure write_bin_pixel;
 
 	--======================================================================================--	
 
-	 PROCEDURE write_rgb_pixel(
+	 procedure write_rgb_pixel(
 
-	 	VARIABLE pixel_r:  IN INTEGER;
-	 	VARIABLE pixel_g:  IN INTEGER;
-	    VARIABLE pixel_b:  IN INTEGER;	
+	 	variable pixel_r:  in integer;
+	 	variable pixel_g:  in integer;
+	    variable pixel_b:  in integer;	
 
-   	    FILE pbmplus_file : TEXT
-   	 ) IS
+   	    file pbmplus_file : text
+   	 ) is
 		
-		CONSTANT pixel_r_string : STRING := INTEGER'IMAGE( pixel_r );
-		CONSTANT pixel_g_string : STRING := INTEGER'IMAGE( pixel_g );
-   	  	CONSTANT pixel_b_string : STRING := INTEGER'IMAGE( pixel_b );
-    	VARIABLE text_line    : LINE;
+		constant pixel_r_string : string := integer'image( pixel_r );
+		constant pixel_g_string : string := integer'image( pixel_g );
+   	  	constant pixel_b_string : string := integer'image( pixel_b );
+    	variable text_line    : line;
 
-	BEGIN
+	begin
 	
-		WRITE( text_line, pixel_r_string );
-		WRITELINE( pbmplus_file, text_line);
+		write( text_line, pixel_r_string );
+		writeline( pbmplus_file, text_line);
 
-		WRITE( text_line, pixel_g_string );
-		WRITELINE( pbmplus_file, text_line);  	
+		write( text_line, pixel_g_string );
+		writeline( pbmplus_file, text_line);  	
 
-		WRITE( text_line, pixel_b_string );
-		WRITELINE( pbmplus_file, text_line);
+		write( text_line, pixel_b_string );
+		writeline( pbmplus_file, text_line);
 	
-	END PROCEDURE write_rgb_pixel;
+	end procedure write_rgb_pixel;
 
 	------------------------------------------------------------------------------------------
 
-	PROCEDURE write_rgb_pixel( 	
+	procedure write_rgb_pixel( 	
 
-		SIGNAL pixel_r:  IN UNSIGNED(7 DOWNTO 0);
-		SIGNAL pixel_g:  IN UNSIGNED(7 DOWNTO 0);
-		SIGNAL pixel_b:  IN UNSIGNED(7 DOWNTO 0);
+		signal pixel_r:  in unsigned(7 downto 0);
+		signal pixel_g:  in unsigned(7 downto 0);
+		signal pixel_b:  in unsigned(7 downto 0);
 
-   	   	FILE pbmplus_file : TEXT
+   	   	file pbmplus_file : text
 
-   	) IS
+   	) is
 		
-		CONSTANT pixel_r_string : STRING := INTEGER'IMAGE( TO_INTEGER( UNSIGNED(pixel_r) ) );
-		CONSTANT pixel_g_string : STRING := INTEGER'IMAGE( TO_INTEGER( UNSIGNED(pixel_g) ) );
-   	  	CONSTANT pixel_b_string : STRING := INTEGER'IMAGE( TO_INTEGER( UNSIGNED(pixel_b) ) );
-    	VARIABLE text_line    : LINE;
+		constant pixel_r_string : string := integer'image( to_integer( unsigned(pixel_r) ) );
+		constant pixel_g_string : string := integer'image( to_integer( unsigned(pixel_g) ) );
+   	  	constant pixel_b_string : string := integer'image( to_integer( unsigned(pixel_b) ) );
+    	variable text_line    : line;
 
-	BEGIN
+	begin
 	
-		WRITE( text_line, pixel_r_string );
-		WRITELINE( pbmplus_file, text_line);
+		write( text_line, pixel_r_string );
+		writeline( pbmplus_file, text_line);
 
-		WRITE( text_line, pixel_g_string );
-		WRITELINE( pbmplus_file, text_line);  	
+		write( text_line, pixel_g_string );
+		writeline( pbmplus_file, text_line);  	
 
-		WRITE( text_line, pixel_b_string );
-		WRITELINE( pbmplus_file, text_line);
+		write( text_line, pixel_b_string );
+		writeline( pbmplus_file, text_line);
 	
-	END PROCEDURE write_rgb_pixel;
+	end procedure write_rgb_pixel;
 
 	------------------------------------------------------------------------
 
-	PROCEDURE write_ycbcr_pixel( 	
+	procedure write_ycbcr_pixel( 	
 
-		VARIABLE pixel_y:   IN INTEGER;
-		VARIABLE pixel_cb:  IN INTEGER;
-		VARIABLE pixel_cr:  IN INTEGER;	
+		variable pixel_y:   in integer;
+		variable pixel_cb:  in integer;
+		variable pixel_cr:  in integer;	
 
-   		FILE pbmplus_file : TEXT
+   		file pbmplus_file : text
 
-	) IS
-	  	VARIABLE var_pixel_y:  UNSIGNED(9 DOWNTO 0);
-		VARIABLE var_pixel_cb: UNSIGNED(9 DOWNTO 0);
-		VARIABLE var_pixel_cr: UNSIGNED(9 DOWNTO 0);
+	) is
+	  	variable var_pixel_y:  unsigned(9 downto 0);
+		variable var_pixel_cb: unsigned(9 downto 0);
+		variable var_pixel_cr: unsigned(9 downto 0);
 
-		VARIABLE pixel_r : UNSIGNED(7 DOWNTO 0);
-		VARIABLE pixel_g : UNSIGNED(7 DOWNTO 0);
-   	  	VARIABLE pixel_b : UNSIGNED(7 DOWNTO 0);	
+		variable pixel_r : unsigned(7 downto 0);
+		variable pixel_g : unsigned(7 downto 0);
+   	  	variable pixel_b : unsigned(7 downto 0);	
 
-	BEGIN
+	begin
 		
-		var_pixel_y		:= TO_UNSIGNED(pixel_y, 10);
-		var_pixel_cb	:= TO_UNSIGNED(pixel_cb, 10);
-		var_pixel_cr	:= TO_UNSIGNED(pixel_cr, 10);
+		var_pixel_y		:= to_unsigned(pixel_y, 10);
+		var_pixel_cb	:= to_unsigned(pixel_cb, 10);
+		var_pixel_cr	:= to_unsigned(pixel_cr, 10);
 
 		ycbcr_to_rgb( var_pixel_y, var_pixel_cb, var_pixel_cr, pixel_r, pixel_g, pixel_b);
-		write_rgb_pixel( TO_INTEGER(pixel_r), TO_INTEGER(pixel_g), TO_INTEGER(pixel_b), pbmplus_file );
+		write_rgb_pixel( to_integer(pixel_r), to_integer(pixel_g), to_integer(pixel_b), pbmplus_file );
 			
-	END PROCEDURE write_ycbcr_pixel;
+	end procedure write_ycbcr_pixel;
 
 	------------------------------------------------------------------------
 
-	PROCEDURE write_ycbcr_pixel( 	
+	procedure write_ycbcr_pixel( 	
 
-		SIGNAL pixel_y:   IN UNSIGNED(9 DOWNTO 0);
-		SIGNAL pixel_cb:  IN UNSIGNED(9 DOWNTO 0);
-		SIGNAL pixel_cr:  IN UNSIGNED(9 DOWNTO 0);
+		signal pixel_y:   in unsigned(9 downto 0);
+		signal pixel_cb:  in unsigned(9 downto 0);
+		signal pixel_cr:  in unsigned(9 downto 0);
 
-        FILE pbmplus_file : TEXT
+        file pbmplus_file : text
 
-    ) IS
+    ) is
 
-	    VARIABLE var_pixel_y:  UNSIGNED(9 DOWNTO 0);
-		VARIABLE var_pixel_cb: UNSIGNED(9 DOWNTO 0);
-		VARIABLE var_pixel_cr: UNSIGNED(9 DOWNTO 0);
+	    variable var_pixel_y:  unsigned(9 downto 0);
+		variable var_pixel_cb: unsigned(9 downto 0);
+		variable var_pixel_cr: unsigned(9 downto 0);
 
-		VARIABLE pixel_r : UNSIGNED(7 DOWNTO 0);
-		VARIABLE pixel_g : UNSIGNED(7 DOWNTO 0);
-   	  	VARIABLE pixel_b : UNSIGNED(7 DOWNTO 0);
+		variable pixel_r : unsigned(7 downto 0);
+		variable pixel_g : unsigned(7 downto 0);
+   	  	variable pixel_b : unsigned(7 downto 0);
 
-	BEGIN
+	begin
 
 		var_pixel_y		:= pixel_y;
 		var_pixel_cb	:= pixel_cb;
 		var_pixel_cr	:= pixel_cr;
 
 		ycbcr_to_rgb( var_pixel_y, var_pixel_cb, var_pixel_cr, pixel_r, pixel_g, pixel_b);
-		write_rgb_pixel( TO_INTEGER(pixel_r), TO_INTEGER(pixel_g), TO_INTEGER(pixel_b), pbmplus_file );
+		write_rgb_pixel( to_integer(pixel_r), to_integer(pixel_g), to_integer(pixel_b), pbmplus_file );
 
-	END PROCEDURE write_ycbcr_pixel;
-
-	--======================================================================================--
-
-	PROCEDURE rgb_to_ycbcr(
-
-		VARIABLE R : IN UNSIGNED(7 DOWNTO 0);
-		VARIABLE G : IN UNSIGNED(7 DOWNTO 0);
-		VARIABLE B : IN UNSIGNED(7 DOWNTO 0);
-
-		VARIABLE Y  : OUT UNSIGNED(9 DOWNTO 0);
-		VARIABLE Cb : OUT UNSIGNED(9 DOWNTO 0);
-		VARIABLE Cr : OUT UNSIGNED(9 DOWNTO 0)
-
-		) IS
-
-		VARIABLE TR : REAL;
-	BEGIN
-
-	--CONVERSION AS ADVICED BY  ITU-R BT.601	
-
-	TR := 0.257 * REAL(TO_INTEGER(R)) + 0.504 * REAL(TO_INTEGER(G)) + 0.098 * REAL(TO_INTEGER(B)) + 16.0;
-    Y :=  TO_UNSIGNED(INTEGER(TR * 4.0 + 0.5), Y'LENGTH);
-
-    TR := -0.148 * REAL(TO_INTEGER(R)) - 0.291 * REAL(TO_INTEGER(G)) + 0.439 * REAL(TO_INTEGER(B)) + 128.0;
-    Cb := TO_UNSIGNED(INTEGER(TR * 4.0 + 0.5), Cb'LENGTH);
-
-    TR := 0.439 * REAL(TO_INTEGER(R)) - 0.368 * REAL(TO_INTEGER(G)) + 0.071 * REAL(TO_INTEGER(B)) + 128.0;
-    Cr := TO_UNSIGNED(INTEGER(TR * 4.0 + 0.5), Cr'LENGTH);
-
-	END PROCEDURE rgb_to_ycbcr;
+	end procedure write_ycbcr_pixel;
 
 	--======================================================================================--
 
-	PROCEDURE ycbcr_to_rgb(
+	procedure rgb_to_ycbcr(
 
-		VARIABLE Y  : IN UNSIGNED(9 DOWNTO 0);
-		VARIABLE Cb : IN UNSIGNED(9 DOWNTO 0);
-		VARIABLE Cr : IN UNSIGNED(9 DOWNTO 0);
+		variable r : in unsigned(7 downto 0);
+		variable g : in unsigned(7 downto 0);
+		variable b : in unsigned(7 downto 0);
 
-		VARIABLE R : OUT UNSIGNED(7 DOWNTO 0);
-		VARIABLE G : OUT UNSIGNED(7 DOWNTO 0);
-		VARIABLE B : OUT UNSIGNED(7 DOWNTO 0)
+		variable y  : out unsigned(9 downto 0);
+		variable cb : out unsigned(9 downto 0);
+		variable cr : out unsigned(9 downto 0)
 
-		) IS
+		) is
 
-		VARIABLE TR : REAL;
-	BEGIN
+		variable tr : real;
+	begin
 
-	--CONVERSION AS ADVICED BY  ITU-R BT.601	
+	--conversion as adviced by  itu-r bt.601	
+
+	tr := 0.257 * real(to_integer(r)) + 0.504 * real(to_integer(g)) + 0.098 * real(to_integer(b)) + 16.0;
+    y :=  to_unsigned(integer(tr * 4.0 + 0.5), y'length);
+
+    tr := -0.148 * real(to_integer(r)) - 0.291 * real(to_integer(g)) + 0.439 * real(to_integer(b)) + 128.0;
+    cb := to_unsigned(integer(tr * 4.0 + 0.5), cb'length);
+
+    tr := 0.439 * real(to_integer(r)) - 0.368 * real(to_integer(g)) + 0.071 * real(to_integer(b)) + 128.0;
+    cr := to_unsigned(integer(tr * 4.0 + 0.5), cr'length);
+
+	end procedure rgb_to_ycbcr;
+
+	--======================================================================================--
+
+	procedure ycbcr_to_rgb(
+
+		variable y  : in unsigned(9 downto 0);
+		variable cb : in unsigned(9 downto 0);
+		variable cr : in unsigned(9 downto 0);
+
+		variable r : out unsigned(7 downto 0);
+		variable g : out unsigned(7 downto 0);
+		variable b : out unsigned(7 downto 0)
+
+		) is
+
+		variable tr : real;
+	begin
+
+	--conversion as adviced by  itu-r bt.601	
 	
-	TR := 1.164 * REAL(TO_INTEGER(Y) - 16*4) + 1.596 * REAL(TO_INTEGER(Cr) - 128*4);
-    R :=  TO_UNSIGNED(INTEGER(TR)/4, R'LENGTH);
+	tr := 1.164 * real(to_integer(y) - 16*4) + 1.596 * real(to_integer(cr) - 128*4);
+    r :=  to_unsigned(integer(tr)/4, r'length);
 
-    TR := 1.164 * REAL(TO_INTEGER(Y) - 16*4) - 0.813 * REAL(TO_INTEGER(Cr) - 128*4) - 0.392 * REAL(TO_INTEGER(Cb) - 128*4);
-    G :=  TO_UNSIGNED(INTEGER(TR)/4, G'LENGTH);
+    tr := 1.164 * real(to_integer(y) - 16*4) - 0.813 * real(to_integer(cr) - 128*4) - 0.392 * real(to_integer(cb) - 128*4);
+    g :=  to_unsigned(integer(tr)/4, g'length);
 
-    TR := 1.164 * REAL(TO_INTEGER(Y) - 16*4) + 2.017 * REAL(TO_INTEGER(Cb) - 128*4);
-    B :=  TO_UNSIGNED(INTEGER(TR)/4, B'LENGTH);
+    tr := 1.164 * real(to_integer(y) - 16*4) + 2.017 * real(to_integer(cb) - 128*4);
+    b :=  to_unsigned(integer(tr)/4, b'length);
 
-	END PROCEDURE ycbcr_to_rgb;
+	end procedure ycbcr_to_rgb;
 
-	FUNCTION pad_string( 	arg_str : 		string;
+	function pad_string( 	arg_str : 		string;
 							ret_len_c : 	natural   := 10;
 							fill_char_c : 	character := ' ' )
 
-							RETURN string IS
+							return string is
 
-		VARIABLE ret_v : 		STRING (1 TO ret_len_c);
-		CONSTANT pad_len_c : 	INTEGER := ret_len_c - arg_str'LENGTH ;
-		VARIABLE pad_v : 		STRING (1 TO ABS(pad_len_c));
+		variable ret_v : 		string (1 to ret_len_c);
+		constant pad_len_c : 	integer := ret_len_c - arg_str'length ;
+		variable pad_v : 		string (1 to abs(pad_len_c));
 		
-	BEGIN
+	begin
 	
-		IF pad_len_c < 1 THEN
-			ret_v := arg_str(ret_v'RANGE);
-		ELSE
-			pad_v := (OTHERS => fill_char_c);
+		if pad_len_c < 1 then
+			ret_v := arg_str(ret_v'range);
+		else
+			pad_v := (others => fill_char_c);
 			ret_v := pad_v & arg_str;
-		END IF;
-		RETURN ret_v;
+		end if;
+		return ret_v;
 	
-	END pad_string;
+	end pad_string;
 
-END PACKAGE BODY;
+end package body;

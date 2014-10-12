@@ -24,12 +24,17 @@ EFLAGS='--workdir=$(BLDTMPDIR)'
 
 MKDIR_P = mkdir -p
 
-.PHONY: all clean directories docs test
+.PHONY: all clean
 
 all: curve_adjust_tb
 
-curve_adjust_tb: image_io_pkg.o curve_adjust.o curve_adjust_tb.o 
+# Binaries
+curve_adjust_tb: config_const_pkg.o image_io_pkg.o curve_adjust.o curve_adjust_tb.o 
 	$(CC) -e $(AFLAGS) -o ${BLDDIR}/curve_adjust_tb curve_adjust_tb 
+
+# Objects
+config_const_pkg.o: config_const_pkg.vhd
+	$(CC) -a $(EFLAGS) config_const_pkg.vhd
 
 image_io_pkg.o: image_io_pkg.vhd
 	$(CC) -a $(EFLAGS) image_io_pkg.vhd
@@ -40,3 +45,6 @@ curve_adjust.o: curve_adjust.vhd
 curve_adjust_tb.o: curve_adjust_tb.vhd
 	$(CC) -a $(EFLAGS) curve_adjust_tb.vhd
 
+# Housekeeping
+clean: 
+	-rm -f *.cf # Remove any temp files from sytax checking

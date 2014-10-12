@@ -15,30 +15,24 @@
 
 # 
 # To seperate source from build files, export them to the seperate bld folder
-BLDTMPDIR=bld/tmp
-BLDDIR=bld
+BLDDIR=img/bld
+DOXYDIR=html
 
 MKDIR_P = mkdir -p
 
-.PHONY: all clean directories docs test
+.PHONY: all clean directories images docs
 
-all: directories curve_adjust_tb
-
-curve_adjust_tb: 
-	@cd src; make
+all: directories images docs
 
 clean:
-	@cd doc; make clean
-	@cd src; make clean
-	@rm -rf $(BLDDIR)/*;echo "Cleared $(BLDDIR)"
+	@rm -rf $(BLDDIR)/*;rm -rf $(DOXYDIR)/*;echo "Cleared $(BLDDIR) and $(DOXYDIR)"
 
 directories:
 	${MKDIR_P} ${BLDDIR}
-	${MKDIR_P} ${BLDTMPDIR}
 
-docs:
-	@cd doc; make
+images: directories
+	@cd img; gnuplot ./*.gnuplot
 
-test:
-	@echo "Nothing yet!"
+docs: images
+	@doxygen Doxyfile
 

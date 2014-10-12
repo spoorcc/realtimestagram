@@ -16,64 +16,187 @@
 --! <!------------------------------------------------------------------------------>
 --! <!------------------------------------------------------------------------------>
 --! \class curve_adjust
---! \brief Applies a curve adjustment
+--! \brief applies a curve adjustment
 --!
---! Description
---! -----------
+--! \dot
+--! digraph curve_adjust{
+--!  
+--!  graph [rankdir=LR, splines=ortho, sep=5];
+--!  edge  [penwidth=2.2, arrowsize=.5]
+--!  node  [height=0.25, width=0.25, style=filled, fontname=sans]
+--!
+--!  /* single or multibit registers */
+--!  subgraph registers{
+--!      node [fontcolor=white, fontname=serif, fillcolor=gray32, shape=box, headport=w, tailport=e]
+--!      clk rst enable pixel_i pixel_o
+--!  }
+--!
+--!  subgraph cluster_0 {
+--!
+--!      color=gray100;
+--!      label=curve_adjust;
+--!      fontcolor=black;
+--!      fontname=sans;
+--!
+--!      lut  [label="lut", height=2, shape=box, fillcolor=gray96, fontcolor=black, tailport=e]
+--!      and0 [label="&", shape=circle, fillcolor=white, fontcolor=black, fixedsize=true]
+--!  }
+--!
+--!  clk -> and0
+--!  enable -> and0
+--!  rst -> and0 [arrowhead=odot, arrowsize=0.6]
+--!  and0 -> lut 
+--!  pixel_i -> lut -> pixel_o
+--!
+--!}
+--! \enddot
 --!
 --! <!------------------------------------------------------------------------------>
 --! <!------------------------------------------------------------------------------>
 
 --------------------------------------------------------------------------------
 
+--! Curves package used to control the curve adjust component
+--!
+--! Curves
+--! =========
+--!
+--! Multiple curves are possible:
+--! * Straight (used for testing purposes) 
+--! * Negate   (Negates all  pixel values) 
+--! * Sigmoid  (used for contrast enhancement)
+--! * Gamma    (used for contrast distribution)
+--!
+--! Straight
+--! ---------- 
+--! The straight function is \f[p_{out}=p_{in} \f]
+--! \image html straight.png
+--!
+--! Negate
+--! ---------- 
+--! The negate function is \f[p_{out}=p_{max}-p_{in} \f]
+--! \image html negate.png
+--!
+--! Sigmoid
+--! ---------- 
+--! The sigmoid function is \f[p_{out}=\frac{p_{max}}{1+\exp({-c/p_{max}*(p_{in}-p_{max})})} \f]
+--! \image html sigmoid.png
+--!
+--! Gamma
+--! ---------- 
+--! The gamma function is \f[p_{out}=c*p_{max}*(\frac{p_{in}}{p_{max}})^{\gamma} \f]
+--! \image html gamma.png
+package curves is
+
+	type curvetype is ( straight, negate, sigmoid, gamma);
+
+end curves;
+
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
+use ieee.math_real.all;
 
+use work.curves.all;
 --============================================================================--
-
-ENTITY curve_adjust IS
-  GENERIC (
-    wordsize:             integer  --! input image wordsize in bits
+--!
+--!
+--!
+--!
+entity curve_adjust is
+  generic (
+    wordsize:             integer;  --! input image wordsize in bits
+    curve_type:           curvetype --! selects the curvetype that is loaded into the Look Up Table
   );
-  PORT (
+  port (
     clk:                  in std_logic;       --! completely clocked process
     rst:                  in std_logic;       --! asynchronous reset
     enable:               in std_logic;       --! enables block
-    input_pixel:          in std_logic_vector((wordsize-1) downto 0);       --! the input pixel
+    pixel_i:              in std_logic_vector((wordsize-1) downto 0);       --! the input pixel
 
-    output_pixel:         out std_logic_vector((wordsize-1) downto 0)       --! the output pixel
+    pixel_o:              out std_logic_vector((wordsize-1) downto 0)       --! the output pixel
   );
-END ENTITY;
+end entity;
 
 --============================================================================--
 
-ARCHITECTURE curve_adjust_stub OF curve_adjust IS
+architecture curve_adjust of curve_adjust is
 
-  -- signal declarations
-  SIGNAL the_signal:       std_logic_vector((wordsize-1) downto 0);
+    --! \brief array of std_logic_vectors
+    type array_pixel is array (natural range <>) of std_logic_vector(wordsize-1 downto 0);
 
 
-BEGIN
+    --! \fn create_lookup_table
+    --! \brief creates a lookup table using some predefined formula 
+    --! \details
+    --!  calculates every value and after that returns and integer array 
+    --! \param[in] size integer number of elements in returned array
+    function create_lookup_table(size: integer;                     --! Number of elements to create 
+                                 curve_type: curvetype := sigmoid)  --! The type of curve to calculate
+        return array_pixel is
 
-  PROCESS(clk, rst)
-  BEGIN
+        variable return_value: array_pixel(0 to size - 1); --! Filled Look up table
+        
+        variable exponent: real := 0.0;   --! temp variable used for calculation
+        variable calc_val: real := 0.0;   --! The calculated real_value 
+        constant max_val:  real := 255.0; --! The maximum value possible, used in calculation and asserting the values are in range
+        constant c:        real := 1.0;   --! The amplification factor
+        constant g:        real := 0.5;   --! The gamma factor used for the gamma correction
+    begin
+    --!TODO: Clean up
+        for i in return_value'range loop
 
-   output_pixel <= the_signal;
+            curve_sel: case curve_type is
+                when straight =>
+                    calc_val := real(i);
+                when negate =>
+                    calc_val := max_val-real(i);
+                when sigmoid =>
+                    exponent := (c/max_val)*(real(i) - max_val * 0.5 );
+                    calc_val := ceil(max_val / (real(1) + exp(-exponent)));
+                when gamma =>
+                    calc_val := c*max_val*(real(i)/max_val)**g;
+                end case;
 
-    IF rst = '1' THEN
-      the_signal  <= (others => '0');
+            report "LUT[" & integer'image(i) & "]: " & integer'image(integer(calc_val));
+            assert(integer(calc_val) <= integer(max_val)) report "LUT filled with invalid value: " & integer'image(integer(calc_val)) severity failure;
+            assert(integer(calc_val) >= 0) report "LUT filled with invalid value" severity failure;
 
-    ELSIF RISING_EDGE(clk) THEN
+            return_value(i) := std_logic_vector(to_unsigned(integer(calc_val), wordsize));
 
-      IF enable = '1' THEN
+        end loop;
+        return return_value;
+    end function create_lookup_table;
+    
+    -- signal declarations
+    signal lut_value_s:       std_logic_vector((wordsize-1) downto 0);
 
-        the_signal <= input_pixel;
+    --! Look up table size  
+    constant lut_size_c: natural := 2**wordsize;
 
-      END IF; -- end if enable = '1'
+    --! Generated lookup table
+    constant lut_contents: array_pixel(0 to (lut_size_c-1)) := create_lookup_table(lut_size_c, curve_type); 
+begin
+    
+    --! \brief clocked process that outputs the curve on each rising edge if enable is true 
+    --! \param[in] clk clock
+    --! \param[in] rst asynchronous reset
+    curve_adjustment : process(clk, rst)
+    begin
+        if rst = '1' then
+            lut_value_s  <= (others => '0');
 
-    END IF; -- end if rst = '1'
-  END PROCESS;
-END ARCHITECTURE;
+        elsif rising_edge(clk) then
+
+            if enable = '1' then
+                lut_value_s <= lut_contents(to_integer(unsigned(pixel_i)));
+                pixel_o <= lut_value_s;
+            else
+                pixel_o <= (others => '0');
+            end if; -- end if enable = '1'
+
+        end if; -- end if rst = '1'
+    end process;
+end architecture;
 
 --============================================================================--
