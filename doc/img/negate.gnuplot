@@ -27,4 +27,4 @@ max_val=255.
 
 f(x,c) = max_val - x
 
-plot c=1 f(x,c) ls 1 title "f(x) = -x"
+plot c=1 f(x,c) ls 1 title "f(x) = max_val-x"

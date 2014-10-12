@@ -21,7 +21,7 @@
 --! \dot
 --! digraph curve_adjust{
 --!  
---!  graph [rankdir=lr, splines=ortho, sep=5];
+--!  graph [rankdir=LR, splines=ortho, sep=5];
 --!  edge  [penwidth=2.2, arrowsize=.5]
 --!  node  [height=0.25, width=0.25, style=filled, fontname=sans]
 --!
@@ -33,7 +33,7 @@
 --!
 --!  subgraph cluster_0 {
 --!
---!      color=gray128;
+--!      color=gray100;
 --!      label=curve_adjust;
 --!      fontcolor=black;
 --!      fontname=sans;
@@ -50,6 +50,13 @@
 --!
 --!}
 --! \enddot
+--!
+--! <!------------------------------------------------------------------------------>
+--! <!------------------------------------------------------------------------------>
+
+--------------------------------------------------------------------------------
+
+--! Curves package used to control the curve adjust component
 --!
 --! Curves
 --! =========
@@ -79,17 +86,9 @@
 --! ---------- 
 --! The gamma function is \f[p_{out}=c*p_{max}*(\frac{p_{in}}{p_{max}})^{\gamma} \f]
 --! \image html gamma.png
---!
---! <!------------------------------------------------------------------------------>
---! <!------------------------------------------------------------------------------>
-
---------------------------------------------------------------------------------
-
-
 package curves is
 
-	--! three types can be selected, these types are specified in the detailed description
-	type curvetype is (straight, sigmoid, negate, gamma);
+	type curvetype is ( straight, negate, sigmoid, gamma);
 
 end curves;
 
@@ -107,7 +106,7 @@ use work.curves.all;
 entity curve_adjust is
   generic (
     wordsize:             integer;  --! input image wordsize in bits
-    curve_type:           curvetype
+    curve_type:           curvetype --! selects the curvetype that is loaded into the Look Up Table
   );
   port (
     clk:                  in std_logic;       --! completely clocked process
@@ -129,20 +128,20 @@ architecture curve_adjust of curve_adjust is
 
     --! \fn create_lookup_table
     --! \brief creates a lookup table using some predefined formula 
-    --! \description
+    --! \details
     --!  calculates every value and after that returns and integer array 
     --! \param[in] size integer number of elements in returned array
-    function create_lookup_table(size: integer; 
-                                 curve_type: curvetype := sigmoid) 
+    function create_lookup_table(size: integer;                     --! Number of elements to create 
+                                 curve_type: curvetype := sigmoid)  --! The type of curve to calculate
         return array_pixel is
 
         variable return_value: array_pixel(0 to size - 1); --! Filled Look up table
         
-        variable exponent: real := 0.0;
-        variable calc_val: real := 0.0;
-        constant max_val:  real := 255.0;
-        constant c:        real := 1.0;
-        constant g:        real := 0.5;
+        variable exponent: real := 0.0;   --! temp variable used for calculation
+        variable calc_val: real := 0.0;   --! The calculated real_value 
+        constant max_val:  real := 255.0; --! The maximum value possible, used in calculation and asserting the values are in range
+        constant c:        real := 1.0;   --! The amplification factor
+        constant g:        real := 0.5;   --! The gamma factor used for the gamma correction
     begin
     --!TODO: Clean up
         for i in return_value'range loop

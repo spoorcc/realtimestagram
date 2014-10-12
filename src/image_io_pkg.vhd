@@ -61,13 +61,12 @@ package image_io_pkg is
 	--! @param[in] p_height    height of image in pixels
 	--! @param[in] max_value   maximum pixel value possible
 	--! @param[in] type_of_pbm image type used to determine magic identifier
-	--! @param[in] p_file      opened target file to write header to
+	--! @param     p_file      opened target file to write header to
 
-	procedure write_pbmplus_header( constant p_width  : in integer;			
-                                	constant p_height : in integer;
-                                	constant max_value  : in integer;
+	procedure write_pbmplus_header( constant p_width     : in integer;			
+                                	constant p_height    : in integer;
+                                	constant max_value   : in integer;
                                 	constant type_of_pbm : in pbmplustype;
-
                                 	file p_file : text           	);
     ----------------------------------------------------------------------     								
     --! generic procedure for reading single pixel value from pbm file to variable
