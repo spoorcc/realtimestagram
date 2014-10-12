@@ -2,8 +2,8 @@
 
 output_image=$1.pgm
 bits=8
-width=640 
-height=480
+width=512 
+height=512
 
 # Creates an ascii based pgm gray image where all color channels are averaged into single gray channel 
 convert $1                                      \

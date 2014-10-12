@@ -18,8 +18,8 @@ package config_const_pkg is
 
     constant const_wordsize :integer := 8;
 
-    constant const_imageheight :integer := 480;
-    constant const_imagewidth  :integer := 640;
+    constant const_imageheight :integer := 512;
+    constant const_imagewidth  :integer := 512;
     
     constant const_hor_start_activeimage : integer := 10;
     constant const_activeimagewidth: integer := const_imagewidth;
