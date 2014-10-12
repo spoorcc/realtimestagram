@@ -61,7 +61,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
       <li><a href="annotated.html"><span>Design&#160;Unit&#160;List</span></a></li>
-      <li><a href="inherits.html"><span>Design&#160;Unit&#160;Hierarchy</span></a></li>
+      <li><a href="hierarchy.html"><span>Design&#160;Unit&#160;Hierarchy</span></a></li>
       <li><a href="functions.html"><span>Design&#160;Unit&#160;Members</span></a></li>
     </ul>
   </div>
@@ -84,6 +84,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div class="summary">
 <a href="#Libraries">Libraries</a> &#124;
 <a href="#Use Clauses">Use Clauses</a> &#124;
+<a href="#Constants">Constants</a> &#124;
 <a href="#Types">Types</a> &#124;
 <a href="#Procedures">Procedures</a> &#124;
 <a href="#Functions">Functions</a>  </div>
@@ -92,102 +93,112 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
-<p>Three types can be selected, these types are specified in the detailed description.  
+<p>Provides functionality for easy reading and writing of netbpm images.  
  <a href="classimage__io__pkg.html#details">More...</a></p>
 <b>Package Body &gt;&gt; </b><a class="el" href="class__image__io__pkg.html">image_io_pkg</a><br />
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="Functions"></a>
 Functions</h2></td></tr>
- <tr class="memitem:aa1cac1581cc1ac68532fe5fe01928ce1"><td class="memItemLeft" align="right" valign="top"><b><b><span class="vhdlchar">string</span><span class="vhdlchar"> </span></b></b>&#160;</td><td class="memItemRight" valign="bottom"> <a class="el" href="classimage__io__pkg.html#aa1cac1581cc1ac68532fe5fe01928ce1">pad_string</a><b> ( </b><br />
-<b><span class="vhdlchar">arg_str: </span><span class="stringliteral">in </span><span class="vhdlchar">string</span></b><br />
+ <tr class="memitem:aa1cac1581cc1ac68532fe5fe01928ce1"><td class="memItemLeft" align="right" valign="top"><b><b><span class="comment">string</span><span class="vhdlchar"> </span></b></b>&#160;</td><td class="memItemRight" valign="bottom"> <a class="el" href="classimage__io__pkg.html#aa1cac1581cc1ac68532fe5fe01928ce1">pad_string</a><b> ( </b><br />
+<b><span class="vhdlchar">arg_str: </span><span class="stringliteral">in </span><b><span class="comment">string</span><span class="vhdlchar"> </span></b></b><br />
 <b><span class="vhdlchar">ret_len_c: </span><span class="stringliteral">in </span><span class="vhdlchar">natural   10</span></b><br />
 <b><span class="vhdlchar">fill_char_c: </span><span class="stringliteral">in </span><span class="vhdlchar">character   ' '</span></b><br />
 <b> )</b></td></tr>
-<tr class="memdesc:aa1cac1581cc1ac68532fe5fe01928ce1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to pad strings with a fill character.  <a href="#aa1cac1581cc1ac68532fe5fe01928ce1"></a><br /></td></tr>
+<tr class="memdesc:aa1cac1581cc1ac68532fe5fe01928ce1"><td class="mdescLeft">&#160;</td><td class="mdescRight">function to pad strings with a fill character  <a href="#aa1cac1581cc1ac68532fe5fe01928ce1"></a><br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="Procedures"></a>
 Procedures</h2></td></tr>
  <tr class="memitem:a28a2510a0c1240f0f3df71f2ae6a2b7e"><td class="memItemLeft" align="right" valign="top"><b><b><span class="vhdlchar"> </span></b></b>&#160;</td><td class="memItemRight" valign="bottom"> <a class="el" href="classimage__io__pkg.html#a28a2510a0c1240f0f3df71f2ae6a2b7e">write_pbmplus_header</a>( <br />
-<b><span class="vhdlchar">CONSTANT </span><span class="vhdlchar">p_width: </span><span class="stringliteral"></span> <b><span class="vhdlchar">in</span><span class="vhdlchar"> </span><span class="vhdlchar">INTEGER</span><span class="vhdlchar"> </span></b></b><br />
-  <b><span class="vhdlchar">CONSTANT </span><span class="vhdlchar">p_height: </span><span class="stringliteral"></span> <b><span class="vhdlchar">in</span><span class="vhdlchar"> </span><span class="vhdlchar">INTEGER</span><span class="vhdlchar"> </span></b></b><br />
-  <b><span class="vhdlchar">CONSTANT </span><span class="vhdlchar">max_value: </span><span class="stringliteral"></span> <b><span class="vhdlchar">in</span><span class="vhdlchar"> </span><span class="vhdlchar">INTEGER</span><span class="vhdlchar"> </span></b></b><br />
-  <b><span class="vhdlchar">CONSTANT </span><span class="vhdlchar">type_of_pbm: </span><span class="stringliteral"></span> <b><span class="vhdlchar">in</span><span class="vhdlchar"> </span><b><a class="el" href="classimage__io__pkg.html#af03880b1bca9021fd32993e5e5bba862">pbmplustype</a></b> <span class="vhdlchar"> </span></b></b><br />
+<b><span class="keywordflow">constant </span><span class="vhdlchar">p_width: </span><span class="stringliteral"></span> <b><span class="keywordflow">in</span><span class="vhdlchar"> </span><span class="comment">integer</span><span class="vhdlchar"> </span></b></b><br />
+  <b><span class="keywordflow">constant </span><span class="vhdlchar">p_height: </span><span class="stringliteral"></span> <b><span class="keywordflow">in</span><span class="vhdlchar"> </span><span class="comment">integer</span><span class="vhdlchar"> </span></b></b><br />
+  <b><span class="keywordflow">constant </span><span class="vhdlchar">max_value: </span><span class="stringliteral"></span> <b><span class="keywordflow">in</span><span class="vhdlchar"> </span><span class="comment">integer</span><span class="vhdlchar"> </span></b></b><br />
+  <b><span class="keywordflow">constant </span><span class="vhdlchar">type_of_pbm: </span><span class="stringliteral"></span> <b><span class="keywordflow">in</span><span class="vhdlchar"> </span><b><a class="el" href="classimage__io__pkg.html#a6b0162e2588365bd0141ef3fce1b6efe">pbmplustype</a></b> <span class="vhdlchar"> </span></b></b><br />
    )</td></tr>
-<tr class="memdesc:a28a2510a0c1240f0f3df71f2ae6a2b7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generic procedure for writing pbm plus headers.  <a href="#a28a2510a0c1240f0f3df71f2ae6a2b7e"></a><br /></td></tr>
-<tr class="memitem:a0f2b9e5240433c8095c0548069f3b338"><td class="memItemLeft" align="right" valign="top"><b><b><span class="vhdlchar"> </span></b></b>&#160;</td><td class="memItemRight" valign="bottom"> <a class="el" href="classimage__io__pkg.html#a0f2b9e5240433c8095c0548069f3b338">write_pixel</a>( <b><span class="vhdlchar">VARIABLE </span><span class="vhdlchar">pixel: </span><span class="stringliteral"></span> <b><span class="vhdlchar">in</span><span class="vhdlchar"> </span><span class="vhdlchar">INTEGER</span><span class="vhdlchar"> </span></b></b> )</td></tr>
-<tr class="memdesc:a0f2b9e5240433c8095c0548069f3b338"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generic procedure for writing single pixel value from variable to pbm file.  <a href="#a0f2b9e5240433c8095c0548069f3b338"></a><br /></td></tr>
-<tr class="memitem:a0f2b9e5240433c8095c0548069f3b338"><td class="memItemLeft" align="right" valign="top"><b><b><span class="vhdlchar"> </span></b></b>&#160;</td><td class="memItemRight" valign="bottom"> <a class="el" href="classimage__io__pkg.html#a0f2b9e5240433c8095c0548069f3b338">write_pixel</a>( <b><span class="vhdlchar">SIGNAL </span><span class="vhdlchar">pixel: </span><span class="stringliteral"></span> <b><span class="vhdlchar">in</span><span class="vhdlchar"> </span><span class="vhdlchar">STD_LOGIC_VECTOR</span><span class="vhdlchar"> </span></b></b> )</td></tr>
-<tr class="memdesc:a0f2b9e5240433c8095c0548069f3b338"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generic procedure for writing single pixel value from signal to pbm file.  <a href="#a0f2b9e5240433c8095c0548069f3b338"></a><br /></td></tr>
-<tr class="memitem:a16189a902eb3a5fe3b06134f16838e42"><td class="memItemLeft" align="right" valign="top"><b><b><span class="vhdlchar"> </span></b></b>&#160;</td><td class="memItemRight" valign="bottom"> <a class="el" href="classimage__io__pkg.html#a16189a902eb3a5fe3b06134f16838e42">write_bin_pixel</a>( <b><span class="vhdlchar">VARIABLE </span><span class="vhdlchar">pixel: </span><span class="stringliteral"></span> <b><span class="vhdlchar">in</span><span class="vhdlchar"> </span><span class="vhdlchar">BOOLEAN</span><span class="vhdlchar"> </span></b></b> )</td></tr>
-<tr class="memdesc:a16189a902eb3a5fe3b06134f16838e42"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generic procedure to write binary variable of a file The header must be written with PBM as image type.  <a href="#a16189a902eb3a5fe3b06134f16838e42"></a><br /></td></tr>
-<tr class="memitem:a16189a902eb3a5fe3b06134f16838e42"><td class="memItemLeft" align="right" valign="top"><b><b><span class="vhdlchar"> </span></b></b>&#160;</td><td class="memItemRight" valign="bottom"> <a class="el" href="classimage__io__pkg.html#a16189a902eb3a5fe3b06134f16838e42">write_bin_pixel</a>( <b><span class="vhdlchar">SIGNAL </span><span class="vhdlchar">pixel: </span><span class="stringliteral"></span> <b><span class="vhdlchar">in</span><span class="vhdlchar"> </span><span class="vhdlchar">STD_LOGIC</span><span class="vhdlchar"> </span></b></b> )</td></tr>
-<tr class="memdesc:a16189a902eb3a5fe3b06134f16838e42"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generic procedure to write binary signal of a file The header must be written with PBM as image type.  <a href="#a16189a902eb3a5fe3b06134f16838e42"></a><br /></td></tr>
+<tr class="memdesc:a28a2510a0c1240f0f3df71f2ae6a2b7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">generic procedure for writing pbm plus headers  <a href="#a28a2510a0c1240f0f3df71f2ae6a2b7e"></a><br /></td></tr>
+<tr class="memitem:a686e73e49691b6154f13044edba1897a"><td class="memItemLeft" align="right" valign="top"><b><b><span class="vhdlchar"> </span></b></b>&#160;</td><td class="memItemRight" valign="bottom"> <a class="el" href="classimage__io__pkg.html#a686e73e49691b6154f13044edba1897a">read_pixel</a>( <b><span class="keywordflow">variable </span><span class="vhdlchar">pixel: </span><span class="stringliteral"></span> <b><span class="keywordflow">out</span><span class="vhdlchar"> </span><span class="comment">integer</span><span class="vhdlchar"> </span></b></b><b>,<span class="keywordflow">signal </span><span class="vhdlchar">end_of_file: </span><span class="stringliteral"></span> <b><span class="keywordflow">out</span><span class="vhdlchar"> </span><span class="comment">std_logic</span><span class="vhdlchar"> </span></b></b> )</td></tr>
+<tr class="memdesc:a686e73e49691b6154f13044edba1897a"><td class="mdescLeft">&#160;</td><td class="mdescRight">generic procedure for reading single pixel value from pbm file to variable  <a href="#a686e73e49691b6154f13044edba1897a"></a><br /></td></tr>
+<tr class="memitem:a686e73e49691b6154f13044edba1897a"><td class="memItemLeft" align="right" valign="top"><b><b><span class="vhdlchar"> </span></b></b>&#160;</td><td class="memItemRight" valign="bottom"> <a class="el" href="classimage__io__pkg.html#a686e73e49691b6154f13044edba1897a">read_pixel</a>( <b><span class="keywordflow">signal </span><span class="vhdlchar">pixel: </span><span class="stringliteral"></span> <b><span class="keywordflow">out</span><span class="vhdlchar"> </span><span class="comment">std_logic_vector</span><span class="vhdlchar"> </span></b></b><b>,<span class="keywordflow">signal </span><span class="vhdlchar">end_of_file: </span><span class="stringliteral"></span> <b><span class="keywordflow">out</span><span class="vhdlchar"> </span><span class="comment">std_logic</span><span class="vhdlchar"> </span></b></b> )</td></tr>
+<tr class="memdesc:a686e73e49691b6154f13044edba1897a"><td class="mdescLeft">&#160;</td><td class="mdescRight">generic procedure for reading single pixel value from pbm file to signal  <a href="#a686e73e49691b6154f13044edba1897a"></a><br /></td></tr>
+<tr class="memitem:a0f2b9e5240433c8095c0548069f3b338"><td class="memItemLeft" align="right" valign="top"><b><b><span class="vhdlchar"> </span></b></b>&#160;</td><td class="memItemRight" valign="bottom"> <a class="el" href="classimage__io__pkg.html#a0f2b9e5240433c8095c0548069f3b338">write_pixel</a>( <b><span class="keywordflow">variable </span><span class="vhdlchar">pixel: </span><span class="stringliteral"></span> <b><span class="keywordflow">in</span><span class="vhdlchar"> </span><span class="comment">integer</span><span class="vhdlchar"> </span></b></b> )</td></tr>
+<tr class="memdesc:a0f2b9e5240433c8095c0548069f3b338"><td class="mdescLeft">&#160;</td><td class="mdescRight">generic procedure for writing single pixel value from variable to pbm file  <a href="#a0f2b9e5240433c8095c0548069f3b338"></a><br /></td></tr>
+<tr class="memitem:a0f2b9e5240433c8095c0548069f3b338"><td class="memItemLeft" align="right" valign="top"><b><b><span class="vhdlchar"> </span></b></b>&#160;</td><td class="memItemRight" valign="bottom"> <a class="el" href="classimage__io__pkg.html#a0f2b9e5240433c8095c0548069f3b338">write_pixel</a>( <b><span class="keywordflow">signal </span><span class="vhdlchar">pixel: </span><span class="stringliteral"></span> <b><span class="keywordflow">in</span><span class="vhdlchar"> </span><span class="comment">std_logic_vector</span><span class="vhdlchar"> </span></b></b> )</td></tr>
+<tr class="memdesc:a0f2b9e5240433c8095c0548069f3b338"><td class="mdescLeft">&#160;</td><td class="mdescRight">generic procedure for writing single pixel value from signal to pbm file  <a href="#a0f2b9e5240433c8095c0548069f3b338"></a><br /></td></tr>
+<tr class="memitem:a16189a902eb3a5fe3b06134f16838e42"><td class="memItemLeft" align="right" valign="top"><b><b><span class="vhdlchar"> </span></b></b>&#160;</td><td class="memItemRight" valign="bottom"> <a class="el" href="classimage__io__pkg.html#a16189a902eb3a5fe3b06134f16838e42">write_bin_pixel</a>( <b><span class="keywordflow">variable </span><span class="vhdlchar">pixel: </span><span class="stringliteral"></span> <b><span class="keywordflow">in</span><span class="vhdlchar"> </span><span class="comment">boolean</span><span class="vhdlchar"> </span></b></b> )</td></tr>
+<tr class="memdesc:a16189a902eb3a5fe3b06134f16838e42"><td class="mdescLeft">&#160;</td><td class="mdescRight">generic procedure to write binary variable of a file the header must be written with pbm as image type  <a href="#a16189a902eb3a5fe3b06134f16838e42"></a><br /></td></tr>
+<tr class="memitem:a16189a902eb3a5fe3b06134f16838e42"><td class="memItemLeft" align="right" valign="top"><b><b><span class="vhdlchar"> </span></b></b>&#160;</td><td class="memItemRight" valign="bottom"> <a class="el" href="classimage__io__pkg.html#a16189a902eb3a5fe3b06134f16838e42">write_bin_pixel</a>( <b><span class="keywordflow">signal </span><span class="vhdlchar">pixel: </span><span class="stringliteral"></span> <b><span class="keywordflow">in</span><span class="vhdlchar"> </span><span class="comment">std_logic</span><span class="vhdlchar"> </span></b></b> )</td></tr>
+<tr class="memdesc:a16189a902eb3a5fe3b06134f16838e42"><td class="mdescLeft">&#160;</td><td class="mdescRight">generic procedure to write binary signal of a file the header must be written with pbm as image type  <a href="#a16189a902eb3a5fe3b06134f16838e42"></a><br /></td></tr>
 <tr class="memitem:ac11e8485bee81e4f94b57d9368564993"><td class="memItemLeft" align="right" valign="top"><b><b><span class="vhdlchar"> </span></b></b>&#160;</td><td class="memItemRight" valign="bottom"> <a class="el" href="classimage__io__pkg.html#ac11e8485bee81e4f94b57d9368564993">write_rgb_pixel</a>( <br />
-<b><span class="vhdlchar">VARIABLE </span><span class="vhdlchar">pixel_r: </span><span class="stringliteral"></span> <b><span class="vhdlchar">in</span><span class="vhdlchar"> </span><span class="vhdlchar">INTEGER</span><span class="vhdlchar"> </span></b></b><br />
-  <b><span class="vhdlchar">VARIABLE </span><span class="vhdlchar">pixel_g: </span><span class="stringliteral"></span> <b><span class="vhdlchar">in</span><span class="vhdlchar"> </span><span class="vhdlchar">INTEGER</span><span class="vhdlchar"> </span></b></b><br />
-  <b><span class="vhdlchar">VARIABLE </span><span class="vhdlchar">pixel_b: </span><span class="stringliteral"></span> <b><span class="vhdlchar">in</span><span class="vhdlchar"> </span><span class="vhdlchar">INTEGER</span><span class="vhdlchar"> </span></b></b><br />
+<b><span class="keywordflow">variable </span><span class="vhdlchar">pixel_r: </span><span class="stringliteral"></span> <b><span class="keywordflow">in</span><span class="vhdlchar"> </span><span class="comment">integer</span><span class="vhdlchar"> </span></b></b><br />
+  <b><span class="keywordflow">variable </span><span class="vhdlchar">pixel_g: </span><span class="stringliteral"></span> <b><span class="keywordflow">in</span><span class="vhdlchar"> </span><span class="comment">integer</span><span class="vhdlchar"> </span></b></b><br />
+  <b><span class="keywordflow">variable </span><span class="vhdlchar">pixel_b: </span><span class="stringliteral"></span> <b><span class="keywordflow">in</span><span class="vhdlchar"> </span><span class="comment">integer</span><span class="vhdlchar"> </span></b></b><br />
    )</td></tr>
-<tr class="memdesc:ac11e8485bee81e4f94b57d9368564993"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generic procedure to write rgb variable of a file The header must be written with PPM as image type.  <a href="#ac11e8485bee81e4f94b57d9368564993"></a><br /></td></tr>
+<tr class="memdesc:ac11e8485bee81e4f94b57d9368564993"><td class="mdescLeft">&#160;</td><td class="mdescRight">generic procedure to write rgb variable of a file the header must be written with ppm as image type  <a href="#ac11e8485bee81e4f94b57d9368564993"></a><br /></td></tr>
 <tr class="memitem:ac11e8485bee81e4f94b57d9368564993"><td class="memItemLeft" align="right" valign="top"><b><b><span class="vhdlchar"> </span></b></b>&#160;</td><td class="memItemRight" valign="bottom"> <a class="el" href="classimage__io__pkg.html#ac11e8485bee81e4f94b57d9368564993">write_rgb_pixel</a>( <br />
-<b><span class="vhdlchar">SIGNAL </span><span class="vhdlchar">pixel_r: </span><span class="stringliteral"></span> <b><span class="vhdlchar">in</span><span class="vhdlchar"> </span><span class="vhdlchar">UNSIGNED</span><span class="vhdlchar"> </span><span class="vhdlchar">(</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">7</span> <span class="vhdlchar"> </span><span class="vhdlchar">DOWNTO</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar"> </span><span class="vhdlchar">)</span><span class="vhdlchar"> </span></b></b><br />
-  <b><span class="vhdlchar">SIGNAL </span><span class="vhdlchar">pixel_g: </span><span class="stringliteral"></span> <b><span class="vhdlchar">in</span><span class="vhdlchar"> </span><span class="vhdlchar">UNSIGNED</span><span class="vhdlchar"> </span><span class="vhdlchar">(</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">7</span> <span class="vhdlchar"> </span><span class="vhdlchar">DOWNTO</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar"> </span><span class="vhdlchar">)</span><span class="vhdlchar"> </span></b></b><br />
-  <b><span class="vhdlchar">SIGNAL </span><span class="vhdlchar">pixel_b: </span><span class="stringliteral"></span> <b><span class="vhdlchar">in</span><span class="vhdlchar"> </span><span class="vhdlchar">UNSIGNED</span><span class="vhdlchar"> </span><span class="vhdlchar">(</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">7</span> <span class="vhdlchar"> </span><span class="vhdlchar">DOWNTO</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar"> </span><span class="vhdlchar">)</span><span class="vhdlchar"> </span></b></b><br />
+<b><span class="keywordflow">signal </span><span class="vhdlchar">pixel_r: </span><span class="stringliteral"></span> <b><span class="keywordflow">in</span><span class="vhdlchar"> </span><span class="comment">unsigned</span><span class="vhdlchar"> </span><span class="vhdlchar">(</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">7</span> <span class="vhdlchar"> </span><span class="keywordflow">downto</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar"> </span><span class="vhdlchar">)</span><span class="vhdlchar"> </span></b></b><br />
+  <b><span class="keywordflow">signal </span><span class="vhdlchar">pixel_g: </span><span class="stringliteral"></span> <b><span class="keywordflow">in</span><span class="vhdlchar"> </span><span class="comment">unsigned</span><span class="vhdlchar"> </span><span class="vhdlchar">(</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">7</span> <span class="vhdlchar"> </span><span class="keywordflow">downto</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar"> </span><span class="vhdlchar">)</span><span class="vhdlchar"> </span></b></b><br />
+  <b><span class="keywordflow">signal </span><span class="vhdlchar">pixel_b: </span><span class="stringliteral"></span> <b><span class="keywordflow">in</span><span class="vhdlchar"> </span><span class="comment">unsigned</span><span class="vhdlchar"> </span><span class="vhdlchar">(</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">7</span> <span class="vhdlchar"> </span><span class="keywordflow">downto</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar"> </span><span class="vhdlchar">)</span><span class="vhdlchar"> </span></b></b><br />
    )</td></tr>
-<tr class="memdesc:ac11e8485bee81e4f94b57d9368564993"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generic procedure to write rgb signal of a file The header must be written with PPM as image type.  <a href="#ac11e8485bee81e4f94b57d9368564993"></a><br /></td></tr>
+<tr class="memdesc:ac11e8485bee81e4f94b57d9368564993"><td class="mdescLeft">&#160;</td><td class="mdescRight">generic procedure to write rgb signal of a file the header must be written with ppm as image type  <a href="#ac11e8485bee81e4f94b57d9368564993"></a><br /></td></tr>
 <tr class="memitem:abac77ea0c24534bebcf1beeba4e3cdb2"><td class="memItemLeft" align="right" valign="top"><b><b><span class="vhdlchar"> </span></b></b>&#160;</td><td class="memItemRight" valign="bottom"> <a class="el" href="classimage__io__pkg.html#abac77ea0c24534bebcf1beeba4e3cdb2">write_ycbcr_pixel</a>( <br />
-<b><span class="vhdlchar">VARIABLE </span><span class="vhdlchar">pixel_y: </span><span class="stringliteral"></span> <b><span class="vhdlchar">in</span><span class="vhdlchar"> </span><span class="vhdlchar">INTEGER</span><span class="vhdlchar"> </span></b></b><br />
-  <b><span class="vhdlchar">VARIABLE </span><span class="vhdlchar">pixel_cb: </span><span class="stringliteral"></span> <b><span class="vhdlchar">in</span><span class="vhdlchar"> </span><span class="vhdlchar">INTEGER</span><span class="vhdlchar"> </span></b></b><br />
-  <b><span class="vhdlchar">VARIABLE </span><span class="vhdlchar">pixel_cr: </span><span class="stringliteral"></span> <b><span class="vhdlchar">in</span><span class="vhdlchar"> </span><span class="vhdlchar">INTEGER</span><span class="vhdlchar"> </span></b></b><br />
+<b><span class="keywordflow">variable </span><span class="vhdlchar">pixel_y: </span><span class="stringliteral"></span> <b><span class="keywordflow">in</span><span class="vhdlchar"> </span><span class="comment">integer</span><span class="vhdlchar"> </span></b></b><br />
+  <b><span class="keywordflow">variable </span><span class="vhdlchar">pixel_cb: </span><span class="stringliteral"></span> <b><span class="keywordflow">in</span><span class="vhdlchar"> </span><span class="comment">integer</span><span class="vhdlchar"> </span></b></b><br />
+  <b><span class="keywordflow">variable </span><span class="vhdlchar">pixel_cr: </span><span class="stringliteral"></span> <b><span class="keywordflow">in</span><span class="vhdlchar"> </span><span class="comment">integer</span><span class="vhdlchar"> </span></b></b><br />
    )</td></tr>
-<tr class="memdesc:abac77ea0c24534bebcf1beeba4e3cdb2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generic procedure to write ycbcr variable of a file The header must be written with PPM as image type.  <a href="#abac77ea0c24534bebcf1beeba4e3cdb2"></a><br /></td></tr>
+<tr class="memdesc:abac77ea0c24534bebcf1beeba4e3cdb2"><td class="mdescLeft">&#160;</td><td class="mdescRight">generic procedure to write ycbcr variable of a file the header must be written with ppm as image type  <a href="#abac77ea0c24534bebcf1beeba4e3cdb2"></a><br /></td></tr>
 <tr class="memitem:abac77ea0c24534bebcf1beeba4e3cdb2"><td class="memItemLeft" align="right" valign="top"><b><b><span class="vhdlchar"> </span></b></b>&#160;</td><td class="memItemRight" valign="bottom"> <a class="el" href="classimage__io__pkg.html#abac77ea0c24534bebcf1beeba4e3cdb2">write_ycbcr_pixel</a>( <br />
-<b><span class="vhdlchar">SIGNAL </span><span class="vhdlchar">pixel_y: </span><span class="stringliteral"></span> <b><span class="vhdlchar">in</span><span class="vhdlchar"> </span><span class="vhdlchar">UNSIGNED</span><span class="vhdlchar"> </span><span class="vhdlchar">(</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">9</span> <span class="vhdlchar"> </span><span class="vhdlchar">DOWNTO</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar"> </span><span class="vhdlchar">)</span><span class="vhdlchar"> </span></b></b><br />
-  <b><span class="vhdlchar">SIGNAL </span><span class="vhdlchar">pixel_cb: </span><span class="stringliteral"></span> <b><span class="vhdlchar">in</span><span class="vhdlchar"> </span><span class="vhdlchar">UNSIGNED</span><span class="vhdlchar"> </span><span class="vhdlchar">(</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">9</span> <span class="vhdlchar"> </span><span class="vhdlchar">DOWNTO</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar"> </span><span class="vhdlchar">)</span><span class="vhdlchar"> </span></b></b><br />
-  <b><span class="vhdlchar">SIGNAL </span><span class="vhdlchar">pixel_cr: </span><span class="stringliteral"></span> <b><span class="vhdlchar">in</span><span class="vhdlchar"> </span><span class="vhdlchar">UNSIGNED</span><span class="vhdlchar"> </span><span class="vhdlchar">(</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">9</span> <span class="vhdlchar"> </span><span class="vhdlchar">DOWNTO</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar"> </span><span class="vhdlchar">)</span><span class="vhdlchar"> </span></b></b><br />
+<b><span class="keywordflow">signal </span><span class="vhdlchar">pixel_y: </span><span class="stringliteral"></span> <b><span class="keywordflow">in</span><span class="vhdlchar"> </span><span class="comment">unsigned</span><span class="vhdlchar"> </span><span class="vhdlchar">(</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">9</span> <span class="vhdlchar"> </span><span class="keywordflow">downto</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar"> </span><span class="vhdlchar">)</span><span class="vhdlchar"> </span></b></b><br />
+  <b><span class="keywordflow">signal </span><span class="vhdlchar">pixel_cb: </span><span class="stringliteral"></span> <b><span class="keywordflow">in</span><span class="vhdlchar"> </span><span class="comment">unsigned</span><span class="vhdlchar"> </span><span class="vhdlchar">(</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">9</span> <span class="vhdlchar"> </span><span class="keywordflow">downto</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar"> </span><span class="vhdlchar">)</span><span class="vhdlchar"> </span></b></b><br />
+  <b><span class="keywordflow">signal </span><span class="vhdlchar">pixel_cr: </span><span class="stringliteral"></span> <b><span class="keywordflow">in</span><span class="vhdlchar"> </span><span class="comment">unsigned</span><span class="vhdlchar"> </span><span class="vhdlchar">(</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">9</span> <span class="vhdlchar"> </span><span class="keywordflow">downto</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar"> </span><span class="vhdlchar">)</span><span class="vhdlchar"> </span></b></b><br />
    )</td></tr>
-<tr class="memdesc:abac77ea0c24534bebcf1beeba4e3cdb2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generic procedure to write ycbcr signal of a file The header must be written with PPM as image type.  <a href="#abac77ea0c24534bebcf1beeba4e3cdb2"></a><br /></td></tr>
-<tr class="memitem:a2839b0524bfedc805a38ecc3718d50ec"><td class="memItemLeft" align="right" valign="top"><b><b><span class="vhdlchar"> </span></b></b>&#160;</td><td class="memItemRight" valign="bottom"> <a class="el" href="classimage__io__pkg.html#a2839b0524bfedc805a38ecc3718d50ec">rgb_to_ycbcr</a>( <br />
-<b><span class="vhdlchar">VARIABLE </span><span class="vhdlchar">R: </span><span class="stringliteral"></span> <b><span class="vhdlchar">in</span><span class="vhdlchar"> </span><span class="vhdlchar">UNSIGNED</span><span class="vhdlchar"> </span><span class="vhdlchar">(</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">7</span> <span class="vhdlchar"> </span><span class="vhdlchar">DOWNTO</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar"> </span><span class="vhdlchar">)</span><span class="vhdlchar"> </span></b></b><br />
-  <b><span class="vhdlchar">VARIABLE </span><span class="vhdlchar">G: </span><span class="stringliteral"></span> <b><span class="vhdlchar">in</span><span class="vhdlchar"> </span><span class="vhdlchar">UNSIGNED</span><span class="vhdlchar"> </span><span class="vhdlchar">(</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">7</span> <span class="vhdlchar"> </span><span class="vhdlchar">DOWNTO</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar"> </span><span class="vhdlchar">)</span><span class="vhdlchar"> </span></b></b><br />
-  <b><span class="vhdlchar">VARIABLE </span><span class="vhdlchar">B: </span><span class="stringliteral"></span> <b><span class="vhdlchar">in</span><span class="vhdlchar"> </span><span class="vhdlchar">UNSIGNED</span><span class="vhdlchar"> </span><span class="vhdlchar">(</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">7</span> <span class="vhdlchar"> </span><span class="vhdlchar">DOWNTO</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar"> </span><span class="vhdlchar">)</span><span class="vhdlchar"> </span></b></b><br />
-  <b><span class="vhdlchar">VARIABLE </span><span class="vhdlchar">Y: </span><span class="stringliteral"></span> <b><span class="vhdlchar">out</span><span class="vhdlchar"> </span><span class="vhdlchar">UNSIGNED</span><span class="vhdlchar"> </span><span class="vhdlchar">(</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">9</span> <span class="vhdlchar"> </span><span class="vhdlchar">DOWNTO</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar"> </span><span class="vhdlchar">)</span><span class="vhdlchar"> </span></b></b><br />
-  <b><span class="vhdlchar">VARIABLE </span><span class="vhdlchar">Cb: </span><span class="stringliteral"></span> <b><span class="vhdlchar">out</span><span class="vhdlchar"> </span><span class="vhdlchar">UNSIGNED</span><span class="vhdlchar"> </span><span class="vhdlchar">(</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">9</span> <span class="vhdlchar"> </span><span class="vhdlchar">DOWNTO</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar"> </span><span class="vhdlchar">)</span><span class="vhdlchar"> </span></b></b><br />
-  <b><span class="vhdlchar">VARIABLE </span><span class="vhdlchar">Cr: </span><span class="stringliteral"></span> <b><span class="vhdlchar">out</span><span class="vhdlchar"> </span><span class="vhdlchar">UNSIGNED</span><span class="vhdlchar"> </span><span class="vhdlchar">(</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">9</span> <span class="vhdlchar"> </span><span class="vhdlchar">DOWNTO</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar"> </span><span class="vhdlchar">)</span><span class="vhdlchar"> </span></b></b><br />
+<tr class="memdesc:abac77ea0c24534bebcf1beeba4e3cdb2"><td class="mdescLeft">&#160;</td><td class="mdescRight">generic procedure to write ycbcr signal of a file the header must be written with ppm as image type  <a href="#abac77ea0c24534bebcf1beeba4e3cdb2"></a><br /></td></tr>
+<tr class="memitem:ad415158baebab4c277f2ed26e4b7fa29"><td class="memItemLeft" align="right" valign="top"><b><b><span class="vhdlchar"> </span></b></b>&#160;</td><td class="memItemRight" valign="bottom"> <a class="el" href="classimage__io__pkg.html#ad415158baebab4c277f2ed26e4b7fa29">rgb_to_ycbcr</a>( <br />
+<b><span class="keywordflow">variable </span><span class="vhdlchar">r: </span><span class="stringliteral"></span> <b><span class="keywordflow">in</span><span class="vhdlchar"> </span><span class="comment">unsigned</span><span class="vhdlchar"> </span><span class="vhdlchar">(</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">7</span> <span class="vhdlchar"> </span><span class="keywordflow">downto</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar"> </span><span class="vhdlchar">)</span><span class="vhdlchar"> </span></b></b><br />
+  <b><span class="keywordflow">variable </span><span class="vhdlchar">g: </span><span class="stringliteral"></span> <b><span class="keywordflow">in</span><span class="vhdlchar"> </span><span class="comment">unsigned</span><span class="vhdlchar"> </span><span class="vhdlchar">(</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">7</span> <span class="vhdlchar"> </span><span class="keywordflow">downto</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar"> </span><span class="vhdlchar">)</span><span class="vhdlchar"> </span></b></b><br />
+  <b><span class="keywordflow">variable </span><span class="vhdlchar">b: </span><span class="stringliteral"></span> <b><span class="keywordflow">in</span><span class="vhdlchar"> </span><span class="comment">unsigned</span><span class="vhdlchar"> </span><span class="vhdlchar">(</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">7</span> <span class="vhdlchar"> </span><span class="keywordflow">downto</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar"> </span><span class="vhdlchar">)</span><span class="vhdlchar"> </span></b></b><br />
+  <b><span class="keywordflow">variable </span><span class="vhdlchar">y: </span><span class="stringliteral"></span> <b><span class="keywordflow">out</span><span class="vhdlchar"> </span><span class="comment">unsigned</span><span class="vhdlchar"> </span><span class="vhdlchar">(</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">9</span> <span class="vhdlchar"> </span><span class="keywordflow">downto</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar"> </span><span class="vhdlchar">)</span><span class="vhdlchar"> </span></b></b><br />
+  <b><span class="keywordflow">variable </span><span class="vhdlchar">cb: </span><span class="stringliteral"></span> <b><span class="keywordflow">out</span><span class="vhdlchar"> </span><span class="comment">unsigned</span><span class="vhdlchar"> </span><span class="vhdlchar">(</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">9</span> <span class="vhdlchar"> </span><span class="keywordflow">downto</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar"> </span><span class="vhdlchar">)</span><span class="vhdlchar"> </span></b></b><br />
+  <b><span class="keywordflow">variable </span><span class="vhdlchar">cr: </span><span class="stringliteral"></span> <b><span class="keywordflow">out</span><span class="vhdlchar"> </span><span class="comment">unsigned</span><span class="vhdlchar"> </span><span class="vhdlchar">(</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">9</span> <span class="vhdlchar"> </span><span class="keywordflow">downto</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar"> </span><span class="vhdlchar">)</span><span class="vhdlchar"> </span></b></b><br />
    )</td></tr>
-<tr class="memdesc:a2839b0524bfedc805a38ecc3718d50ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Procedure to convert rgb variables into corresponding ycbcr components.  <a href="#a2839b0524bfedc805a38ecc3718d50ec"></a><br /></td></tr>
-<tr class="memitem:a6ef07e819a7b67bcf9b029b10e5c4187"><td class="memItemLeft" align="right" valign="top"><b><b><span class="vhdlchar"> </span></b></b>&#160;</td><td class="memItemRight" valign="bottom"> <a class="el" href="classimage__io__pkg.html#a6ef07e819a7b67bcf9b029b10e5c4187">ycbcr_to_rgb</a>( <br />
-<b><span class="vhdlchar">VARIABLE </span><span class="vhdlchar">Y: </span><span class="stringliteral"></span> <b><span class="vhdlchar">in</span><span class="vhdlchar"> </span><span class="vhdlchar">UNSIGNED</span><span class="vhdlchar"> </span><span class="vhdlchar">(</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">9</span> <span class="vhdlchar"> </span><span class="vhdlchar">DOWNTO</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar"> </span><span class="vhdlchar">)</span><span class="vhdlchar"> </span></b></b><br />
-  <b><span class="vhdlchar">VARIABLE </span><span class="vhdlchar">Cb: </span><span class="stringliteral"></span> <b><span class="vhdlchar">in</span><span class="vhdlchar"> </span><span class="vhdlchar">UNSIGNED</span><span class="vhdlchar"> </span><span class="vhdlchar">(</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">9</span> <span class="vhdlchar"> </span><span class="vhdlchar">DOWNTO</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar"> </span><span class="vhdlchar">)</span><span class="vhdlchar"> </span></b></b><br />
-  <b><span class="vhdlchar">VARIABLE </span><span class="vhdlchar">Cr: </span><span class="stringliteral"></span> <b><span class="vhdlchar">in</span><span class="vhdlchar"> </span><span class="vhdlchar">UNSIGNED</span><span class="vhdlchar"> </span><span class="vhdlchar">(</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">9</span> <span class="vhdlchar"> </span><span class="vhdlchar">DOWNTO</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar"> </span><span class="vhdlchar">)</span><span class="vhdlchar"> </span></b></b><br />
-  <b><span class="vhdlchar">VARIABLE </span><span class="vhdlchar">R: </span><span class="stringliteral"></span> <b><span class="vhdlchar">out</span><span class="vhdlchar"> </span><span class="vhdlchar">UNSIGNED</span><span class="vhdlchar"> </span><span class="vhdlchar">(</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">7</span> <span class="vhdlchar"> </span><span class="vhdlchar">DOWNTO</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar"> </span><span class="vhdlchar">)</span><span class="vhdlchar"> </span></b></b><br />
-  <b><span class="vhdlchar">VARIABLE </span><span class="vhdlchar">G: </span><span class="stringliteral"></span> <b><span class="vhdlchar">out</span><span class="vhdlchar"> </span><span class="vhdlchar">UNSIGNED</span><span class="vhdlchar"> </span><span class="vhdlchar">(</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">7</span> <span class="vhdlchar"> </span><span class="vhdlchar">DOWNTO</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar"> </span><span class="vhdlchar">)</span><span class="vhdlchar"> </span></b></b><br />
-  <b><span class="vhdlchar">VARIABLE </span><span class="vhdlchar">B: </span><span class="stringliteral"></span> <b><span class="vhdlchar">out</span><span class="vhdlchar"> </span><span class="vhdlchar">UNSIGNED</span><span class="vhdlchar"> </span><span class="vhdlchar">(</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">7</span> <span class="vhdlchar"> </span><span class="vhdlchar">DOWNTO</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar"> </span><span class="vhdlchar">)</span><span class="vhdlchar"> </span></b></b><br />
+<tr class="memdesc:ad415158baebab4c277f2ed26e4b7fa29"><td class="mdescLeft">&#160;</td><td class="mdescRight">procedure to convert rgb variables into corresponding ycbcr components  <a href="#ad415158baebab4c277f2ed26e4b7fa29"></a><br /></td></tr>
+<tr class="memitem:aa5b6e7a5faffb672515c678890783edc"><td class="memItemLeft" align="right" valign="top"><b><b><span class="vhdlchar"> </span></b></b>&#160;</td><td class="memItemRight" valign="bottom"> <a class="el" href="classimage__io__pkg.html#aa5b6e7a5faffb672515c678890783edc">ycbcr_to_rgb</a>( <br />
+<b><span class="keywordflow">variable </span><span class="vhdlchar">y: </span><span class="stringliteral"></span> <b><span class="keywordflow">in</span><span class="vhdlchar"> </span><span class="comment">unsigned</span><span class="vhdlchar"> </span><span class="vhdlchar">(</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">9</span> <span class="vhdlchar"> </span><span class="keywordflow">downto</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar"> </span><span class="vhdlchar">)</span><span class="vhdlchar"> </span></b></b><br />
+  <b><span class="keywordflow">variable </span><span class="vhdlchar">cb: </span><span class="stringliteral"></span> <b><span class="keywordflow">in</span><span class="vhdlchar"> </span><span class="comment">unsigned</span><span class="vhdlchar"> </span><span class="vhdlchar">(</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">9</span> <span class="vhdlchar"> </span><span class="keywordflow">downto</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar"> </span><span class="vhdlchar">)</span><span class="vhdlchar"> </span></b></b><br />
+  <b><span class="keywordflow">variable </span><span class="vhdlchar">cr: </span><span class="stringliteral"></span> <b><span class="keywordflow">in</span><span class="vhdlchar"> </span><span class="comment">unsigned</span><span class="vhdlchar"> </span><span class="vhdlchar">(</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">9</span> <span class="vhdlchar"> </span><span class="keywordflow">downto</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar"> </span><span class="vhdlchar">)</span><span class="vhdlchar"> </span></b></b><br />
+  <b><span class="keywordflow">variable </span><span class="vhdlchar">r: </span><span class="stringliteral"></span> <b><span class="keywordflow">out</span><span class="vhdlchar"> </span><span class="comment">unsigned</span><span class="vhdlchar"> </span><span class="vhdlchar">(</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">7</span> <span class="vhdlchar"> </span><span class="keywordflow">downto</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar"> </span><span class="vhdlchar">)</span><span class="vhdlchar"> </span></b></b><br />
+  <b><span class="keywordflow">variable </span><span class="vhdlchar">g: </span><span class="stringliteral"></span> <b><span class="keywordflow">out</span><span class="vhdlchar"> </span><span class="comment">unsigned</span><span class="vhdlchar"> </span><span class="vhdlchar">(</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">7</span> <span class="vhdlchar"> </span><span class="keywordflow">downto</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar"> </span><span class="vhdlchar">)</span><span class="vhdlchar"> </span></b></b><br />
+  <b><span class="keywordflow">variable </span><span class="vhdlchar">b: </span><span class="stringliteral"></span> <b><span class="keywordflow">out</span><span class="vhdlchar"> </span><span class="comment">unsigned</span><span class="vhdlchar"> </span><span class="vhdlchar">(</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">7</span> <span class="vhdlchar"> </span><span class="keywordflow">downto</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar"> </span><span class="vhdlchar">)</span><span class="vhdlchar"> </span></b></b><br />
    )</td></tr>
-<tr class="memdesc:a6ef07e819a7b67bcf9b029b10e5c4187"><td class="mdescLeft">&#160;</td><td class="mdescRight">Procedure to convert ycbcr variables into corresponding rgb components.  <a href="#a6ef07e819a7b67bcf9b029b10e5c4187"></a><br /></td></tr>
+<tr class="memdesc:aa5b6e7a5faffb672515c678890783edc"><td class="mdescLeft">&#160;</td><td class="mdescRight">procedure to convert ycbcr variables into corresponding rgb components  <a href="#aa5b6e7a5faffb672515c678890783edc"></a><br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="Libraries"></a>
 Libraries</h2></td></tr>
  <tr class="memitem:a0a6af6eef40212dbaf130d57ce711256"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classimage__io__pkg.html#a0a6af6eef40212dbaf130d57ce711256">ieee</a>&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
-<tr class="memdesc:a0a6af6eef40212dbaf130d57ce711256"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use standard library.  <a href="#a0a6af6eef40212dbaf130d57ce711256"></a><br /></td></tr>
+<tr class="memdesc:a0a6af6eef40212dbaf130d57ce711256"><td class="mdescLeft">&#160;</td><td class="mdescRight">use standard library  <a href="#a0a6af6eef40212dbaf130d57ce711256"></a><br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="Use Clauses"></a>
 Use Clauses</h2></td></tr>
  <tr class="memitem:acd03516902501cd1c7296a98e22c6fcb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classimage__io__pkg.html#acd03516902501cd1c7296a98e22c6fcb">std_logic_1164</a>&#160;</td><td class="memItemRight" valign="bottom">  </td></tr>
-<tr class="memdesc:acd03516902501cd1c7296a98e22c6fcb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use std_logic_vector.  <a href="#acd03516902501cd1c7296a98e22c6fcb"></a><br /></td></tr>
+<tr class="memdesc:acd03516902501cd1c7296a98e22c6fcb"><td class="mdescLeft">&#160;</td><td class="mdescRight">use std_logic_vector  <a href="#acd03516902501cd1c7296a98e22c6fcb"></a><br /></td></tr>
 <tr class="memitem:a2edc34402b573437d5f25fa90ba4013e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classimage__io__pkg.html#a2edc34402b573437d5f25fa90ba4013e">numeric_std</a>&#160;</td><td class="memItemRight" valign="bottom">  </td></tr>
-<tr class="memdesc:a2edc34402b573437d5f25fa90ba4013e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Needed for colorscheme calculations.  <a href="#a2edc34402b573437d5f25fa90ba4013e"></a><br /></td></tr>
+<tr class="memdesc:a2edc34402b573437d5f25fa90ba4013e"><td class="mdescLeft">&#160;</td><td class="mdescRight">needed for colorscheme calculations  <a href="#a2edc34402b573437d5f25fa90ba4013e"></a><br /></td></tr>
 <tr class="memitem:aa8c4e25998323a84db5b1fa701b92fcb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classimage__io__pkg.html#aa8c4e25998323a84db5b1fa701b92fcb">textio</a>&#160;</td><td class="memItemRight" valign="bottom">  </td></tr>
-<tr class="memdesc:aa8c4e25998323a84db5b1fa701b92fcb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used for writing and reading images.  <a href="#aa8c4e25998323a84db5b1fa701b92fcb"></a><br /></td></tr>
+<tr class="memdesc:aa8c4e25998323a84db5b1fa701b92fcb"><td class="mdescLeft">&#160;</td><td class="mdescRight">used for writing and reading images  <a href="#aa8c4e25998323a84db5b1fa701b92fcb"></a><br /></td></tr>
+<tr class="memitem:acb415f2e3abd505b8338da5b5bf9e2fb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classimage__io__pkg.html#acb415f2e3abd505b8338da5b5bf9e2fb">math_real</a>&#160;</td><td class="memItemRight" valign="bottom">  </td></tr>
+<tr class="memdesc:acb415f2e3abd505b8338da5b5bf9e2fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">used only for calculation of constants  <a href="#acb415f2e3abd505b8338da5b5bf9e2fb"></a><br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="Constants"></a>
+Constants</h2></td></tr>
+ <tr class="memitem:ab097725c46b60cb3e1831b888f9c6289"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classimage__io__pkg.html#ab097725c46b60cb3e1831b888f9c6289">wordsize</a> &#160;</td><td class="memItemRight" valign="bottom"><b><span class="comment">integer</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar">:</span><span class="vhdlchar">=</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">8</span> <span class="vhdlchar"> </span></b></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="Types"></a>
 Types</h2></td></tr>
- <tr class="memitem:af03880b1bca9021fd32993e5e5bba862"><td class="memItemLeft" align="right" valign="top"><b><a class="el" href="classimage__io__pkg.html#af03880b1bca9021fd32993e5e5bba862">pbmplustype</a>&#160;</td><td class="memItemRight" valign="bottom"><b><span class="vhdlchar">(</span><span class="vhdlchar"> </span><span class="vhdlchar">PBM</span><span class="vhdlchar"> </span><span class="vhdlchar">,</span><span class="vhdlchar"> </span><span class="vhdlchar">PGM</span><span class="vhdlchar"> </span><span class="vhdlchar">,</span><span class="vhdlchar"> </span><span class="vhdlchar">PPM</span><span class="vhdlchar"> </span><span class="vhdlchar">)</span><span class="vhdlchar"> </span></b></b></td></tr>
-<tr class="memitem:afacaf1921c0c52dbf16daca2b32a8094"><td class="memItemLeft" align="right" valign="top"><b><a class="el" href="classimage__io__pkg.html#afacaf1921c0c52dbf16daca2b32a8094">pixel_array</a>&#160;</td><td class="memItemRight" valign="bottom"><b><span class="vhdlchar">array</span><span class="vhdlchar"> </span><span class="vhdlchar">(</span><span class="vhdlchar"> </span><span class="vhdlchar">INTEGER</span><span class="vhdlchar"> </span><span class="vhdlchar">range</span><span class="vhdlchar"> </span><span class="vhdlchar">&lt;&gt;</span><span class="vhdlchar"> </span><span class="vhdlchar">)</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar">of</span><span class="vhdlchar"> </span><span class="vhdlchar">INTEGER</span><span class="vhdlchar"> </span></b></b></td></tr>
-<tr class="memdesc:afacaf1921c0c52dbf16daca2b32a8094"><td class="mdescLeft">&#160;</td><td class="mdescRight">To accomodate for unknown arrays of pixels array writing is also possible.  <a href="#afacaf1921c0c52dbf16daca2b32a8094"></a><br /></td></tr>
+ <tr class="memitem:a6b0162e2588365bd0141ef3fce1b6efe"><td class="memItemLeft" align="right" valign="top"><b><a class="el" href="classimage__io__pkg.html#a6b0162e2588365bd0141ef3fce1b6efe">pbmplustype</a>&#160;</td><td class="memItemRight" valign="bottom"><b><span class="vhdlchar">(</span><span class="vhdlchar"> </span><span class="vhdlchar">pbm</span><span class="vhdlchar"> </span><span class="vhdlchar">,</span><span class="vhdlchar"> </span><span class="vhdlchar">pgm</span><span class="vhdlchar"> </span><span class="vhdlchar">,</span><span class="vhdlchar"> </span><span class="vhdlchar">ppm</span><span class="vhdlchar"> </span><span class="vhdlchar">)</span><span class="vhdlchar"> </span></b></b></td></tr>
+<tr class="memdesc:a6b0162e2588365bd0141ef3fce1b6efe"><td class="mdescLeft">&#160;</td><td class="mdescRight">three types can be selected, these types are specified in the detailed description  <a href="#a6b0162e2588365bd0141ef3fce1b6efe"></a><br /></td></tr>
+<tr class="memitem:aac5c9226cf2218d288ec4a9f5f472b50"><td class="memItemLeft" align="right" valign="top"><b><a class="el" href="classimage__io__pkg.html#aac5c9226cf2218d288ec4a9f5f472b50">pixel_array</a>&#160;</td><td class="memItemRight" valign="bottom"><b><span class="keywordflow">array</span><span class="vhdlchar"> </span><span class="vhdlchar">(</span><span class="vhdlchar"> </span><span class="comment">integer</span><span class="vhdlchar"> </span><span class="keywordflow">range</span><span class="vhdlchar"> </span><span class="vhdlchar">&lt;&gt;</span><span class="vhdlchar"> </span><span class="vhdlchar">)</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="keywordflow">of</span><span class="vhdlchar"> </span><span class="comment">integer</span><span class="vhdlchar"> </span></b></b></td></tr>
+<tr class="memdesc:aac5c9226cf2218d288ec4a9f5f472b50"><td class="mdescLeft">&#160;</td><td class="mdescRight">to accomodate for unknown arrays of pixels array writing is also possible  <a href="#aac5c9226cf2218d288ec4a9f5f472b50"></a><br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Three types can be selected, these types are specified in the detailed description. </p>
-<p>Provides functionality for easy reading and writing of netbpm images.</p>
+<div class="textblock"><p>Provides functionality for easy reading and writing of netbpm images. </p>
 <h2>Supported image types </h2>
 <table class="doxtable">
 <tr>
@@ -216,22 +227,22 @@ Types</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"> <b><span class="vhdlchar">string</span><span class="vhdlchar"> </span></b> pad_string</td>
+          <td class="memname"> <b><span class="comment">string</span><span class="vhdlchar"> </span></b> pad_string</td>
           <td>(</td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><b><span class="vhdlchar">arg_str</span><span class="vhdlchar"> </span></b><span class="stringliteral">in</span> <em><b><span class="vhdlchar"> </span><span class="vhdlchar">string</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em> , </td>
+          <td class="paramname"><b><span class="vhdlchar">arg_str</span><span class="vhdlchar"> </span></b><span class="stringliteral">in</span> <em><b><span class="vhdlchar"> </span><span class="comment">string</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em> , </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><b><span class="vhdlchar">ret_len_c</span><span class="vhdlchar"> </span></b><span class="stringliteral">in</span> <em><b><span class="vhdlchar"> </span><span class="vhdlchar">natural</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">10</span> <span class="vhdlchar"> </span></b></em> , </td>
+          <td class="paramname"><b><span class="vhdlchar">ret_len_c</span><span class="vhdlchar"> </span></b><span class="stringliteral">in</span> <em><b><span class="vhdlchar"> </span><span class="comment">natural</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">10</span> <span class="vhdlchar"> </span></b></em> , </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><b><span class="vhdlchar">fill_char_c</span><span class="vhdlchar"> </span></b><span class="stringliteral">in</span> <em><b><span class="vhdlchar"> </span><span class="vhdlchar">character</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar">'</span><span class="vhdlchar"> </span><span class="vhdlchar">'</span><span class="vhdlchar"> </span></b></em>&#160;</td>
+          <td class="paramname"><b><span class="vhdlchar">fill_char_c</span><span class="vhdlchar"> </span></b><span class="stringliteral">in</span> <em><b><span class="vhdlchar"> </span><span class="comment">character</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar">'</span><span class="vhdlchar"> </span><span class="vhdlchar">'</span><span class="vhdlchar"> </span></b></em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -246,12 +257,12 @@ Types</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Function to pad strings with a fill character. </p>
+<p>function to pad strings with a fill character </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">arg_str</td><td>The input string that has to be padded </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">ret_len_c</td><td>The length of the output string. (Must be larger than length of the input string) </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">fill_char_c</td><td>The filling character that should be used to pad the input string </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">arg_str</td><td>the input string that has to be padded </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">ret_len_c</td><td>the length of the output string. (must be larger than length of the input string) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">fill_char_c</td><td>the filling character that should be used to pad the input string </td></tr>
   </table>
   </dd>
 </dl>
@@ -259,7 +270,79 @@ Types</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a2839b0524bfedc805a38ecc3718d50ec"></a>
+<a class="anchor" id="a686e73e49691b6154f13044edba1897a"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"> <b><span class="vhdlchar"> </span></b> read_pixel</td>
+          <td>(</td>
+          <td class="paramtype"><span class="keywordtype">variable </span> &#160;</td>
+          <td class="paramname"><b><span class="vhdlchar">pixel</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="keywordflow">out</span><span class="vhdlchar"> </span><span class="comment">integer</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em> , </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><span class="keywordtype">signal </span> &#160;</td>
+          <td class="paramname"><b><span class="vhdlchar">end_of_file</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="keywordflow">out</span><span class="vhdlchar"> </span><span class="comment">std_logic</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">Procedure</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>generic procedure for reading single pixel value from pbm file to variable </p>
+
+</div>
+</div>
+<a class="anchor" id="a686e73e49691b6154f13044edba1897a"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"> <b><span class="vhdlchar"> </span></b> read_pixel</td>
+          <td>(</td>
+          <td class="paramtype"><span class="keywordtype">signal </span> &#160;</td>
+          <td class="paramname"><b><span class="vhdlchar">pixel</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="keywordflow">out</span><span class="vhdlchar"> </span><span class="comment">std_logic_vector</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em> , </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><span class="keywordtype">signal </span> &#160;</td>
+          <td class="paramname"><b><span class="vhdlchar">end_of_file</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="keywordflow">out</span><span class="vhdlchar"> </span><span class="comment">std_logic</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">Procedure</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>generic procedure for reading single pixel value from pbm file to signal </p>
+
+</div>
+</div>
+<a class="anchor" id="ad415158baebab4c277f2ed26e4b7fa29"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -269,38 +352,38 @@ Types</h2></td></tr>
         <tr>
           <td class="memname"> <b><span class="vhdlchar"> </span></b> rgb_to_ycbcr</td>
           <td>(</td>
-          <td class="paramtype"><span class="keywordtype">VARIABLE </span> &#160;</td>
-          <td class="paramname"><b><span class="vhdlchar">R</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="vhdlchar">in</span><span class="vhdlchar"> </span><span class="vhdlchar">UNSIGNED</span><span class="vhdlchar">(</span><span class="vhdlchar"> </span> <span class="vhdldigit">7</span> <span class="vhdlchar"> </span><span class="vhdlchar">DOWNTO</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar">)</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em> , </td>
+          <td class="paramtype"><span class="keywordtype">variable </span> &#160;</td>
+          <td class="paramname"><b><span class="vhdlchar">r</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="keywordflow">in</span><span class="vhdlchar"> </span><span class="comment">unsigned</span><span class="vhdlchar">(</span><span class="vhdlchar"> </span> <span class="vhdldigit">7</span> <span class="vhdlchar"> </span><span class="keywordflow">downto</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar">)</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em> , </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><span class="keywordtype">VARIABLE </span> &#160;</td>
-          <td class="paramname"><b><span class="vhdlchar">G</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="vhdlchar">in</span><span class="vhdlchar"> </span><span class="vhdlchar">UNSIGNED</span><span class="vhdlchar">(</span><span class="vhdlchar"> </span> <span class="vhdldigit">7</span> <span class="vhdlchar"> </span><span class="vhdlchar">DOWNTO</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar">)</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em> , </td>
+          <td class="paramtype"><span class="keywordtype">variable </span> &#160;</td>
+          <td class="paramname"><b><span class="vhdlchar">g</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="keywordflow">in</span><span class="vhdlchar"> </span><span class="comment">unsigned</span><span class="vhdlchar">(</span><span class="vhdlchar"> </span> <span class="vhdldigit">7</span> <span class="vhdlchar"> </span><span class="keywordflow">downto</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar">)</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em> , </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><span class="keywordtype">VARIABLE </span> &#160;</td>
-          <td class="paramname"><b><span class="vhdlchar">B</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="vhdlchar">in</span><span class="vhdlchar"> </span><span class="vhdlchar">UNSIGNED</span><span class="vhdlchar">(</span><span class="vhdlchar"> </span> <span class="vhdldigit">7</span> <span class="vhdlchar"> </span><span class="vhdlchar">DOWNTO</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar">)</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em> , </td>
+          <td class="paramtype"><span class="keywordtype">variable </span> &#160;</td>
+          <td class="paramname"><b><span class="vhdlchar">b</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="keywordflow">in</span><span class="vhdlchar"> </span><span class="comment">unsigned</span><span class="vhdlchar">(</span><span class="vhdlchar"> </span> <span class="vhdldigit">7</span> <span class="vhdlchar"> </span><span class="keywordflow">downto</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar">)</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em> , </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><span class="keywordtype">VARIABLE </span> &#160;</td>
-          <td class="paramname"><b><span class="vhdlchar">Y</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="vhdlchar">out</span><span class="vhdlchar"> </span><span class="vhdlchar">UNSIGNED</span><span class="vhdlchar">(</span><span class="vhdlchar"> </span> <span class="vhdldigit">9</span> <span class="vhdlchar"> </span><span class="vhdlchar">DOWNTO</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar">)</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em> , </td>
+          <td class="paramtype"><span class="keywordtype">variable </span> &#160;</td>
+          <td class="paramname"><b><span class="vhdlchar">y</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="keywordflow">out</span><span class="vhdlchar"> </span><span class="comment">unsigned</span><span class="vhdlchar">(</span><span class="vhdlchar"> </span> <span class="vhdldigit">9</span> <span class="vhdlchar"> </span><span class="keywordflow">downto</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar">)</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em> , </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><span class="keywordtype">VARIABLE </span> &#160;</td>
-          <td class="paramname"><b><span class="vhdlchar">Cb</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="vhdlchar">out</span><span class="vhdlchar"> </span><span class="vhdlchar">UNSIGNED</span><span class="vhdlchar">(</span><span class="vhdlchar"> </span> <span class="vhdldigit">9</span> <span class="vhdlchar"> </span><span class="vhdlchar">DOWNTO</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar">)</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em> , </td>
+          <td class="paramtype"><span class="keywordtype">variable </span> &#160;</td>
+          <td class="paramname"><b><span class="vhdlchar">cb</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="keywordflow">out</span><span class="vhdlchar"> </span><span class="comment">unsigned</span><span class="vhdlchar">(</span><span class="vhdlchar"> </span> <span class="vhdldigit">9</span> <span class="vhdlchar"> </span><span class="keywordflow">downto</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar">)</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em> , </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><span class="keywordtype">VARIABLE </span> &#160;</td>
-          <td class="paramname"><b><span class="vhdlchar">Cr</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="vhdlchar">out</span><span class="vhdlchar"> </span><span class="vhdlchar">UNSIGNED</span><span class="vhdlchar">(</span><span class="vhdlchar"> </span> <span class="vhdldigit">9</span> <span class="vhdlchar"> </span><span class="vhdlchar">DOWNTO</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar">)</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em>&#160;</td>
+          <td class="paramtype"><span class="keywordtype">variable </span> &#160;</td>
+          <td class="paramname"><b><span class="vhdlchar">cr</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="keywordflow">out</span><span class="vhdlchar"> </span><span class="comment">unsigned</span><span class="vhdlchar">(</span><span class="vhdlchar"> </span> <span class="vhdldigit">9</span> <span class="vhdlchar"> </span><span class="keywordflow">downto</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar">)</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -315,7 +398,7 @@ Types</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Procedure to convert rgb variables into corresponding ycbcr components. </p>
+<p>procedure to convert rgb variables into corresponding ycbcr components </p>
 
 </div>
 </div>
@@ -329,8 +412,8 @@ Types</h2></td></tr>
         <tr>
           <td class="memname"> <b><span class="vhdlchar"> </span></b> write_bin_pixel</td>
           <td>(</td>
-          <td class="paramtype"><span class="keywordtype">VARIABLE </span> &#160;</td>
-          <td class="paramname"><b><span class="vhdlchar">pixel</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="vhdlchar">in</span><span class="vhdlchar"> </span><span class="vhdlchar">BOOLEAN</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em>&#160;</td>
+          <td class="paramtype"><span class="keywordtype">variable </span> &#160;</td>
+          <td class="paramname"><b><span class="vhdlchar">pixel</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="keywordflow">in</span><span class="vhdlchar"> </span><span class="comment">boolean</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -345,7 +428,7 @@ Types</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Generic procedure to write binary variable of a file The header must be written with PBM as image type. </p>
+<p>generic procedure to write binary variable of a file the header must be written with pbm as image type </p>
 
 </div>
 </div>
@@ -359,8 +442,8 @@ Types</h2></td></tr>
         <tr>
           <td class="memname"> <b><span class="vhdlchar"> </span></b> write_bin_pixel</td>
           <td>(</td>
-          <td class="paramtype"><span class="keywordtype">SIGNAL </span> &#160;</td>
-          <td class="paramname"><b><span class="vhdlchar">pixel</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="vhdlchar">in</span><span class="vhdlchar"> </span><span class="vhdlchar">STD_LOGIC</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em>&#160;</td>
+          <td class="paramtype"><span class="keywordtype">signal </span> &#160;</td>
+          <td class="paramname"><b><span class="vhdlchar">pixel</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="keywordflow">in</span><span class="vhdlchar"> </span><span class="comment">std_logic</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -375,7 +458,7 @@ Types</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Generic procedure to write binary signal of a file The header must be written with PBM as image type. </p>
+<p>generic procedure to write binary signal of a file the header must be written with pbm as image type </p>
 
 </div>
 </div>
@@ -389,26 +472,26 @@ Types</h2></td></tr>
         <tr>
           <td class="memname"> <b><span class="vhdlchar"> </span></b> write_pbmplus_header</td>
           <td>(</td>
-          <td class="paramtype"><span class="keywordtype">CONSTANT </span> &#160;</td>
-          <td class="paramname"><b><span class="vhdlchar">p_width</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="vhdlchar">in</span><span class="vhdlchar"> </span><span class="vhdlchar">INTEGER</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em> , </td>
+          <td class="paramtype"><span class="keywordtype">constant </span> &#160;</td>
+          <td class="paramname"><b><span class="vhdlchar">p_width</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="keywordflow">in</span><span class="vhdlchar"> </span><span class="comment">integer</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em> , </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><span class="keywordtype">CONSTANT </span> &#160;</td>
-          <td class="paramname"><b><span class="vhdlchar">p_height</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="vhdlchar">in</span><span class="vhdlchar"> </span><span class="vhdlchar">INTEGER</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em> , </td>
+          <td class="paramtype"><span class="keywordtype">constant </span> &#160;</td>
+          <td class="paramname"><b><span class="vhdlchar">p_height</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="keywordflow">in</span><span class="vhdlchar"> </span><span class="comment">integer</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em> , </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><span class="keywordtype">CONSTANT </span> &#160;</td>
-          <td class="paramname"><b><span class="vhdlchar">max_value</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="vhdlchar">in</span><span class="vhdlchar"> </span><span class="vhdlchar">INTEGER</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em> , </td>
+          <td class="paramtype"><span class="keywordtype">constant </span> &#160;</td>
+          <td class="paramname"><b><span class="vhdlchar">max_value</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="keywordflow">in</span><span class="vhdlchar"> </span><span class="comment">integer</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em> , </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><span class="keywordtype">CONSTANT </span> &#160;</td>
-          <td class="paramname"><b><span class="vhdlchar">type_of_pbm</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="vhdlchar">in</span><span class="vhdlchar"> </span><b><a class="el" href="classimage__io__pkg.html#af03880b1bca9021fd32993e5e5bba862">pbmplustype</a></b> <span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em>&#160;</td>
+          <td class="paramtype"><span class="keywordtype">constant </span> &#160;</td>
+          <td class="paramname"><b><span class="vhdlchar">type_of_pbm</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="keywordflow">in</span><span class="vhdlchar"> </span><b><a class="el" href="classimage__io__pkg.html#a6b0162e2588365bd0141ef3fce1b6efe">pbmplustype</a></b> <span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -423,14 +506,14 @@ Types</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Generic procedure for writing pbm plus headers. </p>
+<p>generic procedure for writing pbm plus headers </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">p_width</td><td>Width of image in pixels </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">p_height</td><td>Height of image in pixels </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">max_value</td><td>Maximum pixel value possible </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">type_of_pbm</td><td>Image type used to determine magic identifier </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">p_file</td><td>Opened target file to write header to </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">p_width</td><td>width of image in pixels </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">p_height</td><td>height of image in pixels </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">max_value</td><td>maximum pixel value possible </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">type_of_pbm</td><td>image type used to determine magic identifier </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">p_file</td><td>opened target file to write header to </td></tr>
   </table>
   </dd>
 </dl>
@@ -447,8 +530,8 @@ Types</h2></td></tr>
         <tr>
           <td class="memname"> <b><span class="vhdlchar"> </span></b> write_pixel</td>
           <td>(</td>
-          <td class="paramtype"><span class="keywordtype">VARIABLE </span> &#160;</td>
-          <td class="paramname"><b><span class="vhdlchar">pixel</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="vhdlchar">in</span><span class="vhdlchar"> </span><span class="vhdlchar">INTEGER</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em>&#160;</td>
+          <td class="paramtype"><span class="keywordtype">variable </span> &#160;</td>
+          <td class="paramname"><b><span class="vhdlchar">pixel</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="keywordflow">in</span><span class="vhdlchar"> </span><span class="comment">integer</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -463,7 +546,7 @@ Types</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Generic procedure for writing single pixel value from variable to pbm file. </p>
+<p>generic procedure for writing single pixel value from variable to pbm file </p>
 
 </div>
 </div>
@@ -477,8 +560,8 @@ Types</h2></td></tr>
         <tr>
           <td class="memname"> <b><span class="vhdlchar"> </span></b> write_pixel</td>
           <td>(</td>
-          <td class="paramtype"><span class="keywordtype">SIGNAL </span> &#160;</td>
-          <td class="paramname"><b><span class="vhdlchar">pixel</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="vhdlchar">in</span><span class="vhdlchar"> </span><span class="vhdlchar">STD_LOGIC_VECTOR</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em>&#160;</td>
+          <td class="paramtype"><span class="keywordtype">signal </span> &#160;</td>
+          <td class="paramname"><b><span class="vhdlchar">pixel</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="keywordflow">in</span><span class="vhdlchar"> </span><span class="comment">std_logic_vector</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -493,7 +576,7 @@ Types</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Generic procedure for writing single pixel value from signal to pbm file. </p>
+<p>generic procedure for writing single pixel value from signal to pbm file </p>
 
 </div>
 </div>
@@ -507,20 +590,20 @@ Types</h2></td></tr>
         <tr>
           <td class="memname"> <b><span class="vhdlchar"> </span></b> write_rgb_pixel</td>
           <td>(</td>
-          <td class="paramtype"><span class="keywordtype">VARIABLE </span> &#160;</td>
-          <td class="paramname"><b><span class="vhdlchar">pixel_r</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="vhdlchar">in</span><span class="vhdlchar"> </span><span class="vhdlchar">INTEGER</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em> , </td>
+          <td class="paramtype"><span class="keywordtype">variable </span> &#160;</td>
+          <td class="paramname"><b><span class="vhdlchar">pixel_r</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="keywordflow">in</span><span class="vhdlchar"> </span><span class="comment">integer</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em> , </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><span class="keywordtype">VARIABLE </span> &#160;</td>
-          <td class="paramname"><b><span class="vhdlchar">pixel_g</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="vhdlchar">in</span><span class="vhdlchar"> </span><span class="vhdlchar">INTEGER</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em> , </td>
+          <td class="paramtype"><span class="keywordtype">variable </span> &#160;</td>
+          <td class="paramname"><b><span class="vhdlchar">pixel_g</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="keywordflow">in</span><span class="vhdlchar"> </span><span class="comment">integer</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em> , </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><span class="keywordtype">VARIABLE </span> &#160;</td>
-          <td class="paramname"><b><span class="vhdlchar">pixel_b</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="vhdlchar">in</span><span class="vhdlchar"> </span><span class="vhdlchar">INTEGER</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em>&#160;</td>
+          <td class="paramtype"><span class="keywordtype">variable </span> &#160;</td>
+          <td class="paramname"><b><span class="vhdlchar">pixel_b</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="keywordflow">in</span><span class="vhdlchar"> </span><span class="comment">integer</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -535,7 +618,7 @@ Types</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Generic procedure to write rgb variable of a file The header must be written with PPM as image type. </p>
+<p>generic procedure to write rgb variable of a file the header must be written with ppm as image type </p>
 
 </div>
 </div>
@@ -549,20 +632,20 @@ Types</h2></td></tr>
         <tr>
           <td class="memname"> <b><span class="vhdlchar"> </span></b> write_rgb_pixel</td>
           <td>(</td>
-          <td class="paramtype"><span class="keywordtype">SIGNAL </span> &#160;</td>
-          <td class="paramname"><b><span class="vhdlchar">pixel_r</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="vhdlchar">in</span><span class="vhdlchar"> </span><span class="vhdlchar">UNSIGNED</span><span class="vhdlchar">(</span><span class="vhdlchar"> </span> <span class="vhdldigit">7</span> <span class="vhdlchar"> </span><span class="vhdlchar">DOWNTO</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar">)</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em> , </td>
+          <td class="paramtype"><span class="keywordtype">signal </span> &#160;</td>
+          <td class="paramname"><b><span class="vhdlchar">pixel_r</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="keywordflow">in</span><span class="vhdlchar"> </span><span class="comment">unsigned</span><span class="vhdlchar">(</span><span class="vhdlchar"> </span> <span class="vhdldigit">7</span> <span class="vhdlchar"> </span><span class="keywordflow">downto</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar">)</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em> , </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><span class="keywordtype">SIGNAL </span> &#160;</td>
-          <td class="paramname"><b><span class="vhdlchar">pixel_g</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="vhdlchar">in</span><span class="vhdlchar"> </span><span class="vhdlchar">UNSIGNED</span><span class="vhdlchar">(</span><span class="vhdlchar"> </span> <span class="vhdldigit">7</span> <span class="vhdlchar"> </span><span class="vhdlchar">DOWNTO</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar">)</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em> , </td>
+          <td class="paramtype"><span class="keywordtype">signal </span> &#160;</td>
+          <td class="paramname"><b><span class="vhdlchar">pixel_g</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="keywordflow">in</span><span class="vhdlchar"> </span><span class="comment">unsigned</span><span class="vhdlchar">(</span><span class="vhdlchar"> </span> <span class="vhdldigit">7</span> <span class="vhdlchar"> </span><span class="keywordflow">downto</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar">)</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em> , </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><span class="keywordtype">SIGNAL </span> &#160;</td>
-          <td class="paramname"><b><span class="vhdlchar">pixel_b</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="vhdlchar">in</span><span class="vhdlchar"> </span><span class="vhdlchar">UNSIGNED</span><span class="vhdlchar">(</span><span class="vhdlchar"> </span> <span class="vhdldigit">7</span> <span class="vhdlchar"> </span><span class="vhdlchar">DOWNTO</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar">)</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em>&#160;</td>
+          <td class="paramtype"><span class="keywordtype">signal </span> &#160;</td>
+          <td class="paramname"><b><span class="vhdlchar">pixel_b</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="keywordflow">in</span><span class="vhdlchar"> </span><span class="comment">unsigned</span><span class="vhdlchar">(</span><span class="vhdlchar"> </span> <span class="vhdldigit">7</span> <span class="vhdlchar"> </span><span class="keywordflow">downto</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar">)</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -577,7 +660,7 @@ Types</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Generic procedure to write rgb signal of a file The header must be written with PPM as image type. </p>
+<p>generic procedure to write rgb signal of a file the header must be written with ppm as image type </p>
 
 </div>
 </div>
@@ -591,20 +674,20 @@ Types</h2></td></tr>
         <tr>
           <td class="memname"> <b><span class="vhdlchar"> </span></b> write_ycbcr_pixel</td>
           <td>(</td>
-          <td class="paramtype"><span class="keywordtype">VARIABLE </span> &#160;</td>
-          <td class="paramname"><b><span class="vhdlchar">pixel_y</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="vhdlchar">in</span><span class="vhdlchar"> </span><span class="vhdlchar">INTEGER</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em> , </td>
+          <td class="paramtype"><span class="keywordtype">variable </span> &#160;</td>
+          <td class="paramname"><b><span class="vhdlchar">pixel_y</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="keywordflow">in</span><span class="vhdlchar"> </span><span class="comment">integer</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em> , </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><span class="keywordtype">VARIABLE </span> &#160;</td>
-          <td class="paramname"><b><span class="vhdlchar">pixel_cb</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="vhdlchar">in</span><span class="vhdlchar"> </span><span class="vhdlchar">INTEGER</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em> , </td>
+          <td class="paramtype"><span class="keywordtype">variable </span> &#160;</td>
+          <td class="paramname"><b><span class="vhdlchar">pixel_cb</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="keywordflow">in</span><span class="vhdlchar"> </span><span class="comment">integer</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em> , </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><span class="keywordtype">VARIABLE </span> &#160;</td>
-          <td class="paramname"><b><span class="vhdlchar">pixel_cr</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="vhdlchar">in</span><span class="vhdlchar"> </span><span class="vhdlchar">INTEGER</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em>&#160;</td>
+          <td class="paramtype"><span class="keywordtype">variable </span> &#160;</td>
+          <td class="paramname"><b><span class="vhdlchar">pixel_cr</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="keywordflow">in</span><span class="vhdlchar"> </span><span class="comment">integer</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -619,7 +702,7 @@ Types</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Generic procedure to write ycbcr variable of a file The header must be written with PPM as image type. </p>
+<p>generic procedure to write ycbcr variable of a file the header must be written with ppm as image type </p>
 
 </div>
 </div>
@@ -633,20 +716,20 @@ Types</h2></td></tr>
         <tr>
           <td class="memname"> <b><span class="vhdlchar"> </span></b> write_ycbcr_pixel</td>
           <td>(</td>
-          <td class="paramtype"><span class="keywordtype">SIGNAL </span> &#160;</td>
-          <td class="paramname"><b><span class="vhdlchar">pixel_y</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="vhdlchar">in</span><span class="vhdlchar"> </span><span class="vhdlchar">UNSIGNED</span><span class="vhdlchar">(</span><span class="vhdlchar"> </span> <span class="vhdldigit">9</span> <span class="vhdlchar"> </span><span class="vhdlchar">DOWNTO</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar">)</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em> , </td>
+          <td class="paramtype"><span class="keywordtype">signal </span> &#160;</td>
+          <td class="paramname"><b><span class="vhdlchar">pixel_y</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="keywordflow">in</span><span class="vhdlchar"> </span><span class="comment">unsigned</span><span class="vhdlchar">(</span><span class="vhdlchar"> </span> <span class="vhdldigit">9</span> <span class="vhdlchar"> </span><span class="keywordflow">downto</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar">)</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em> , </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><span class="keywordtype">SIGNAL </span> &#160;</td>
-          <td class="paramname"><b><span class="vhdlchar">pixel_cb</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="vhdlchar">in</span><span class="vhdlchar"> </span><span class="vhdlchar">UNSIGNED</span><span class="vhdlchar">(</span><span class="vhdlchar"> </span> <span class="vhdldigit">9</span> <span class="vhdlchar"> </span><span class="vhdlchar">DOWNTO</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar">)</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em> , </td>
+          <td class="paramtype"><span class="keywordtype">signal </span> &#160;</td>
+          <td class="paramname"><b><span class="vhdlchar">pixel_cb</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="keywordflow">in</span><span class="vhdlchar"> </span><span class="comment">unsigned</span><span class="vhdlchar">(</span><span class="vhdlchar"> </span> <span class="vhdldigit">9</span> <span class="vhdlchar"> </span><span class="keywordflow">downto</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar">)</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em> , </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><span class="keywordtype">SIGNAL </span> &#160;</td>
-          <td class="paramname"><b><span class="vhdlchar">pixel_cr</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="vhdlchar">in</span><span class="vhdlchar"> </span><span class="vhdlchar">UNSIGNED</span><span class="vhdlchar">(</span><span class="vhdlchar"> </span> <span class="vhdldigit">9</span> <span class="vhdlchar"> </span><span class="vhdlchar">DOWNTO</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar">)</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em>&#160;</td>
+          <td class="paramtype"><span class="keywordtype">signal </span> &#160;</td>
+          <td class="paramname"><b><span class="vhdlchar">pixel_cr</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="keywordflow">in</span><span class="vhdlchar"> </span><span class="comment">unsigned</span><span class="vhdlchar">(</span><span class="vhdlchar"> </span> <span class="vhdldigit">9</span> <span class="vhdlchar"> </span><span class="keywordflow">downto</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar">)</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -661,11 +744,11 @@ Types</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Generic procedure to write ycbcr signal of a file The header must be written with PPM as image type. </p>
+<p>generic procedure to write ycbcr signal of a file the header must be written with ppm as image type </p>
 
 </div>
 </div>
-<a class="anchor" id="a6ef07e819a7b67bcf9b029b10e5c4187"></a>
+<a class="anchor" id="aa5b6e7a5faffb672515c678890783edc"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -675,38 +758,38 @@ Types</h2></td></tr>
         <tr>
           <td class="memname"> <b><span class="vhdlchar"> </span></b> ycbcr_to_rgb</td>
           <td>(</td>
-          <td class="paramtype"><span class="keywordtype">VARIABLE </span> &#160;</td>
-          <td class="paramname"><b><span class="vhdlchar">Y</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="vhdlchar">in</span><span class="vhdlchar"> </span><span class="vhdlchar">UNSIGNED</span><span class="vhdlchar">(</span><span class="vhdlchar"> </span> <span class="vhdldigit">9</span> <span class="vhdlchar"> </span><span class="vhdlchar">DOWNTO</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar">)</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em> , </td>
+          <td class="paramtype"><span class="keywordtype">variable </span> &#160;</td>
+          <td class="paramname"><b><span class="vhdlchar">y</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="keywordflow">in</span><span class="vhdlchar"> </span><span class="comment">unsigned</span><span class="vhdlchar">(</span><span class="vhdlchar"> </span> <span class="vhdldigit">9</span> <span class="vhdlchar"> </span><span class="keywordflow">downto</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar">)</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em> , </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><span class="keywordtype">VARIABLE </span> &#160;</td>
-          <td class="paramname"><b><span class="vhdlchar">Cb</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="vhdlchar">in</span><span class="vhdlchar"> </span><span class="vhdlchar">UNSIGNED</span><span class="vhdlchar">(</span><span class="vhdlchar"> </span> <span class="vhdldigit">9</span> <span class="vhdlchar"> </span><span class="vhdlchar">DOWNTO</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar">)</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em> , </td>
+          <td class="paramtype"><span class="keywordtype">variable </span> &#160;</td>
+          <td class="paramname"><b><span class="vhdlchar">cb</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="keywordflow">in</span><span class="vhdlchar"> </span><span class="comment">unsigned</span><span class="vhdlchar">(</span><span class="vhdlchar"> </span> <span class="vhdldigit">9</span> <span class="vhdlchar"> </span><span class="keywordflow">downto</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar">)</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em> , </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><span class="keywordtype">VARIABLE </span> &#160;</td>
-          <td class="paramname"><b><span class="vhdlchar">Cr</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="vhdlchar">in</span><span class="vhdlchar"> </span><span class="vhdlchar">UNSIGNED</span><span class="vhdlchar">(</span><span class="vhdlchar"> </span> <span class="vhdldigit">9</span> <span class="vhdlchar"> </span><span class="vhdlchar">DOWNTO</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar">)</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em> , </td>
+          <td class="paramtype"><span class="keywordtype">variable </span> &#160;</td>
+          <td class="paramname"><b><span class="vhdlchar">cr</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="keywordflow">in</span><span class="vhdlchar"> </span><span class="comment">unsigned</span><span class="vhdlchar">(</span><span class="vhdlchar"> </span> <span class="vhdldigit">9</span> <span class="vhdlchar"> </span><span class="keywordflow">downto</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar">)</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em> , </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><span class="keywordtype">VARIABLE </span> &#160;</td>
-          <td class="paramname"><b><span class="vhdlchar">R</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="vhdlchar">out</span><span class="vhdlchar"> </span><span class="vhdlchar">UNSIGNED</span><span class="vhdlchar">(</span><span class="vhdlchar"> </span> <span class="vhdldigit">7</span> <span class="vhdlchar"> </span><span class="vhdlchar">DOWNTO</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar">)</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em> , </td>
+          <td class="paramtype"><span class="keywordtype">variable </span> &#160;</td>
+          <td class="paramname"><b><span class="vhdlchar">r</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="keywordflow">out</span><span class="vhdlchar"> </span><span class="comment">unsigned</span><span class="vhdlchar">(</span><span class="vhdlchar"> </span> <span class="vhdldigit">7</span> <span class="vhdlchar"> </span><span class="keywordflow">downto</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar">)</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em> , </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><span class="keywordtype">VARIABLE </span> &#160;</td>
-          <td class="paramname"><b><span class="vhdlchar">G</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="vhdlchar">out</span><span class="vhdlchar"> </span><span class="vhdlchar">UNSIGNED</span><span class="vhdlchar">(</span><span class="vhdlchar"> </span> <span class="vhdldigit">7</span> <span class="vhdlchar"> </span><span class="vhdlchar">DOWNTO</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar">)</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em> , </td>
+          <td class="paramtype"><span class="keywordtype">variable </span> &#160;</td>
+          <td class="paramname"><b><span class="vhdlchar">g</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="keywordflow">out</span><span class="vhdlchar"> </span><span class="comment">unsigned</span><span class="vhdlchar">(</span><span class="vhdlchar"> </span> <span class="vhdldigit">7</span> <span class="vhdlchar"> </span><span class="keywordflow">downto</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar">)</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em> , </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><span class="keywordtype">VARIABLE </span> &#160;</td>
-          <td class="paramname"><b><span class="vhdlchar">B</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="vhdlchar">out</span><span class="vhdlchar"> </span><span class="vhdlchar">UNSIGNED</span><span class="vhdlchar">(</span><span class="vhdlchar"> </span> <span class="vhdldigit">7</span> <span class="vhdlchar"> </span><span class="vhdlchar">DOWNTO</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar">)</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em>&#160;</td>
+          <td class="paramtype"><span class="keywordtype">variable </span> &#160;</td>
+          <td class="paramname"><b><span class="vhdlchar">b</span><span class="vhdlchar"> </span></b><span class="stringliteral"></span> <em><b><span class="keywordflow">out</span><span class="vhdlchar"> </span><span class="comment">unsigned</span><span class="vhdlchar">(</span><span class="vhdlchar"> </span> <span class="vhdldigit">7</span> <span class="vhdlchar"> </span><span class="keywordflow">downto</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">0</span> <span class="vhdlchar">)</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar"> </span></b></em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -721,7 +804,7 @@ Types</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Procedure to convert ycbcr variables into corresponding rgb components. </p>
+<p>procedure to convert ycbcr variables into corresponding rgb components </p>
 
 </div>
 </div>
@@ -744,7 +827,29 @@ Types</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Use standard library. </p>
+<p>use standard library </p>
+
+</div>
+</div>
+<a class="anchor" id="acb415f2e3abd505b8338da5b5bf9e2fb"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classimage__io__pkg.html#acb415f2e3abd505b8338da5b5bf9e2fb">math_real</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">Package</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>used only for calculation of constants </p>
 
 </div>
 </div>
@@ -766,11 +871,11 @@ Types</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Needed for colorscheme calculations. </p>
+<p>needed for colorscheme calculations </p>
 
 </div>
 </div>
-<a class="anchor" id="af03880b1bca9021fd32993e5e5bba862"></a>
+<a class="anchor" id="a6b0162e2588365bd0141ef3fce1b6efe"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -778,7 +883,7 @@ Types</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classimage__io__pkg.html#af03880b1bca9021fd32993e5e5bba862">pbmplustype</a> <b><span class="vhdlchar">(</span><span class="vhdlchar"> </span><span class="vhdlchar">PBM</span><span class="vhdlchar"> </span><span class="vhdlchar">,</span><span class="vhdlchar"> </span><span class="vhdlchar">PGM</span><span class="vhdlchar"> </span><span class="vhdlchar">,</span><span class="vhdlchar"> </span><span class="vhdlchar">PPM</span><span class="vhdlchar"> </span><span class="vhdlchar">)</span><span class="vhdlchar"> </span></b> </td>
+          <td class="memname"><a class="el" href="classimage__io__pkg.html#a6b0162e2588365bd0141ef3fce1b6efe">pbmplustype</a> <b><span class="vhdlchar">(</span><span class="vhdlchar"> </span><span class="vhdlchar">pbm</span><span class="vhdlchar"> </span><span class="vhdlchar">,</span><span class="vhdlchar"> </span><span class="vhdlchar">pgm</span><span class="vhdlchar"> </span><span class="vhdlchar">,</span><span class="vhdlchar"> </span><span class="vhdlchar">ppm</span><span class="vhdlchar"> </span><span class="vhdlchar">)</span><span class="vhdlchar"> </span></b> </td>
         </tr>
       </table>
   </td>
@@ -788,9 +893,11 @@ Types</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>three types can be selected, these types are specified in the detailed description </p>
+
 </div>
 </div>
-<a class="anchor" id="afacaf1921c0c52dbf16daca2b32a8094"></a>
+<a class="anchor" id="aac5c9226cf2218d288ec4a9f5f472b50"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -798,7 +905,7 @@ Types</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classimage__io__pkg.html#afacaf1921c0c52dbf16daca2b32a8094">pixel_array</a> <b><span class="vhdlchar">array</span><span class="vhdlchar"> </span><span class="vhdlchar">(</span><span class="vhdlchar"> </span><span class="vhdlchar">INTEGER</span><span class="vhdlchar"> </span><span class="vhdlchar">range</span><span class="vhdlchar"> </span><span class="vhdlchar">&lt;&gt;</span><span class="vhdlchar"> </span><span class="vhdlchar">)</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar">of</span><span class="vhdlchar"> </span><span class="vhdlchar">INTEGER</span><span class="vhdlchar"> </span></b> </td>
+          <td class="memname"><a class="el" href="classimage__io__pkg.html#aac5c9226cf2218d288ec4a9f5f472b50">pixel_array</a> <b><span class="keywordflow">array</span><span class="vhdlchar"> </span><span class="vhdlchar">(</span><span class="vhdlchar"> </span><span class="comment">integer</span><span class="vhdlchar"> </span><span class="keywordflow">range</span><span class="vhdlchar"> </span><span class="vhdlchar">&lt;&gt;</span><span class="vhdlchar"> </span><span class="vhdlchar">)</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="keywordflow">of</span><span class="vhdlchar"> </span><span class="comment">integer</span><span class="vhdlchar"> </span></b> </td>
         </tr>
       </table>
   </td>
@@ -808,7 +915,7 @@ Types</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>To accomodate for unknown arrays of pixels array writing is also possible. </p>
+<p>to accomodate for unknown arrays of pixels array writing is also possible </p>
 
 </div>
 </div>
@@ -830,7 +937,7 @@ Types</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Use std_logic_vector. </p>
+<p>use std_logic_vector </p>
 
 </div>
 </div>
@@ -852,17 +959,37 @@ Types</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Used for writing and reading images. </p>
+<p>used for writing and reading images </p>
+
+</div>
+</div>
+<a class="anchor" id="ab097725c46b60cb3e1831b888f9c6289"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classimage__io__pkg.html#ab097725c46b60cb3e1831b888f9c6289">wordsize</a> <b><span class="comment">integer</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="vhdlchar">:</span><span class="vhdlchar">=</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span> <span class="vhdldigit">8</span> <span class="vhdlchar"> </span></b> </td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">Constant</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>src/<a class="el" href="image__io__pkg_8vhd.html">image_io_pkg.vhd</a></li>
+<li>/home/ben/Programming/VHDL/realtimestagram/src/<a class="el" href="image__io__pkg_8vhd.html">image_io_pkg.vhd</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Oct 7 2014 00:11:48 for Realtimestagram by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Oct 12 2014 12:09:11 for Realtimestagram by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.8
 </small></address>

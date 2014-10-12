@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['line_5fcounters',['LINE_COUNTERS',['../classcurve__adjust__tb_1_1curve__adjust__tb.html#aede29589611b6596e0038b396762e605',1,'curve_adjust_tb::curve_adjust_tb']]]
+  ['create_5flookup_5ftable',['create_lookup_table',['../classcurve__adjust_1_1curve__adjust.html#af7d165126d1f3dd52224d9404fdc7bdb',1,'curve_adjust::curve_adjust']]],
+  ['curve_5fadjustment',['curve_adjustment',['../classcurve__adjust_1_1curve__adjust.html#ad90a78d8c911ae7fa5d91bb41cb49654',1,'curve_adjust::curve_adjust']]]
 ];

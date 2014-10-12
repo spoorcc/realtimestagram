@@ -7,12 +7,12 @@
 
 var indexSectionsWithContent =
 {
-  0: "_cefhilnoprstvwy",
+  0: "_acefilmnprstwy",
   1: "_ci",
   2: "ci",
-  3: "ci",
-  4: "lprwy",
-  5: "cefhinoprstvw"
+  3: "cir",
+  4: "cprwy",
+  5: "acefilmnprstw"
 };
 
 var indexSectionNames =
