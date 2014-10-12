@@ -1,4 +1,4 @@
-\form#0:\[p_{out}=p_{in} \]
-\form#1:\[p_{out}=p_{max}-p_{in} \]
-\form#2:\[p_{out}=\frac{p_{max}}{1+\exp({-c/p_{max}*(p_{in}-p_{max})})} \]
-\form#3:\[p_{out}=c*p_{max}*(\frac{p_{in}}{p_{max}})^{\gamma} \]
+\form#0:\[p_{out}=p_{max}-p_{in} \]
+\form#1:\[p_{out}=\frac{p_{max}}{1+\exp({-c/p_{max}*(p_{in}-p_{max})})} \]
+\form#2:\[p_{out}=c*p_{max}*(\frac{p_{in}}{p_{max}})^{\gamma} \]
+\form#3:\[p_{out}=p_{in} \]

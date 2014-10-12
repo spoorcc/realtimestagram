@@ -7,11 +7,11 @@
 
 var indexSectionsWithContent =
 {
-  0: "_acefilmnprstwy",
-  1: "_ci",
+  0: "_abcefilmnprstvwy",
+  1: "_bcil",
   2: "ci",
   3: "cir",
-  4: "cprwy",
+  4: "cprvwy",
   5: "acefilmnprstw"
 };
 
