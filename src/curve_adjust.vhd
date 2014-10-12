@@ -15,11 +15,11 @@
 
 --! <!------------------------------------------------------------------------------>
 --! <!------------------------------------------------------------------------------>
---! \class curve_adjust
---! \brief applies a curve adjustment
+--! \class lookup_table
+--! \brief returns a value from a pre generated lookup table
 --!
 --! \dot
---! digraph curve_adjust{
+--! digraph lookup_table{
 --!  
 --!  graph [rankdir=LR, splines=ortho, sep=5];
 --!  edge  [penwidth=2.2, arrowsize=.5]
@@ -34,7 +34,7 @@
 --!  subgraph cluster_0 {
 --!
 --!      color=gray100;
---!      label=curve_adjust;
+--!      label=lookup_table;
 --!      fontcolor=black;
 --!      fontname=sans;
 --!
@@ -56,57 +56,20 @@
 
 --------------------------------------------------------------------------------
 
---! Curves package used to control the curve adjust component
---!
---! Curves
---! =========
---!
---! Multiple curves are possible:
---! * Straight (used for testing purposes) 
---! * Negate   (Negates all  pixel values) 
---! * Sigmoid  (used for contrast enhancement)
---! * Gamma    (used for contrast distribution)
---!
---! Straight
---! ---------- 
---! The straight function is \f[p_{out}=p_{in} \f]
---! \image html straight.png
---!
---! Negate
---! ---------- 
---! The negate function is \f[p_{out}=p_{max}-p_{in} \f]
---! \image html negate.png
---!
---! Sigmoid
---! ---------- 
---! The sigmoid function is \f[p_{out}=\frac{p_{max}}{1+\exp({-c/p_{max}*(p_{in}-p_{max})})} \f]
---! \image html sigmoid.png
---!
---! Gamma
---! ---------- 
---! The gamma function is \f[p_{out}=c*p_{max}*(\frac{p_{in}}{p_{max}})^{\gamma} \f]
---! \image html gamma.png
-package curves is
-
-	type curvetype is ( straight, negate, sigmoid, gamma);
-
-end curves;
-
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
-use ieee.math_real.all;
 
-use work.curves.all;
+use work.curves_pkg.all;
 --============================================================================--
 --!
 --!
 --!
 --!
-entity curve_adjust is
+entity lookup_table is
   generic (
-    wordsize:             integer;  --! input image wordsize in bits
-    curve_type:           curvetype --! selects the curvetype that is loaded into the Look Up Table
+    wordsize:             integer;    --! input image wordsize in bits
+    lut:                  array_pixel --! pre generated lookup table
   );
   port (
     clk:                  in std_logic;       --! completely clocked process
@@ -120,65 +83,14 @@ end entity;
 
 --============================================================================--
 
-architecture curve_adjust of curve_adjust is
-
-    --! \brief array of std_logic_vectors
-    type array_pixel is array (natural range <>) of std_logic_vector(wordsize-1 downto 0);
-
-
-    --! \fn create_lookup_table
-    --! \brief creates a lookup table using some predefined formula 
-    --! \details
-    --!  calculates every value and after that returns and integer array 
-    --! \param[in] size integer number of elements in returned array
-    function create_lookup_table(size: integer;                     --! Number of elements to create 
-                                 curve_type: curvetype := sigmoid)  --! The type of curve to calculate
-        return array_pixel is
-
-        variable return_value: array_pixel(0 to size - 1); --! Filled Look up table
-        
-        variable exponent: real := 0.0;   --! temp variable used for calculation
-        variable calc_val: real := 0.0;   --! The calculated real_value 
-        constant max_val:  real := 255.0; --! The maximum value possible, used in calculation and asserting the values are in range
-        constant c:        real := 1.0;   --! The amplification factor
-        constant g:        real := 0.5;   --! The gamma factor used for the gamma correction
-    begin
-    --!TODO: Clean up
-        for i in return_value'range loop
-
-            curve_sel: case curve_type is
-                when straight =>
-                    calc_val := real(i);
-                when negate =>
-                    calc_val := max_val-real(i);
-                when sigmoid =>
-                    exponent := (c/max_val)*(real(i) - max_val * 0.5 );
-                    calc_val := ceil(max_val / (real(1) + exp(-exponent)));
-                when gamma =>
-                    calc_val := c*max_val*(real(i)/max_val)**g;
-                end case;
-
-            report "LUT[" & integer'image(i) & "]: " & integer'image(integer(calc_val));
-            assert(integer(calc_val) <= integer(max_val)) report "LUT filled with invalid value: " & integer'image(integer(calc_val)) severity failure;
-            assert(integer(calc_val) >= 0) report "LUT filled with invalid value" severity failure;
-
-            return_value(i) := std_logic_vector(to_unsigned(integer(calc_val), wordsize));
-
-        end loop;
-        return return_value;
-    end function create_lookup_table;
+architecture behavioural of lookup_table is
     
     -- signal declarations
     signal lut_value_s:       std_logic_vector((wordsize-1) downto 0);
 
-    --! Look up table size  
-    constant lut_size_c: natural := 2**wordsize;
-
-    --! Generated lookup table
-    constant lut_contents: array_pixel(0 to (lut_size_c-1)) := create_lookup_table(lut_size_c, curve_type); 
 begin
     
-    --! \brief clocked process that outputs the curve on each rising edge if enable is true 
+    --! \brief clocked process that outputs LUT-value on each rising edge if enable is true 
     --! \param[in] clk clock
     --! \param[in] rst asynchronous reset
     curve_adjustment : process(clk, rst)
@@ -189,7 +101,7 @@ begin
         elsif rising_edge(clk) then
 
             if enable = '1' then
-                lut_value_s <= lut_contents(to_integer(unsigned(pixel_i)));
+                lut_value_s <= lut(to_integer(unsigned(pixel_i)));
                 pixel_o <= lut_value_s;
             else
                 pixel_o <= (others => '0');

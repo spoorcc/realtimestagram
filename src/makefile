@@ -36,10 +36,13 @@ curve_adjust_tb: config_const_pkg.o image_io_pkg.o curve_adjust.o curve_adjust_t
 config_const_pkg.o: config_const_pkg.vhd
 	$(CC) -a $(EFLAGS) config_const_pkg.vhd
 
+curves_pkg.o: curves_pkg.vhd
+	$(CC) -a $(EFLAGS) curves_pkg.vhd
+
 image_io_pkg.o: image_io_pkg.vhd
 	$(CC) -a $(EFLAGS) image_io_pkg.vhd
 
-curve_adjust.o: curve_adjust.vhd
+curve_adjust.o: curve_adjust.vhd curves_pkg.o
 	$(CC) -a $(EFLAGS) curve_adjust.vhd
 
 curve_adjust_tb.o: curve_adjust_tb.vhd
