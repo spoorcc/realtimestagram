@@ -45,7 +45,10 @@ image_io_pkg.o: image_io_pkg.vhd
 lookup_table.o: lookup_table.vhd curves_pkg.o
 	$(CC) -a $(EFLAGS) lookup_table.vhd
 
-curve_adjust_tb.o: curve_adjust_tb.vhd
+test_bench_driver.o: test_bench_driver.vhd image_io_pkg.o config_const_pkg.o
+	$(CC) -a $(EFLAGS) test_bench_driver.vhd
+
+curve_adjust_tb.o: curve_adjust_tb.vhd test_bench_driver.o
 	$(CC) -a $(EFLAGS) curve_adjust_tb.vhd
 
 # Housekeeping
