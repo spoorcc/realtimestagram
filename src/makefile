@@ -29,7 +29,7 @@ MKDIR_P = mkdir -p
 all: curve_adjust_tb
 
 # Binaries
-curve_adjust_tb: config_const_pkg.o image_io_pkg.o curve_adjust.o curve_adjust_tb.o 
+curve_adjust_tb: config_const_pkg.o image_io_pkg.o lookup_table.o curve_adjust_tb.o 
 	$(CC) -e $(AFLAGS) -o ${BLDDIR}/curve_adjust_tb curve_adjust_tb 
 
 # Objects
@@ -42,8 +42,8 @@ curves_pkg.o: curves_pkg.vhd
 image_io_pkg.o: image_io_pkg.vhd
 	$(CC) -a $(EFLAGS) image_io_pkg.vhd
 
-curve_adjust.o: curve_adjust.vhd curves_pkg.o
-	$(CC) -a $(EFLAGS) curve_adjust.vhd
+lookup_table.o: lookup_table.vhd curves_pkg.o
+	$(CC) -a $(EFLAGS) lookup_table.vhd
 
 curve_adjust_tb.o: curve_adjust_tb.vhd
 	$(CC) -a $(EFLAGS) curve_adjust_tb.vhd
