@@ -56,27 +56,49 @@
 --!
 --! Multiple curves are possible:
 --! * Straight (used for testing purposes) 
---! * Sigmoid (used for contrast enhancement)
+--! * Negate   (Negates all  pixel values) 
+--! * Sigmoid  (used for contrast enhancement)
+--! * Gamma    (used for contrast distribution)
 --!
 --! Straight
 --! ---------- 
+--! The straight function is \f[p_{out}=p_{in} \f]
 --! \image html straight.png
 --!
+--! Negate
+--! ---------- 
+--! The negate function is \f[p_{out}=p_{max}-p_{in} \f]
+--! \image html negate.png
 --!
 --! Sigmoid
 --! ---------- 
 --! The sigmoid function is \f[p_{out}=\frac{p_{max}}{1+\exp({-c/p_{max}*(p_{in}-p_{max})})} \f]
 --! \image html sigmoid.png
+--!
+--! Gamma
+--! ---------- 
+--! The gamma function is \f[p_{out}=c*p_{max}*(\frac{p_{in}}{p_{max}})^{\gamma} \f]
+--! \image html gamma.png
+--!
 --! <!------------------------------------------------------------------------------>
 --! <!------------------------------------------------------------------------------>
 
 --------------------------------------------------------------------------------
+
+
+package curves is
+
+	--! three types can be selected, these types are specified in the detailed description
+	type curvetype is (straight, sigmoid, negate, gamma);
+
+end curves;
 
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use ieee.math_real.all;
 
+use work.curves.all;
 --============================================================================--
 --!
 --!
@@ -84,7 +106,8 @@ use ieee.math_real.all;
 --!
 entity curve_adjust is
   generic (
-    wordsize:             integer  --! input image wordsize in bits
+    wordsize:             integer;  --! input image wordsize in bits
+    curve_type:           curvetype
   );
   port (
     clk:                  in std_logic;       --! completely clocked process
@@ -103,8 +126,6 @@ architecture curve_adjust of curve_adjust is
     --! \brief array of std_logic_vectors
     type array_pixel is array (natural range <>) of std_logic_vector(wordsize-1 downto 0);
 
-	--! three types can be selected, these types are specified in the detailed description
-	type curvetype is (straight, sigmoid);
 
     --! \fn create_lookup_table
     --! \brief creates a lookup table using some predefined formula 
@@ -120,7 +141,8 @@ architecture curve_adjust of curve_adjust is
         variable exponent: real := 0.0;
         variable calc_val: real := 0.0;
         constant max_val:  real := 255.0;
-        constant c:        real := 8.0;
+        constant c:        real := 1.0;
+        constant g:        real := 0.5;
     begin
     --!TODO: Clean up
         for i in return_value'range loop
@@ -128,14 +150,18 @@ architecture curve_adjust of curve_adjust is
             curve_sel: case curve_type is
                 when straight =>
                     calc_val := real(i);
+                when negate =>
+                    calc_val := max_val-real(i);
                 when sigmoid =>
                     exponent := (c/max_val)*(real(i) - max_val * 0.5 );
                     calc_val := ceil(max_val / (real(1) + exp(-exponent)));
+                when gamma =>
+                    calc_val := c*max_val*(real(i)/max_val)**g;
                 end case;
 
             report "LUT[" & integer'image(i) & "]: " & integer'image(integer(calc_val));
             assert(integer(calc_val) <= integer(max_val)) report "LUT filled with invalid value: " & integer'image(integer(calc_val)) severity failure;
-            assert(integer(calc_val) > 0) report "LUT filled with invalid value" severity failure;
+            assert(integer(calc_val) >= 0) report "LUT filled with invalid value" severity failure;
 
             return_value(i) := std_logic_vector(to_unsigned(integer(calc_val), wordsize));
 
@@ -150,7 +176,7 @@ architecture curve_adjust of curve_adjust is
     constant lut_size_c: natural := 2**wordsize;
 
     --! Generated lookup table
-    constant lut_contents: array_pixel(0 to (lut_size_c-1)) := create_lookup_table(lut_size_c); 
+    constant lut_contents: array_pixel(0 to (lut_size_c-1)) := create_lookup_table(lut_size_c, curve_type); 
 begin
     
     --! \brief clocked process that outputs the curve on each rising edge if enable is true 

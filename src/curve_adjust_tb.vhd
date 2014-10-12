@@ -20,6 +20,7 @@ use std.textio.all;
 
 use work.image_io_pkg.all;
 use work.config_const_pkg.all;
+use work.curves.all;
 
 --======================================================================================--
 
@@ -42,7 +43,8 @@ architecture curve_adjust_tb of curve_adjust_tb is
   --the design to test
     component curve_adjust is
     generic (
-        wordsize:             integer  --! input image wordsize in bits
+        wordsize:             integer;  --! input image wordsize in bits
+        curve_type:           curvetype
     );
     port (
         clk:           in std_logic;       --! completely clocked process
@@ -81,7 +83,8 @@ begin
   --! Device Under Test
   dut: curve_adjust
     generic map(
-      wordsize          => wordsize -- size of input pixel value in bits
+      wordsize          => wordsize, -- size of input pixel value in bits
+      curve_type        => gamma
     )
 
     port map(
