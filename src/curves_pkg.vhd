@@ -59,11 +59,14 @@ package curves_pkg is
     --! \brief array of std_logic_vectors
     type array_pixel is array (natural range <>) of std_logic_vector(wordsize-1 downto 0);
 
-    function create_lookup_table(size:  integer;                     --! Number of elements to create 
-                                 curve_type: curvetype )  --! The type of curve to calculate
+
+    function create_straight_lut(size:       integer)        --! Number of elements to create 
                                  return array_pixel;
 
-    function create_sigmoid_lut(size:       integer;                     --! Number of elements to create 
+    function create_negated_lut(size:       integer)        --! Number of elements to create 
+                                return array_pixel;
+
+    function create_sigmoid_lut(size:       integer;        --! Number of elements to create 
                                 c:          real := 1.0)    --! The amplification factor
                              return array_pixel;
 
@@ -82,41 +85,40 @@ end curves_pkg;
 
 package body curves_pkg is
  
-     function create_lookup_table(size:       integer;                     --! Number of elements to create 
-                                  curve_type: curvetype)  --! The type of curve to calculate
+    function create_straight_lut( size:    integer) --! Number of elements to create 
                                   return array_pixel is       
-        variable exponent: real := 0.0;   --! temp variable used for calculation
-        variable calc_val: real := 0.0;   --! The calculated real_value 
-        constant max_val:  real := 255.0; --! The maximum value possible, used in calculation and asserting the values are in range
-        constant c:        real := 1.0;   --! The amplification factor
-        constant g:        real := 0.5;   --! The gamma factor used for the gamma correction
+        variable calc_val: real := 0.0;                 --! The calculated real_value 
         variable return_value: array_pixel(0 to size-1);   --! 
     begin
-        assert(size = 256) report "Invalid size: " & integer'image(size) severity failure;
 
         for i in return_value'range loop
 
-            curve_sel: case curve_type is
-                when straight =>
-                    calc_val := real(i);
-                when negate =>
-                    calc_val := max_val-real(i);
-                when sigmoid =>
-                    exponent := (c/max_val)*(real(i) - max_val * 0.5 );
-                    calc_val := ceil(max_val / (real(1) + exp(-exponent)));
-                when gamma =>
-                    calc_val := c*max_val*(real(i)/max_val)**g;
-                end case;
-
+            calc_val := real(i);
             report_lut_value( calc_val, i);
-            verify_valid_value(calc_val, wordsize);
-
             return_value(i) := std_logic_vector(to_unsigned(integer(calc_val), wordsize));
 
         end loop;
 
         return return_value;
-    end  create_lookup_table;
+    end  create_straight_lut;
+
+    function create_negated_lut( size:    integer) --! Number of elements to create 
+                                  return array_pixel is       
+        variable calc_val: real := 0.0;                 --! The calculated real_value 
+        constant max_val:  real := real(2**wordsize)-1.0; --! The maximum value possible, used in calculation and asserting the values are in range
+        variable return_value: array_pixel(0 to size-1);   --! 
+    begin
+
+        for i in return_value'range loop
+
+            calc_val := max_val-real(i);
+            report_lut_value( calc_val, i);
+            return_value(i) := std_logic_vector(to_unsigned(integer(calc_val), wordsize));
+
+        end loop;
+
+        return return_value;
+    end  create_negated_lut;
 
     function create_sigmoid_lut(size:       integer;                     --! Number of elements to create 
                                 c:          real := 1.0)    --! The amplification factor
