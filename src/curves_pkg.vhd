@@ -76,6 +76,7 @@ package body curves_pkg is
         constant g:        real := 0.5;   --! The gamma factor used for the gamma correction
         variable return_value: array_pixel(0 to size-1);   --! 
     begin
+        assert(size = 256) report "Invalid size: " & integer'image(size) severity failure;
     --!TODO: Clean up
         for i in return_value'range loop
 
@@ -98,6 +99,7 @@ package body curves_pkg is
             return_value(i) := std_logic_vector(to_unsigned(integer(calc_val), wordsize));
 
         end loop;
+
         return return_value;
     end  create_lookup_table;
 end curves_pkg;
