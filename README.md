@@ -18,6 +18,7 @@ but are used to learn.
 Building/running
 ----------------
 * [GHDL](http://sourceforge.net/projects/ghdl-updates/) 
+* [GTKWave](http://gtkwave.sourceforge.net/) 
 
 Documentation
 -------------

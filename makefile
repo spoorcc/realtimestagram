@@ -15,10 +15,13 @@
 
 # 
 # To seperate source from build files, export them to the seperate bld folder
+TMPDIR=tmp
 BLDTMPDIR=bld/tmp
 BLDDIR=bld
 
 MKDIR_P = mkdir -p
+
+VIEW_CMD = /usr/bin/gtkwave
 
 .PHONY: all clean directories docs test
 
@@ -39,6 +42,10 @@ directories:
 docs:
 	@cd doc; make
 
-test:
-	@echo "Nothing yet!"
+test: all
+	@echo "Starting TB"
+	@$(BLDDIR)/curve_adjust_tb --vcdgz=$(TMPDIR)/curve_adjust_tb.vcdgz
+
+view:
+	@gunzip --stdout $(TMPDIR)/curve_adjust_tb.vcdgz | $(VIEW_CMD) --vcd  
 

@@ -256,7 +256,6 @@ package body image_io_pkg is
 
             pixel <= std_logic_vector(to_unsigned(pixel_int, wordsize));
         else
-            assert(1 = 0) report "End of file" severity failure;
             pixel <= std_logic_vector(to_unsigned(0, wordsize));
             end_of_file <= '1';
         end if;
