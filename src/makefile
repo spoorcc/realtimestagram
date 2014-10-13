@@ -24,33 +24,21 @@ EFLAGS='--workdir=$(BLDTMPDIR)'
 
 MKDIR_P = mkdir -p
 
+TB_DEPS = config_const_pkg.o image_io_pkg.o curves_pkg.o lookup_table.o test_bench_driver.o
+
 .PHONY: all clean
 
-all: curve_adjust_tb
+all: sigmoid_tb gamma_tb
 
-# Binaries
-curve_adjust_tb: config_const_pkg.o image_io_pkg.o lookup_table.o curve_adjust_tb.o 
-	$(CC) -e $(AFLAGS) -o ${BLDDIR}/curve_adjust_tb curve_adjust_tb 
+# Testbenches
+%_tb: $(TB_DEPS) %_tb.o 
+	$(CC) -e $(AFLAGS) -o ${BLDDIR}/$@ $@ 
 
 # Objects
-config_const_pkg.o: config_const_pkg.vhd
-	$(CC) -a $(EFLAGS) config_const_pkg.vhd
-
-curves_pkg.o: curves_pkg.vhd
-	$(CC) -a $(EFLAGS) curves_pkg.vhd
-
-image_io_pkg.o: image_io_pkg.vhd
-	$(CC) -a $(EFLAGS) image_io_pkg.vhd
-
-lookup_table.o: lookup_table.vhd curves_pkg.o
-	$(CC) -a $(EFLAGS) lookup_table.vhd
-
-test_bench_driver.o: test_bench_driver.vhd image_io_pkg.o config_const_pkg.o
-	$(CC) -a $(EFLAGS) test_bench_driver.vhd
-
-curve_adjust_tb.o: curve_adjust_tb.vhd test_bench_driver.o
-	$(CC) -a $(EFLAGS) curve_adjust_tb.vhd
+%.o : %.vhd
+	$(CC) -a $(AFLAGS) $<
 
 # Housekeeping
-clean: 
-	-rm -f *.cf # Remove any temp files from sytax checking
+clean:
+	@echo Removing any temp files from syntax checking
+	@-rm -f *.cf

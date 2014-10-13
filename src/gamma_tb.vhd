@@ -22,18 +22,19 @@ use work.curves_pkg.all;
 
 --======================================================================================--
 
-entity curve_adjust_tb is
+entity gamma_tb is
     generic (
         input_file:           string  := "tst/input_pixel.txt"; --! Input file of test 
-        output_file:          string  := "tst/sigmoid_output.pgm"; --! Output file of test 
+        output_file:          string  := "tst/gamma_output.pgm"; --! Output file of test 
 
-        c_factor:             real    := 15.0 --! Amount of contrast adjustment
+        gamma:                real    := 0.5;  --! Amount of contrast adjustment
+        c_factor:             real    := 1.0 --! Amount of contrast adjustment
     );
 end entity;
 
 --======================================================================================--
 
-architecture structural of curve_adjust_tb is
+architecture structural of gamma_tb is
 
   --===================component declaration===================--
 
@@ -64,7 +65,7 @@ architecture structural of curve_adjust_tb is
     component lookup_table is
         generic (
             wordsize:      integer     := const_wordsize;
-            lut:           array_pixel := create_sigmoid_lut(2**const_wordsize, c_factor)
+            lut:           array_pixel := create_gamma_lut(2**const_wordsize, gamma, c_factor)
         );
         port (
             clk:           in std_logic;
