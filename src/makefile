@@ -28,9 +28,9 @@ TB_DEPS = config_const_pkg.o image_io_pkg.o lookup_table.o test_bench_driver.o
 
 .PHONY: all clean
 
-all: sigmoid_tb
+all: sigmoid_tb gamma_tb
 
-# Binaries
+# Testbenches
 %_tb: $(TB_DEPS) %_tb.o 
 	$(CC) -e $(AFLAGS) -o ${BLDDIR}/$@ $@ 
 
