@@ -32,11 +32,16 @@ entity test_bench_driver is
         wordsize:             integer; --! size of input pixel value in bits
 
         input_file:           string;
-        output_file:          string
+        output_file:          string;
+
+        clk_period_ns:        time  := 2 ns;
+        rst_after:            time  := 42 ns;
+        rst_duration:         time  := 40 ns
     );
     port (
-        clk:                in std_logic;       --! completely clocked process
-        rst:                in std_logic;       --! asynchronous reset
+        clk:                out std_logic;       --! completely clocked process
+        rst:                out std_logic;       --! asynchronous reset
+        enable:             out std_logic;
 
         pixel_from_file:    out std_logic_vector((wordsize-1) downto 0);       --! the input pixel
 
@@ -48,7 +53,10 @@ end entity;
 architecture behavioural of test_bench_driver is
 
     --===================signal declaration===================--
-    signal enable:                    std_logic := '0';
+    signal tb_clk:                    std_logic := '0';
+    signal tb_rst:                    std_logic := '0';
+    signal tb_enable:                 std_logic := '0';
+
     signal end_of_file:               std_logic := '0';
 
     signal pixel_tmp: std_logic_vector(wordsize-1 downto 0) := (others => '0');
@@ -61,35 +69,52 @@ architecture behavioural of test_bench_driver is
     file file_output_pixel: text open write_mode is output_file;
 
 begin
+     --===================clock===================--
+     tb_clk <= not tb_clk after clk_period_ns;
+     clk <= tb_clk;
+
+     --===================rst===================--
+     tb_rst <= '0', '1' after rst_after, '0' after rst_after+rst_duration;
+     rst <= tb_rst;
+
+    --=================== enable ===============--
+    enable <= tb_enable;
+
+    process(tb_clk)
+    begin
+        if tb_rst = '1' then
+            tb_enable <= '1';
+        end if;
+        
+    end process;
 
     --=================== release ===============--
-    release_process: process(rst, end_of_file)
+    release_process: process(tb_rst, end_of_file)
     begin
-        if rst = '1' then
-            enable <= '1';  -- enable tb
+        if tb_rst = '1' then
+            tb_enable <= '1';  -- enable tb
         end if;
 
         if end_of_file = '1' then
-            enable <= '0';
+            tb_enable <= '0';
             
             assert(1 = 0) report "Input file done" severity failure;
         end if;
     end process;
 
     --===================process for reading input_pixels ===============--
-    reading_input_pixels: process(clk)
+    reading_input_pixels: process(tb_clk)
         variable li: line;
         variable pixel_value: integer;
     begin
 
         pixel_from_file <= pixel_tmp;
 
-        if rising_edge(clk) then
-        if rst = '0' then
-            if enable = '1' then
+        if rising_edge(tb_clk) then
+        if tb_rst = '0' then
+            if tb_enable = '1' then
 
-            read_pixel(file_input_pixel, pixel_tmp, end_of_file);
-
+                read_pixel(file_input_pixel, pixel_tmp, end_of_file);
 
             end if;
         end if;
@@ -97,7 +122,7 @@ begin
     end process;
 
     --===================process for writing output ===================================--
-    writing_output_file: process( clk )
+    writing_output_file: process( tb_clk )
 
         constant pgm_width         : integer := const_imagewidth;
         constant pgm_height        : integer := const_imageheight;
@@ -108,7 +133,7 @@ begin
         variable val: integer := 0;
 
     begin
-        if rising_edge(clk) then
+        if rising_edge(tb_clk) then
 
             if writeheader = '1' then
 
