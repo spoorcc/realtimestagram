@@ -24,7 +24,7 @@ EFLAGS='--workdir=$(BLDTMPDIR)'
 
 MKDIR_P = mkdir -p
 
-TB_DEPS = config_const_pkg.o image_io_pkg.o lookup_table.o test_bench_driver.o
+TB_DEPS = config_const_pkg.o image_io_pkg.o curves_pkg.o lookup_table.o test_bench_driver.o
 
 .PHONY: all clean
 

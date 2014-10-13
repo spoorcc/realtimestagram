@@ -21,13 +21,15 @@ BLDDIR=bld
 
 MKDIR_P = mkdir -p
 
+TESTBENCHES = sigmoid_tb gamma_tb
+
 VIEW_CMD = /usr/bin/gtkwave
 
 .PHONY: all clean directories docs test
 
-all: directories curve_adjust_tb
+all: directories test_benches
 
-curve_adjust_tb: 
+test_benches: 
 	@cd src; make
 
 clean:
@@ -43,9 +45,7 @@ docs:
 	@cd doc; make
 
 test: all
-	@echo "Starting TB"
-	@$(BLDDIR)/curve_adjust_tb --vcdgz=$(TMPDIR)/curve_adjust_tb.vcdgz
-
-view:
-	@gunzip --stdout $(TMPDIR)/curve_adjust_tb.vcdgz | $(VIEW_CMD) --vcd  
+	@echo "Starting TB "
+	@$(BLDDIR)/sigmoid_tb --vcdgz=$(TMPDIR)/sigmoid_tb.vcdgz
+	@$(BLDDIR)/gamma_tb --vcdgz=$(TMPDIR)/gamma_tb.vcdgz
 
