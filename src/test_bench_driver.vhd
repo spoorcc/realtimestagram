@@ -49,8 +49,9 @@ architecture behavioural of test_bench_driver is
 
     --===================signal declaration===================--
     signal enable:                    std_logic := '0';
-    signal start:                     std_logic := '0';
     signal end_of_file:               std_logic := '0';
+
+    signal pixel_tmp: std_logic_vector(wordsize-1 downto 0) := (others => '0');
 
     --===================file declaration===================--
     --! File containing pixels for input of the testbench
@@ -65,13 +66,11 @@ begin
     release_process: process(rst, end_of_file)
     begin
         if rst = '1' then
-        start <= '1';
-        enable <= '1';  -- enable tb
+            enable <= '1';  -- enable tb
         end if;
 
         if end_of_file = '1' then
             enable <= '0';
-            start <= '0';
             
             assert(1 = 0) report "Input file done" severity failure;
         end if;
@@ -82,11 +81,15 @@ begin
         variable li: line;
         variable pixel_value: integer;
     begin
+
+        pixel_from_file <= pixel_tmp;
+
         if rising_edge(clk) then
         if rst = '0' then
             if enable = '1' then
 
-            read_pixel(file_input_pixel, pixel_from_file, end_of_file);
+            read_pixel(file_input_pixel, pixel_tmp, end_of_file);
+
 
             end if;
         end if;
@@ -107,17 +110,18 @@ begin
     begin
         if rising_edge(clk) then
 
-        if writeheader = '1' then
+            if writeheader = '1' then
 
-            write_pbmplus_header( pgm_width, pgm_height, max_pixel_value, pgm, file_output_pixel );
-            writeheader := '0';
+                write_pbmplus_header( pgm_width, pgm_height, max_pixel_value, pgm, file_output_pixel );
+                writeheader := '0';
 
-        end if;
+            end if;
 
-        -- write output image 
-        val := to_integer(unsigned(pixel_to_file));
+            -- write output image 
+            val := to_integer(unsigned(pixel_to_file));
 
-        write_pixel( val, file_output_pixel);
+            --report integer'image(val);
+            write_pixel( val, file_output_pixel);
 
         end if;
     end process;

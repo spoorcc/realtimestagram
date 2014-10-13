@@ -27,7 +27,9 @@ entity curve_adjust_tb is
         wordsize:             integer := const_wordsize; --! size of input pixel value in bits
 
         input_file:           string  := "tst/input_pixel.txt"; 
-        output_file:          string  := "tst/output_pixel.pgm"
+        output_file:          string  := "tst/sigmoid_output.pgm";
+
+        c_factor:             real    := 5.0
     );
 end entity;
 
@@ -106,7 +108,7 @@ begin
   dut: lookup_table
     generic map(
       wordsize          => wordsize, -- size of input pixel value in bits
-      lut               => create_sigmoid_lut(2**wordsize, 5.0)
+      lut               => create_sigmoid_lut(2**wordsize, c_factor)
     )
 
     port map(
@@ -124,5 +126,12 @@ begin
   --===================rst===================--
   rst <= '0', '1' after 42 ns, '0' after 85 ns;
 
+    process(tb_clk)
+    begin
+        if rst = '1' then
+            enable <= '1';
+        end if;
+        
+    end process;
 
 end architecture;
