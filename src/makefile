@@ -24,20 +24,19 @@ EFLAGS='--workdir=$(BLDTMPDIR)'
 
 MKDIR_P = mkdir -p
 
+TB_DEPS = config_const_pkg.o image_io_pkg.o lookup_table.o test_bench_driver.o
+
 .PHONY: all clean
 
 all: sigmoid_tb
 
 # Binaries
-sigmoid_tb: config_const_pkg.o image_io_pkg.o lookup_table.o test_bench_driver.o sigmoid_tb.o 
-	$(CC) -e $(AFLAGS) -o ${BLDDIR}/sigmoid_tb sigmoid_tb 
+%_tb: $(TB_DEPS) %_tb.o 
+	$(CC) -e $(AFLAGS) -o ${BLDDIR}/$@ $@ 
 
 # Objects
 %.o : %.vhd
 	$(CC) -a $(AFLAGS) $<
-
-check : %.vhd
-	$(CC) -c $<
 
 # Housekeeping
 clean:
