@@ -21,7 +21,7 @@ BLDDIR=bld
 
 MKDIR_P = mkdir -p
 
-TESTBENCHES = sigmoid_tb gamma_tb
+TESTBENCHES = sigmoid_tb gamma_tb vignette_tb
 
 VIEW_CMD = /usr/bin/gtkwave
 
@@ -46,6 +46,7 @@ docs:
 
 test: all
 	@echo "Starting TB "
+	@$(BLDDIR)/vignette_tb --vcdgz=$(TMPDIR)/vignette_tb.vcdgz
 	@$(BLDDIR)/sigmoid_tb --vcdgz=$(TMPDIR)/sigmoid_tb.vcdgz
 	@$(BLDDIR)/gamma_tb --vcdgz=$(TMPDIR)/gamma_tb.vcdgz
 
