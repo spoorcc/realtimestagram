@@ -24,9 +24,13 @@ set grid
 set key left top
 
 # color definitions
-set style line 1  lc rgb '#0025ad' lt 1 lw 1.5
-set style line 2 lc rgb '#00ad31' lt 1 lw 1.5
+set style line 1 lc rgb '#0025ad' lt 1 lw 1.5
+set style line 2 lc rgb '#0042ad' lt 1 lw 1.5
+set style line 3 lc rgb '#007cad' lt 1 lw 1.5
+set style line 4 lc rgb '#00ada4' lt 1 lw 1.5
+set style line 5 lc rgb '#00ad6b' lt 1 lw 1.5
+set style line 6 lc rgb '#00ad31' lt 1 lw 1.5
 
 f(x,c) = (sin(pi/w *x)**c)
 
-plot for [c=1:2] f(x,c) ls c title sprintf("C = %1.2f",c)
+plot for [c=1:6] f(x,c) ls c title sprintf("C = %1.2f",c)

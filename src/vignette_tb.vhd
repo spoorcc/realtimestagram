@@ -17,7 +17,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
---! Used for calculation of h_count and v_cunt port width
+--! Used for calculation of h_count and v_count port width
 use ieee.math_real.all;
 
 use work.config_const_pkg.all;
@@ -60,9 +60,9 @@ architecture structural of vignette_tb is
             h_count:            out std_logic_vector;
             v_count:            out std_logic_vector;
 
-            pixel_from_file:    out std_logic_vector((wordsize-1) downto 0);
+            pixel_from_file:    out std_logic_vector;
 
-            pixel_to_file:      in std_logic_vector((wordsize-1) downto 0)
+            pixel_to_file:      in std_logic_vector
         );
     end component;
 
