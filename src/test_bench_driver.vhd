@@ -169,16 +169,16 @@ begin
 
             if  tb_enable = '1' then
             
-                if h_count_var < const_imagewidth then
+                if h_count_var < const_imagewidth-1 then
                     h_count_var := h_count_var + 1;
                 else
                     h_count_var := 0;
-                end if;
 
-                if v_count_var < const_imageheight then
-                    v_count_var := v_count_var + 1;
-                else
-                    v_count_var := 0;
+                    if v_count_var < const_imageheight-1 then
+                        v_count_var := v_count_var + 1;
+                    else
+                        v_count_var := 0;
+                    end if;
                 end if;
 
                 h_count <= std_logic_vector(to_unsigned(h_count_var, h_count_size)); 

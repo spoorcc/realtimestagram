@@ -170,7 +170,7 @@ begin
                 lut_x_lut_y <= to_integer(unsigned(lut_value_x)) * to_integer(unsigned(lut_value_y));
 
                 pixel_o_slv := std_logic_vector(to_unsigned(lut_x_lut_y * p1, 3*wordsize));
-                pixel_o     <= pixel_o_slv(3*wordsize-1 downto 2*wordsize-1);
+                pixel_o     <= pixel_o_slv(3*wordsize-1 downto 2*wordsize);
             else
                 pixel_o <= (others => '0');
             end if; -- end if enable = '1'

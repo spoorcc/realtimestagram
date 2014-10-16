@@ -113,8 +113,8 @@ begin
             rst             => rst,
             enable          => enable,
         
-            h_count           => h_count,
-            v_count           => v_count,
+            h_count         => h_count,
+            v_count         => v_count,
 
             pixel_from_file => pixel_from_file,
             pixel_to_file   => pixel_to_file
@@ -122,15 +122,15 @@ begin
 
     device_under_test: vignette
         port map(
-            clk               => clk,
-            rst               => rst,
-            enable            => enable,
+            clk             => clk,
+            rst             => rst,
+            enable          => enable,
 
-            h_count           => h_count,
-            v_count           => v_count,
+            h_count         => h_count,
+            v_count         => v_count,
 
-            pixel_i           => pixel_from_file,
-            pixel_o           => pixel_to_file
+            pixel_i         => pixel_from_file,
+            pixel_o         => pixel_to_file
         );
 
 end architecture;
