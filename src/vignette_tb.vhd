@@ -57,6 +57,9 @@ architecture structural of vignette_tb is
             rst:                out std_logic;
             enable:             out std_logic;
 
+            h_count:            out std_logic_vector;
+            v_count:            out std_logic_vector;
+
             pixel_from_file:    out std_logic_vector((wordsize-1) downto 0);
 
             pixel_to_file:      in std_logic_vector((wordsize-1) downto 0)
@@ -110,6 +113,9 @@ begin
             rst             => rst,
             enable          => enable,
         
+            h_count           => h_count,
+            v_count           => v_count,
+
             pixel_from_file => pixel_from_file,
             pixel_to_file   => pixel_to_file
         );
