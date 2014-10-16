@@ -17,6 +17,9 @@ set output 'bld/vignette.png'
 set title "Vignette"
 set nokey
 
+set xlabel ""
+set ylabel ""
+
 set xrange [0:(w-1)]
 set yrange [0:(h-1)]
 set zrange [0:max_val-1]
@@ -24,4 +27,4 @@ set samples w,h
 set pm3d map interpolate 0,0
 set palette gray
 
-splot sin(pi/w * x) + sin(pi/h * y)
+splot (sin(pi/w * x) * sin(pi/h * y))**2
