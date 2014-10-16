@@ -92,6 +92,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
+use work.curves_pkg.all;
 --============================================================================--
 --!
 --!
@@ -114,9 +115,9 @@ entity vignette is
     h_count:              in std_logic_vector((wordsize-1) downto 0); --! x-coordinate of input pixel 
     v_count:              in std_logic_vector((wordsize-1) downto 0); --! y-coordinate of input pixel 
 
-    pixel_i:              in std_logic_vector((wordsize-1) downto 0);       --! the input pixel
+    pixel_i:              in std_logic_vector((wordsize-1) downto 0); --! the input pixel
 
-    pixel_o:              out std_logic_vector((wordsize-1) downto 0)       --! the output pixel
+    pixel_o:              out std_logic_vector((wordsize-1) downto 0) --! the output pixel
   );
 end entity;
 
@@ -128,10 +129,10 @@ architecture behavioural of vignette is
     signal lut_value_x:       std_logic_vector((wordsize-1) downto 0); --! Value from LUT_x
     signal lut_value_y:       std_logic_vector((wordsize-1) downto 0); --! Value from LUT_y
 
-    signal lut_x_lut_y:       std_logic_vector((2*wordsize-1) downto 0); --! LUT_x * LUT_y
+    signal lut_x_lut_y:       natural range 0 to 2**(2*wordsize); --! LUT_x * LUT_y
 
-    signal p0:                std_logic_vector((wordsize-1) downto 0); --! buffered pix_in
-    signal p1:                std_logic_vector((wordsize-1) downto 0); --! buffered pix_in
+    signal p0:                natural range 0 to 2**(wordsize); --! buffered pix_in
+    signal p1:                natural range 0 to 2**(wordsize); --! buffered pix_in
 
 begin
     
@@ -139,29 +140,31 @@ begin
     --! \param[in] clk clock
     --! \param[in] rst asynchronous reset
     curve_adjustment : process(clk, rst)
+        variable pixel_o_slv : std_logic_vector(3*wordsize-1 downto 0) := (others => '0');
     begin
         if rst = '1' then
             lut_value_x  <= (others => '0');
             lut_value_y  <= (others => '0');
 
-            lut_x_lut_y  <= (others => '0');
+            lut_x_lut_y  <= 0;
 
-            p0  <= (others => '0');
-            p1  <= (others => '0');
+            p0  <= 0;
+            p1  <= 0;
 
             pixel_o <= (others => '0');
 
         elsif rising_edge(clk) then
 
             if enable = '1' then
-                p0 <= pixel_i;
-                lut_value_x <= lut(to_integer(unsigned(h_count)));
-                lut_value_y <= lut(to_integer(unsigned(v_count)));
+                p0 <= to_integer(unsigned(pixel_i));
+                lut_value_x <= lut_x(to_integer(unsigned(h_count)));
+                lut_value_y <= lut_y(to_integer(unsigned(v_count)));
 
                 p1 <= p0;
-                lut_x_lut_y <= lut_value_x * lut_value_y;
+                lut_x_lut_y <= to_integer(unsigned(lut_value_x)) * to_integer(unsigned(lut_value_y));
 
-                pixel_o <= lut_x_lut_y * p1;
+                pixel_o_slv := std_logic_vector(to_unsigned(lut_x_lut_y * p1, 3*wordsize));
+                pixel_o     <= pixel_o_slv(3*wordsize-1 downto 2*wordsize-1);
             else
                 pixel_o <= (others => '0');
             end if; -- end if enable = '1'
