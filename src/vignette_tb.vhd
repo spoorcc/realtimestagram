@@ -71,8 +71,8 @@ architecture structural of vignette_tb is
             width:                integer := image_width;
             height:               integer := image_height;
 
-            lut_x:                array_pixel;
-            lut_y:                array_pixel
+            lut_x:                array_pixel := create_sine_lut(image_width,  1.0);
+            lut_y:                array_pixel := create_sine_lut(image_height, 1.0)
         );
         port (
             clk:                  in std_logic;
