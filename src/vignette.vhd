@@ -92,6 +92,9 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
+--! Used for calculation of h_count and v_cunt port width
+use ieee.math_real.all;
+
 use work.curves_pkg.all;
 --============================================================================--
 --!
@@ -106,14 +109,17 @@ entity vignette is
 
     lut_x:                array_pixel; --! pre generated lookup table
     lut_y:                array_pixel  --! pre generated lookup table
+
   );
   port (
     clk:                  in std_logic;       --! completely clocked process
     rst:                  in std_logic;       --! asynchronous reset
     enable:               in std_logic;       --! enables block
-
-    h_count:              in std_logic_vector((wordsize-1) downto 0); --! x-coordinate of input pixel 
-    v_count:              in std_logic_vector((wordsize-1) downto 0); --! y-coordinate of input pixel 
+ 
+    --! x-coordinate of input pixel 
+    h_count:              in std_logic_vector((integer(ceil(log2(real(width))))-1) downto 0);
+    --! y-coordinate of input pixel 
+    v_count:              in std_logic_vector((integer(ceil(log2(real(height))))-1) downto 0);
 
     pixel_i:              in std_logic_vector((wordsize-1) downto 0); --! the input pixel
 

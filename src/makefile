@@ -28,7 +28,7 @@ TB_DEPS = config_const_pkg.o image_io_pkg.o curves_pkg.o lookup_table.o test_ben
 
 .PHONY: all clean
 
-all: sigmoid_tb gamma_tb
+all: sigmoid_tb gamma_tb vignette_tb
 
 # Testbenches
 %_tb: $(TB_DEPS) %_tb.o 
