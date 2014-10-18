@@ -35,8 +35,11 @@ entity test_bench_driver is
         output_file:          string;
 
         clk_period_ns:        time  := 2 ns;
-        rst_after:            time  := 42 ns;
-        rst_duration:         time  := 40 ns;
+        rst_after:            time  := 10 ns;
+        rst_duration:         time  := 10 ns;
+
+        --! Number of clk pulses of delay of a Device Under Test between input and output 
+        dut_delay:            integer := 1; 
 
         h_count_size:         integer := integer(ceil(log2(real(const_imagewidth))));
         v_count_size:         integer := integer(ceil(log2(real(const_imageheight))))
@@ -75,13 +78,13 @@ architecture behavioural of test_bench_driver is
     file file_output_pixel: text open write_mode is output_file;
 
 begin
-     --===================clock===================--
-     tb_clk <= not tb_clk after clk_period_ns;
-     clk <= tb_clk;
-
      --===================rst===================--
      tb_rst <= '0', '1' after rst_after, '0' after rst_after+rst_duration;
      rst <= tb_rst;
+
+     --===================clock===================--
+     tb_clk <= not tb_clk after clk_period_ns;
+     clk <= tb_clk;
 
     --=================== enable ===============--
     enable <= tb_enable;
@@ -96,13 +99,20 @@ begin
 
     --=================== release ===============--
     release_process: process(tb_rst, end_of_file)
+
+        variable delay_count : integer := dut_delay;
     begin
         if tb_rst = '1' then
             tb_enable <= '1';  -- enable tb
         end if;
 
         if end_of_file = '1' then
-            tb_enable <= '0';
+
+            if delay_count > 0 then
+                delay_count := delay_count - 1;
+            else
+                tb_enable <= '0';
+            end if;
             
             assert(1 = 0) report "Input file done" severity failure;
         end if;
@@ -115,13 +125,13 @@ begin
         pixel_from_file <= pixel_tmp;
 
         if rising_edge(tb_clk) then
-        if tb_rst = '0' then
-            if tb_enable = '1' then
+            if tb_rst = '0' then
+                if tb_enable = '1' then
 
-                read_pixel(file_input_pixel, pixel_tmp, end_of_file);
+                    read_pixel(file_input_pixel, pixel_tmp, end_of_file);
 
+                end if;
             end if;
-        end if;
         end if;
     end process;
 
@@ -136,6 +146,8 @@ begin
 
         variable val: integer := 0;
 
+        variable delay_count : integer := dut_delay;
+
     begin
         if rising_edge(tb_clk) then
 
@@ -146,11 +158,18 @@ begin
 
             end if;
 
-            -- write output image 
-            val := to_integer(unsigned(pixel_to_file));
+            if tb_enable = '1' and tb_rst = '0' then
+                if delay_count > 0 then
+                    delay_count := delay_count - 1;
+                else
+                
+                    -- write output image 
+                    val := to_integer(unsigned(pixel_to_file));
 
-            --report integer'image(val);
-            write_pixel( val, file_output_pixel);
+                    --report integer'image(val);
+                    write_pixel( val, file_output_pixel);
+                end if;
+            end if;
 
         end if;
     end process;
@@ -167,7 +186,7 @@ begin
     begin
         if rising_edge(tb_clk) then
 
-            if  tb_enable = '1' then
+            if  tb_enable = '1' and tb_rst = '0' then
             
                 if h_count_var < const_imagewidth-1 then
                     h_count_var := h_count_var + 1;

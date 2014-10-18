@@ -30,8 +30,8 @@ entity vignette_tb is
         input_file:           string  := "tst/input_pixel.txt";     --! Input file of test 
         output_file:          string  := "tst/vignette_output.pgm"; --! Output file of test 
 
-        image_width:          integer := 512; --! Width of input image
-        image_height:         integer := 512  --! Height of input image
+        image_width:          integer := const_imagewidth; --! Width of input image
+        image_height:         integer := const_imageheight  --! Height of input image
     );
 end entity;
 
@@ -49,8 +49,10 @@ architecture structural of vignette_tb is
             output_file:        string := output_file;
 
             clk_period_ns:      time := 1 ns;
-            rst_after:          time := 10 ns;
-            rst_duration:       time := 10 ns
+            rst_after:          time := 9 ns;
+            rst_duration:       time := 8 ns;
+
+            dut_delay:          integer := 4
         );
         port (
             clk:                out std_logic;
