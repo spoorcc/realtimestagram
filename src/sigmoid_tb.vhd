@@ -45,8 +45,10 @@ architecture structural of sigmoid_tb is
             output_file:        string := output_file;
 
             clk_period_ns:      time := 1 ns;
-            rst_after:          time := 10 ns;
-            rst_duration:       time := 10 ns
+            rst_after:          time := 9 ns;
+            rst_duration:       time := 8 ns;
+
+            dut_delay:          integer := 3
         );
         port (
             clk:                out std_logic;

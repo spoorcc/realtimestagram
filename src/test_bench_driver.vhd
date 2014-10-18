@@ -79,11 +79,11 @@ architecture behavioural of test_bench_driver is
 
 begin
      --===================rst===================--
-     tb_rst <= '0', '1' after rst_after, '0' after rst_after+rst_duration;
+     tb_rst <= '0', '1' after rst_after, '0' after rst_after+rst_duration when (end_of_file = '0' or tb_enable = '1');
      rst <= tb_rst;
 
      --===================clock===================--
-     tb_clk <= not tb_clk after clk_period_ns;
+     tb_clk <= not tb_clk after clk_period_ns when (end_of_file = '0');
      clk <= tb_clk;
 
     --=================== enable ===============--
@@ -114,7 +114,6 @@ begin
                 tb_enable <= '0';
             end if;
             
-            assert(1 = 0) report "Input file done" severity failure;
         end if;
     end process;
 
