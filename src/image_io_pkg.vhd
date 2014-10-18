@@ -19,6 +19,9 @@
 --! \class image_io_pkg
 --! \brief Provides functionality for easy reading and writing of netbpm images
 --!
+--! Reading and writing of images has been placed into single package. This way writing
+--! and reading them is centralized and easier.
+--!
 --! Supported image types
 --! ---------------------
 --!
@@ -48,31 +51,25 @@ use ieee.math_real.all;
 
 package image_io_pkg is
 
+    --! Number of bits in a pixel
     constant wordsize   : integer := 8; 
 
 	--! three types can be selected, these types are specified in the detailed description
 	type pbmplustype is (pbm, pgm, ppm);
 
-	--! to accomodate for unknown arrays of pixels array writing is also possible
-	type pixel_array is array ( integer range <> ) of integer;
-
 	--! generic procedure for writing pbm plus headers
-	--! @param[in] p_width     width of image in pixels
-	--! @param[in] p_height    height of image in pixels
-	--! @param[in] max_value   maximum pixel value possible
-	--! @param[in] type_of_pbm image type used to determine magic identifier
-	--! @param     p_file      opened target file to write header to
-
 	procedure write_pbmplus_header( constant p_width     : in integer;			
                                 	constant p_height    : in integer;
                                 	constant max_value   : in integer;
                                 	constant type_of_pbm : in pbmplustype;
                                 	file p_file : text           	);
+
     ----------------------------------------------------------------------     								
     --! generic procedure for reading single pixel value from pbm file to variable
     procedure read_pixel( file pbmplus_file : text;
                     	  variable pixel : out integer;
                           signal end_of_file: out std_logic );
+
 	--! generic procedure for reading single pixel value from pbm file to signal
 	procedure read_pixel( file pbmplus_file : text;
                           signal pixel:  out std_logic_vector;                      							
@@ -155,6 +152,7 @@ package image_io_pkg is
 							variable g : out unsigned(7 downto 0);
 							variable b : out unsigned(7 downto 0)	);
 
+	---------------------------------------------------------------------------
 	--! function to pad strings with a fill character
 	--! \param[in] arg_str      the input string that has to be padded
 	--! \param[in] ret_len_c    the length of the output string. (must be larger than length of the input string)
