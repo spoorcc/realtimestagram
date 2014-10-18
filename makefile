@@ -46,7 +46,7 @@ docs:
 
 test: all
 	@echo "Starting TB "
-	@$(BLDDIR)/vignette_tb --vcdgz=$(TMPDIR)/vignette_tb.vcdgz
-	@$(BLDDIR)/sigmoid_tb --vcdgz=$(TMPDIR)/sigmoid_tb.vcdgz
-	@$(BLDDIR)/gamma_tb --vcdgz=$(TMPDIR)/gamma_tb.vcdgz
+	@$(BLDDIR)/vignette_tb --vcdgz=$(TMPDIR)/vignette_tb.vcd.gz
+	@$(BLDDIR)/sigmoid_tb --vcdgz=$(TMPDIR)/sigmoid_tb.vcd.gz
+	@$(BLDDIR)/gamma_tb --vcdgz=$(TMPDIR)/gamma_tb.vcd.gz
 
