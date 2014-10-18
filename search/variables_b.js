@@ -1,7 +1,11 @@
 var searchData=
 [
-  ['tb_5fclk',['tb_clk',['../classcurve__adjust__tb_1_1curve__adjust__tb.html#ab557506d9f068b27f900bcdcf428fd3b',1,'curve_adjust_tb::curve_adjust_tb']]],
-  ['tb_5finput_5fpixel',['tb_input_pixel',['../classcurve__adjust__tb_1_1curve__adjust__tb.html#a493ba572b7ce4dbd7696c510c9953abc',1,'curve_adjust_tb::curve_adjust_tb']]],
-  ['tb_5foutput_5fpixel',['tb_output_pixel',['../classcurve__adjust__tb_1_1curve__adjust__tb.html#af086c84877ba64eff9a8f563fbc8a4ec',1,'curve_adjust_tb::curve_adjust_tb']]],
-  ['textio',['textio',['../classcurve__adjust__tb.html#aa8c4e25998323a84db5b1fa701b92fcb',1,'curve_adjust_tb.textio()'],['../classimage__io__pkg.html#aa8c4e25998323a84db5b1fa701b92fcb',1,'image_io_pkg.textio()']]]
+  ['p0',['p0',['../classvignette_1_1behavioural.html#a3a29ed3c297c1e6dc9516f61ec654572',1,'vignette::behavioural']]],
+  ['p1',['p1',['../classvignette_1_1behavioural.html#a39751a0f910f1554ab1b89b764914aa2',1,'vignette::behavioural']]],
+  ['pbmplustype',['pbmplustype',['../classimage__io__pkg.html#a6b0162e2588365bd0141ef3fce1b6efe',1,'image_io_pkg']]],
+  ['pixel_5ffrom_5ffile',['pixel_from_file',['../classgamma__tb_1_1structural.html#ae29cb964a67decf55ec33e51f6b3087e',1,'gamma_tb.structural.pixel_from_file()'],['../classsigmoid__tb_1_1structural.html#ae29cb964a67decf55ec33e51f6b3087e',1,'sigmoid_tb.structural.pixel_from_file()'],['../classtest__bench__driver.html#a93d92970508fd62ffaefdec2bcba0fc4',1,'test_bench_driver.pixel_from_file()'],['../classvignette__tb_1_1structural.html#ae29cb964a67decf55ec33e51f6b3087e',1,'vignette_tb.structural.pixel_from_file()']]],
+  ['pixel_5fi',['pixel_i',['../classlookup__table.html#a855afa6854a87b826741649361567f84',1,'lookup_table.pixel_i()'],['../classvignette.html#a855afa6854a87b826741649361567f84',1,'vignette.pixel_i()']]],
+  ['pixel_5fo',['pixel_o',['../classlookup__table.html#ae722898ae2ab01b9f546a06dfaf72ec7',1,'lookup_table.pixel_o()'],['../classvignette.html#ae722898ae2ab01b9f546a06dfaf72ec7',1,'vignette.pixel_o()']]],
+  ['pixel_5ftmp',['pixel_tmp',['../classtest__bench__driver_1_1behavioural.html#a6a38272fb85de3614faedea82a82d69b',1,'test_bench_driver::behavioural']]],
+  ['pixel_5fto_5ffile',['pixel_to_file',['../classgamma__tb_1_1structural.html#a216cfee3f230e4ab0a3e75228f805743',1,'gamma_tb.structural.pixel_to_file()'],['../classsigmoid__tb_1_1structural.html#a216cfee3f230e4ab0a3e75228f805743',1,'sigmoid_tb.structural.pixel_to_file()'],['../classtest__bench__driver.html#aeff166fa53b27927e3cb54667bc41bf9',1,'test_bench_driver.pixel_to_file()'],['../classvignette__tb_1_1structural.html#a216cfee3f230e4ab0a3e75228f805743',1,'vignette_tb.structural.pixel_to_file()']]]
 ];

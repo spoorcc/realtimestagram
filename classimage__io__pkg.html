@@ -93,7 +93,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
-<p>Provides functionality for easy reading and writing of netbpm images.  
+<p>Number of bits in a pixel.  
  <a href="classimage__io__pkg.html#details">More...</a></p>
 <b>Package Body &gt;&gt; </b><a class="el" href="class__image__io__pkg.html">image_io_pkg</a><br />
 <table class="memberdecls">
@@ -194,11 +194,11 @@ Constants</h2></td></tr>
 Types</h2></td></tr>
  <tr class="memitem:a6b0162e2588365bd0141ef3fce1b6efe"><td class="memItemLeft" align="right" valign="top"><b><a class="el" href="classimage__io__pkg.html#a6b0162e2588365bd0141ef3fce1b6efe">pbmplustype</a>&#160;</td><td class="memItemRight" valign="bottom"><b><span class="vhdlchar">(</span><span class="vhdlchar"> </span><span class="vhdlchar">pbm</span><span class="vhdlchar"> </span><span class="vhdlchar">,</span><span class="vhdlchar"> </span><span class="vhdlchar">pgm</span><span class="vhdlchar"> </span><span class="vhdlchar">,</span><span class="vhdlchar"> </span><span class="vhdlchar">ppm</span><span class="vhdlchar"> </span><span class="vhdlchar">)</span><span class="vhdlchar"> </span></b></b></td></tr>
 <tr class="memdesc:a6b0162e2588365bd0141ef3fce1b6efe"><td class="mdescLeft">&#160;</td><td class="mdescRight">three types can be selected, these types are specified in the detailed description  <a href="#a6b0162e2588365bd0141ef3fce1b6efe"></a><br /></td></tr>
-<tr class="memitem:aac5c9226cf2218d288ec4a9f5f472b50"><td class="memItemLeft" align="right" valign="top"><b><a class="el" href="classimage__io__pkg.html#aac5c9226cf2218d288ec4a9f5f472b50">pixel_array</a>&#160;</td><td class="memItemRight" valign="bottom"><b><span class="keywordflow">array</span><span class="vhdlchar"> </span><span class="vhdlchar">(</span><span class="vhdlchar"> </span><span class="comment">integer</span><span class="vhdlchar"> </span><span class="keywordflow">range</span><span class="vhdlchar"> </span><span class="vhdlchar">&lt;&gt;</span><span class="vhdlchar"> </span><span class="vhdlchar">)</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="keywordflow">of</span><span class="vhdlchar"> </span><span class="comment">integer</span><span class="vhdlchar"> </span></b></b></td></tr>
-<tr class="memdesc:aac5c9226cf2218d288ec4a9f5f472b50"><td class="mdescLeft">&#160;</td><td class="mdescRight">to accomodate for unknown arrays of pixels array writing is also possible  <a href="#aac5c9226cf2218d288ec4a9f5f472b50"></a><br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Provides functionality for easy reading and writing of netbpm images. </p>
+<div class="textblock"><p>Number of bits in a pixel. </p>
+<p>Provides functionality for easy reading and writing of netbpm images.</p>
+<p>Reading and writing of images has been placed into single package. This way writing and reading them is centralized and easier.</p>
 <h2>Supported image types </h2>
 <table class="doxtable">
 <tr>
@@ -507,16 +507,6 @@ Types</h2></td></tr>
 </div><div class="memdoc">
 
 <p>generic procedure for writing pbm plus headers </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">p_width</td><td>width of image in pixels </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">p_height</td><td>height of image in pixels </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">max_value</td><td>maximum pixel value possible </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">type_of_pbm</td><td>image type used to determine magic identifier </td></tr>
-    <tr><td class="paramdir"></td><td class="paramname">p_file</td><td>opened target file to write header to </td></tr>
-  </table>
-  </dd>
-</dl>
 
 </div>
 </div>
@@ -897,28 +887,6 @@ Types</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="aac5c9226cf2218d288ec4a9f5f472b50"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classimage__io__pkg.html#aac5c9226cf2218d288ec4a9f5f472b50">pixel_array</a> <b><span class="keywordflow">array</span><span class="vhdlchar"> </span><span class="vhdlchar">(</span><span class="vhdlchar"> </span><span class="comment">integer</span><span class="vhdlchar"> </span><span class="keywordflow">range</span><span class="vhdlchar"> </span><span class="vhdlchar">&lt;&gt;</span><span class="vhdlchar"> </span><span class="vhdlchar">)</span><span class="vhdlchar"> </span><span class="vhdlchar"> </span><span class="keywordflow">of</span><span class="vhdlchar"> </span><span class="comment">integer</span><span class="vhdlchar"> </span></b> </td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">Type</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>to accomodate for unknown arrays of pixels array writing is also possible </p>
-
-</div>
-</div>
 <a class="anchor" id="acd03516902501cd1c7296a98e22c6fcb"></a>
 <div class="memitem">
 <div class="memproto">
@@ -989,7 +957,7 @@ Types</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Oct 12 2014 14:47:48 for Realtimestagram by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Oct 18 2014 17:22:41 for Realtimestagram by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.8
 </small></address>

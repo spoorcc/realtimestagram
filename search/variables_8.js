@@ -1,7 +1,4 @@
 var searchData=
 [
-  ['pbmplustype',['pbmplustype',['../classimage__io__pkg.html#a6b0162e2588365bd0141ef3fce1b6efe',1,'image_io_pkg']]],
-  ['pixel_5farray',['pixel_array',['../classimage__io__pkg.html#aac5c9226cf2218d288ec4a9f5f472b50',1,'image_io_pkg']]],
-  ['pixel_5fi',['pixel_i',['../classlookup__table.html#a855afa6854a87b826741649361567f84',1,'lookup_table']]],
-  ['pixel_5fo',['pixel_o',['../classlookup__table.html#ae722898ae2ab01b9f546a06dfaf72ec7',1,'lookup_table']]]
+  ['math_5freal',['math_real',['../classcurves__pkg.html#acb415f2e3abd505b8338da5b5bf9e2fb',1,'curves_pkg.math_real()'],['../classimage__io__pkg.html#acb415f2e3abd505b8338da5b5bf9e2fb',1,'image_io_pkg.math_real()'],['../classtest__bench__driver.html#acb415f2e3abd505b8338da5b5bf9e2fb',1,'test_bench_driver.math_real()'],['../classvignette.html#acb415f2e3abd505b8338da5b5bf9e2fb',1,'vignette.math_real()'],['../classvignette__tb.html#acb415f2e3abd505b8338da5b5bf9e2fb',1,'vignette_tb.math_real()']]]
 ];
