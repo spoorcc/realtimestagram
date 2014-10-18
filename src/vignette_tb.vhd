@@ -17,23 +17,27 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
+--! Used for calculation of h_count and v_count port width
+use ieee.math_real.all;
+
 use work.config_const_pkg.all;
 use work.curves_pkg.all;
 
 --======================================================================================--
 
-entity sigmoid_tb is
+entity vignette_tb is
     generic (
-        input_file:           string  := "tst/input_pixel.txt"; --! Input file of test 
-        output_file:          string  := "tst/sigmoid_output.pgm"; --! Output file of test 
+        input_file:           string  := "tst/input_pixel.txt";     --! Input file of test 
+        output_file:          string  := "tst/vignette_output.pgm"; --! Output file of test 
 
-        c_factor:             real    := 15.0 --! Amount of contrast adjustment
+        image_width:          integer := const_imagewidth; --! Width of input image
+        image_height:         integer := const_imageheight  --! Height of input image
     );
 end entity;
 
 --======================================================================================--
 
-architecture structural of sigmoid_tb is
+architecture structural of vignette_tb is
 
   --===================component declaration===================--
 
@@ -48,35 +52,45 @@ architecture structural of sigmoid_tb is
             rst_after:          time := 9 ns;
             rst_duration:       time := 8 ns;
 
-            dut_delay:          integer := 3
+            dut_delay:          integer := 4
         );
         port (
             clk:                out std_logic;
             rst:                out std_logic;
             enable:             out std_logic;
 
-            pixel_from_file:    out std_logic_vector((wordsize-1) downto 0);
+            h_count:            out std_logic_vector;
+            v_count:            out std_logic_vector;
 
-            pixel_to_file:      in std_logic_vector((wordsize-1) downto 0)
+            pixel_from_file:    out std_logic_vector;
+
+            pixel_to_file:      in std_logic_vector
         );
     end component;
 
     ----------------------------------------------------------------------------------------------
 
-    component lookup_table is
+    component vignette is
         generic (
-            wordsize:      integer     := const_wordsize;
-            lut:           array_pixel := create_sigmoid_lut(2**const_wordsize, c_factor)
+            wordsize:             integer := const_wordsize;
+            width:                integer := image_width;
+            height:               integer := image_height;
+
+            lut_x:                array_pixel := create_sine_lut(image_width,  1.0);
+            lut_y:                array_pixel := create_sine_lut(image_height, 1.0)
         );
         port (
-            clk:           in std_logic;
-            rst:           in std_logic;
-            enable:        in std_logic;
+            clk:                  in std_logic;
+            rst:                  in std_logic;
+            enable:               in std_logic;
 
-            pixel_i:       in std_logic_vector((wordsize-1) downto 0);
+            h_count:              in std_logic_vector;
+            v_count:              in std_logic_vector;
 
-            pixel_o:       out std_logic_vector((wordsize-1) downto 0)
-        );
+            pixel_i:              in std_logic_vector;
+
+            pixel_o:              out std_logic_vector
+         );
     end component;
 
     ----------------------------------------------------------------------------------------------
@@ -85,6 +99,9 @@ architecture structural of sigmoid_tb is
     signal clk:                std_logic := '0';
     signal rst:                std_logic := '0';
     signal enable:             std_logic := '0';
+
+    signal h_count:            std_logic_vector((integer(ceil(log2(real(image_width))))-1) downto 0) := (others => '0');
+    signal v_count:            std_logic_vector((integer(ceil(log2(real(image_height))))-1) downto 0) := (others => '0');
 
     signal pixel_from_file:    std_logic_vector((const_wordsize-1) downto 0) := (others => '0');
     signal pixel_to_file:      std_logic_vector((const_wordsize-1) downto 0) := (others => '0');
@@ -98,18 +115,24 @@ begin
             rst             => rst,
             enable          => enable,
         
+            h_count         => h_count,
+            v_count         => v_count,
+
             pixel_from_file => pixel_from_file,
             pixel_to_file   => pixel_to_file
         );
 
-    device_under_test: lookup_table
+    device_under_test: vignette
         port map(
-            clk               => clk,
-            rst               => rst,
-            enable            => enable,
+            clk             => clk,
+            rst             => rst,
+            enable          => enable,
 
-            pixel_i           => pixel_from_file,
-            pixel_o           => pixel_to_file
+            h_count         => h_count,
+            v_count         => v_count,
+
+            pixel_i         => pixel_from_file,
+            pixel_o         => pixel_to_file
         );
 
 end architecture;

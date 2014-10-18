@@ -21,9 +21,4 @@ package config_const_pkg is
     constant const_imageheight :integer := 512;
     constant const_imagewidth  :integer := 512;
     
-    constant const_hor_start_activeimage : integer := 10;
-    constant const_activeimagewidth: integer := const_imagewidth;
-
-    constant const_blanking_horizontal_left: integer := 10;
-
 end config_const_pkg;

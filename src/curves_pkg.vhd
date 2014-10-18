@@ -72,6 +72,17 @@ package curves_pkg is
                                return array_pixel;
 
     ----------------------------------------------------------------------     								
+    --! Function to create Look up table for a sine function
+    --! The sine function is \f[p_{out}=p_{max} * sin^c\left (\frac{\pi*x}{width} \right)\f]
+    --! \param[in] size  Number of elements to create
+    --! \param[in] c     Order
+    --! \image html vignette_curve.png
+    function create_sine_lut( size:       integer;
+                              c:          real := 1.0)
+
+                                return array_pixel;
+
+    ----------------------------------------------------------------------     								
     --! Procedure to assert that value can be represented in bit range
     --! \param[in] value    Value to compare
     --! \param[in] wordsize Bit depth
@@ -184,6 +195,32 @@ package body curves_pkg is
 
         return return_value;
     end  create_gamma_lut;
+
+--======================================================================================--
+
+    function create_sine_lut( size:    integer;
+                              c:       real := 1.0)
+                              return   array_pixel is
+
+        variable exponent:      real := 0.0;
+        variable calc_val:      real := 0.0;
+        constant max_val:       real := real(2**wordsize)-1.0;
+        variable return_value:  array_pixel(0 to size-1);
+    begin
+
+        for i in return_value'range loop
+
+            calc_val := max_val * sin( math_pi * real(i) / real(size))**c; 
+
+            report_lut_value( calc_val, i);
+            verify_valid_value(calc_val, wordsize);
+
+            return_value(i) := std_logic_vector(to_unsigned(integer(calc_val), wordsize));
+
+        end loop;
+
+        return return_value;
+    end  create_sine_lut;
 
 --======================================================================================--
 
