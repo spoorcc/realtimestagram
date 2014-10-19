@@ -30,26 +30,26 @@ begin
 
     Lenna: lomo_tb
         generic map(
-            input_file  => "tst/Lenna.pnm",
-            output_file => "tst/lomo_lenna.pnm"
+            input_file  => "tst/input/Lenna.pnm",
+            output_file => "tst/output/lomo_lenna.pnm"
         );
 
     windmill: lomo_tb
         generic map(
-            input_file  => "tst/windmill.pnm",
-            output_file => "tst/lomo_windmill.pnm"
+            input_file  => "tst/input/windmill.pnm",
+            output_file => "tst/output/lomo_windmill.pnm"
         );
 
     danger_zone: lomo_tb
         generic map(
-            input_file  => "tst/danger_zone.pnm",
-            output_file => "tst/lomo_danger_zone.pnm"
+            input_file  => "tst/input/danger_zone.pnm",
+            output_file => "tst/output/lomo_danger_zone.pnm"
         );
 
     amersfoort: lomo_tb
         generic map(
-            input_file  => "tst/amersfoort.pnm",
-            output_file => "tst/lomo_amersfoort.pnm"
+            input_file  => "tst/input/amersfoort.pnm",
+            output_file => "tst/output/lomo_amersfoort.pnm"
         );
 
 end architecture;
