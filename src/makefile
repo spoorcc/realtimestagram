@@ -28,7 +28,7 @@ COMPS = lookup_table vignette lomo
 PKGS = config_const_pkg curves_pkg
 TST_UTILS = image_io_pkg test_bench_driver test_bench_driver_color
 
-TST_BENCHES = sigmoid_tb gamma_tb vignette_tb lomo_tb 
+TST_BENCHES = sigmoid_tb gamma_tb vignette_tb lomo_tb lomo_testsets_tb 
 
 TB_DEPS = $(addsuffix .o, $(PKGS)) $(addsuffix .o, $(TST_UTILS)) $(addsuffix .o, $(COMPS))
 
