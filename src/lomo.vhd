@@ -146,12 +146,12 @@ architecture behavioural of lomo is
     signal p_g:               natural range 0 to 2**(wordsize); --! buffered pix_in
     signal p_b:               natural range 0 to 2**(wordsize); --! buffered pix_in
 
-    constant lut_r:           array_pixel := create_straight_lut(2**wordsize);
-    constant lut_g:           array_pixel := create_straight_lut(2**wordsize);
-    constant lut_b:           array_pixel := create_straight_lut(2**wordsize);
+    constant lut_r:           array_pixel := create_sigmoid_lut(2**wordsize, 5.0);
+    constant lut_g:           array_pixel := create_sigmoid_lut(2**wordsize, 7.0);
+    constant lut_b:           array_pixel := create_sigmoid_lut(2**wordsize, 2.0);
 
-    constant lut_x:           array_pixel := create_sine_lut(image_width,  1.0);
-    constant lut_y:           array_pixel := create_sine_lut(image_height,  1.0);
+    constant lut_x:           array_pixel := create_sine_lut(image_width,  0.3);
+    constant lut_y:           array_pixel := create_sine_lut(image_height, 0.3);
 begin
 
     --! \brief clocked process that outputs LUT-value on each rising edge if enable is true 
