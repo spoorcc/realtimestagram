@@ -27,8 +27,8 @@ use work.curves_pkg.all;
 
 entity lomo_tb is
     generic (
-        input_file:           string  := "tst/input_pixel_color.txt"; --! Input file of test 
-        output_file:          string  := "tst/lomo_output.pgm"; --! Output file of test 
+        input_file:           string  := "tst/amersfoort.pnm"; --! Input file of test 
+        output_file:          string  := "tst/lomo_output.pnm"; --! Output file of test 
 
         image_width:          integer := const_imagewidth; --! Width of input image
         image_height:         integer := const_imageheight  --! Height of input image

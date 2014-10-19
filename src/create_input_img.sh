@@ -32,5 +32,14 @@ function remove_pnm_header_and_split {
     cat ${output_image} | sed 1,3d | sed 's/\([0-9]\+ [0-9]\+ [0-9]\+\) /\1\n/g' | sed '/^$/d' > ${output_image}.txt
 }
 
+function split {
+    cat ${output_image} | sed 1,3!d > ${output_image}.tmp
+    cat ${output_image} | sed 1,3d | sed 's/\([0-9]\+ [0-9]\+ [0-9]\+\) /\1\n/g' | sed '/^$/d' >> ${output_image}.tmp
+
+    cp -f ${output_image}.tmp ${output_image}
+    rm -f ${output_image}.tmp
+}
 create_color_image $1
-remove_pnm_header_and_split
+#remove_pnm_header_and_split
+split
+

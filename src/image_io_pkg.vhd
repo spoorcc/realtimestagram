@@ -58,6 +58,13 @@ package image_io_pkg is
     type pbmplustype is (pbm, pgm, ppm);
 
     --! generic procedure for writing pbm plus headers
+    procedure read_pbmplus_header( constant exp_width       : in integer;            
+                                   constant exp_height      : in integer;
+                                   constant exp_max_value   : in integer;
+                                   constant exp_type_of_pbm : in pbmplustype;
+                                   file p_file : text               );
+
+    --! generic procedure for writing pbm plus headers
     procedure write_pbmplus_header( constant p_width     : in integer;            
                                     constant p_height    : in integer;
                                     constant max_value   : in integer;
@@ -188,6 +195,43 @@ package body image_io_pkg is
 
 --======================================================================================--
 
+    procedure read_pbmplus_header( 
+
+        constant exp_width       : in integer;            
+        constant exp_height      : in integer;
+        constant exp_max_value   : in integer;
+
+        constant exp_type_of_pbm : in pbmplustype;
+
+        file p_file : text               
+
+        ) is
+
+        variable magic_identifier : string(1 to 2);
+        variable height   : integer;
+        variable width    : integer;
+        variable space    : character;
+        variable max_val  : integer;
+        variable text_line:    line;
+
+    begin
+    
+        --read the header
+        readline(p_file, text_line);
+        read(text_line, magic_identifier);
+
+        readline(p_file, text_line);
+        read(text_line, width);
+        read(text_line, space);
+        read(text_line, height);
+
+        readline(p_file, text_line);
+        read(text_line, max_val);
+    
+    end procedure read_pbmplus_header;
+
+    -----------------------------------------------------------------------------------------
+
     procedure write_pbmplus_header (
 
         constant p_width  : in integer;                
@@ -253,6 +297,7 @@ package body image_io_pkg is
     end procedure read_pixel;
 
     -----------------------------------------------------------------------------------------
+
     procedure read_pixel(
     
        file pbmplus_file : text;

@@ -125,6 +125,12 @@ begin
 
     --===================process for reading input_pixels ===============--
     reading_input_pixels: process(tb_clk)
+
+        constant pgm_width         : integer := const_imagewidth;
+        constant pgm_height        : integer := const_imageheight;
+        constant max_pixel_value   : integer := 2**wordsize-1;
+
+        variable readheader: std_logic := '1';
     begin
 
         red_pixel_from_file   <= red_pixel_tmp;
@@ -132,6 +138,14 @@ begin
         blue_pixel_from_file  <= blue_pixel_tmp;
 
         if rising_edge(tb_clk) then
+
+            if readheader = '1' then
+
+                read_pbmplus_header( pgm_width, pgm_height, max_pixel_value, ppm, file_input_pixel );
+                readheader := '0';
+
+            end if;
+
             if tb_rst = '0' then
                 if tb_enable = '1' then
 
