@@ -27,6 +27,9 @@ tmp
 # Generated targets
 bld
 
+# Test outputs
+tst/output
+
 # Doxygen documentation
 doc/html
 doc/gh-pages
