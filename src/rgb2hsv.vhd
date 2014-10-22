@@ -28,6 +28,9 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
+--! Used for calculation of h_count and v_count port width
+use ieee.math_real.all;
+
 --============================================================================--
 --!
 --!
@@ -44,105 +47,111 @@ entity rgb2hsv is
     rst:                  in std_logic;       --! asynchronous reset
     enable:               in std_logic;       --! enables block
  
-    pixel_red_i:          in std_logic_vector((wordsize-1) downto 0); --! the input pixel
-    pixel_green_i:        in std_logic_vector((wordsize-1) downto 0); --! the input pixel
-    pixel_blue_i:         in std_logic_vector((wordsize-1) downto 0); --! the input pixel
+    pixel_red_i:          in std_logic_vector((wordsize-1) downto 0); --! red input pixel
+    pixel_green_i:        in std_logic_vector((wordsize-1) downto 0); --! green input pixel
+    pixel_blue_i:         in std_logic_vector((wordsize-1) downto 0); --! blue input pixel
 
     -- outputs
-    pixel_hue_o:          out std_logic_vector((wordsize-1) downto 0);
-    pixel_sat_o:          out std_logic_vector((wordsize-1) downto 0);
-    pixel_val_o:          out std_logic_vector((wordsize-1) downto 0)
+    pixel_hue_o:          out std_logic_vector((wordsize-1) downto 0); --! hue value of pixel
+    pixel_sat_o:          out std_logic_vector((wordsize-1) downto 0); --! saturation of pixel
+    pixel_val_o:          out std_logic_vector((wordsize-1) downto 0)  --! value of pixel
   );
+
+
+    type mux_select_delay is array(0 to 3) of integer range 0 to 2;
+    type max_delay is array(0 to 2) of integer range 0 to 2**wordsize;
+
+
 end entity;
 
 --============================================================================--
 
 architecture behavioural of rgb2hsv is
+
     
     -- signal declarations
-    signal r_min_g:                 integer range 0 to 2**wordsize;   
-    signal b_min_r:                 integer range 0 to 2**wordsize;      
-    signal g_min_b:                 integer range 0 to 2**wordsize;     
+    signal rgdiff:                 integer range 0 to 2**wordsize;   
+    signal brdiff:                 integer range 0 to 2**wordsize;      
+    signal gbdiff:                 integer range 0 to 2**wordsize;     
 
-    signal c_x_r_min_g:             integer range 0 to (2**wordsize)*43;   
-    signal c_x_b_min_r:             integer range 0 to (2**wordsize)*43;      
-    signal c_x_g_min_b:             integer range 0 to (2**wordsize)*43;     
+    signal c_rgdiff:               integer range 0 to 2**wordsize * 43;
+    signal c_brdiff:               integer range 0 to 2**wordsize * 43;      
+    signal c_gbdiff:               integer range 0 to 2**wordsize * 43;     
 
-    signal div_c_x_r_min_g:         integer range 0 to (2**wordsize)*43;   
-    signal div_c_x_b_min_r:         integer range 0 to (2**wordsize)*43;      
-    signal div_c_x_g_min_b:         integer range 0 to (2**wordsize)*43;     
+    signal c_rgdiff_d0:            integer range 0 to 2**wordsize * 43;
+    signal c_brdiff_d0:            integer range 0 to 2**wordsize * 43;      
+    signal c_gbdiff_d0:            integer range 0 to 2**wordsize * 43;     
 
-    signal rg_mux_in:               integer range 0 to (2**wordsize)*43;   
-    signal br_mux_in:               integer range 0 to (2**wordsize)*43;      
-    signal gb_mux_in:               integer range 0 to (2**wordsize)*43;     
+    signal c_rgdiff_div_max:       integer range 0 to 2**wordsize;
+    signal c_brdiff_div_max:       integer range 0 to 2**wordsize;      
+    signal c_gbdiff_div_max:       integer range 0 to 2**wordsize;     
 
-    signal mux_select0:             integer range 0 to 2;
-    signal mux_select1:             integer range 0 to 2;
-    signal mux_select2:             integer range 0 to 2;
-    signal mux_select3:             integer range 0 to 2;
+    signal rg_mux_in:              integer range 0 to 2**wordsize;   
+    signal br_mux_in:              integer range 0 to 2**wordsize;      
+    signal gb_mux_in:              integer range 0 to 2**wordsize;     
 
-    signal comp_max_out:            std_logic_vector(wordsize-1 downto 0);
-    signal comp_mid_out:            std_logic_vector(wordsize-1 downto 0);
-    signal comp_min_out:            std_logic_vector(wordsize-1 downto 0);
+    signal mux_select:             mux_select_delay;
 
-    signal comp_max0:               std_logic_vector(wordsize-1 downto 0);
-    signal comp_max1:               std_logic_vector(wordsize-1 downto 0);
-    signal comp_max2:               std_logic_vector(wordsize-1 downto 0);
-    signal comp_max3:               std_logic_vector(wordsize-1 downto 0);
+    -- comparator
+    signal r_versus_g_max:         integer range 0 to 2**wordsize;
+    signal r_versus_g_min:         integer range 0 to 2**wordsize;
+    signal blue_pix_delay:         integer range 0 to 2**wordsize;
 
-    signal max_min_min:             integer range 0 to 2**wordsize;     
+    signal b_versus_max:           integer range 0 to 2**wordsize;
+    signal b_versus_min:           integer range 0 to 2**wordsize;
 
-    signal range_times_255:         integer range 0 to 2**wordsize * 255;     
-    signal range_255_div_by_max:    integer range 0 to 2**wordsize * 255;
+    signal max_min_min:            integer range 0 to 2**wordsize;
+
+    signal range_times_255:        integer range 0 to 2**wordsize * 255;     
+    signal range_255_div_by_max:   integer range 0 to 2**wordsize;
+
+    signal comp_max:               max_delay;
 
 begin
 
     hsv2rgb : process(clk, rst)
 
-        variable red_i_int   : integer := 0;
-        variable green_i_int : integer := 0;
-        variable blue_i_int  : integer := 0;
+        variable red_i_int   : integer range 0 to 2**wordsize := 0;
+        variable green_i_int : integer range 0 to 2**wordsize := 0;
+        variable blue_i_int  : integer range 0 to 2**wordsize := 0;
 
-        variable red_max : boolean := false;
-        variable red_min : boolean := false;
-        variable green_max : boolean := false;
-        variable green_min : boolean := false;
+        variable mux_out  : std_logic_vector(wordsize-1 downto 0) := (others => '0');
+        variable sat_out  : std_logic_vector(wordsize-1 downto 0) := (others => '0');
+
     begin
         if rst = '1' then
-            r_min_g <= 0;
-            b_min_r <= 0;
-            g_min_b <= 0;
 
-            c_x_r_min_g <= 0;
-            c_x_b_min_r <= 0;
-            c_x_g_min_b <= 0;
+           rgdiff <= 0;
+           brdiff <= 0;
+           gbdiff <= 0;
 
-            div_c_x_r_min_g <= 0;
-            div_c_x_b_min_r <= 0;
-            div_c_x_g_min_b <= 0;
+           c_rgdiff <= 0;
+           c_brdiff <= 0;
+           c_gbdiff <= 0;
 
-            rg_mux_in <= 0;
-            br_mux_in <= 0;
-            gb_mux_in <= 0;
+           c_rgdiff_d0 <= 0;
+           c_brdiff_d0 <= 0;
+           c_gbdiff_d0 <= 0;
 
-            mux_select0 <= 0;
-            mux_select1 <= 0;
-            mux_select2 <= 0;
-            mux_select3 <= 0;
+           c_rgdiff_div_max <= 0;
+           c_brdiff_div_max <= 0;
+           c_gbdiff_div_max <= 0;
 
-            comp_max_out <= (others => '0');
-            comp_mid_out <= (others => '0');
-            comp_min_out <= (others => '0');
+           rg_mux_in <= 0;
+           br_mux_in <= 0;
+           gb_mux_in <= 0;
 
-            comp_max0 <= (others => '0');
-            comp_max1 <= (others => '0');
-            comp_max2 <= (others => '0');
-            comp_max3 <= (others => '0');
+           mux_select <= (others => 0);
 
-            max_min_min <= 0;
+           r_versus_g_max <= 0;
+           r_versus_g_min <= 0;
+           b_versus_max <= 0;
+           b_versus_min <= 0;
 
-            range_times_255 <= 0;
-            range_255_div_by_max <= 0;
+           range_times_255 <= 0;
+           range_255_div_by_max <= 0;
+
+           comp_max <= (others => 0);
 
         elsif rising_edge(clk) then
 
@@ -152,76 +161,95 @@ begin
                 green_i_int := to_integer(unsigned(pixel_green_i));
                 blue_i_int  := to_integer(unsigned(pixel_blue_i));
 
-                -- Comparator
-                red_max := (red_i_int > green_i_int) and (red_i_int > blue_i_int);
-                red_min := (red_i_int < green_i_int) and (red_i_int < blue_i_int);
-
-                green_max := (green_i_int > red_i_int) and (green_i_int > blue_i_int);
-                green_min := (green_i_int < red_i_int) and (green_i_int < blue_i_int);
-
-                -- Determine largest value
-                if red_max then
-                    comp_max_out <= pixel_red_i;
-                    mux_select0 <= 0; 
-                elsif green_max then
-                    comp_max_out <= pixel_green_i;
-                    mux_select0 <= 1;
+                -- First stage of comparison
+                if red_i_int > green_i_int then
+                    r_versus_g_max <= red_i_int;
+                    r_versus_g_min <= green_i_int;
+                    mux_select(0) <= 0;
                 else
-                    comp_max_out <= pixel_blue_i;
-                    mux_select0 <= 2;
+                    r_versus_g_max <= green_i_int;
+                    r_versus_g_min <= red_i_int;
+                    mux_select(0) <= 1;
                 end if;
              
-                -- Determine smallest value
-                if red_min then
-                    comp_min_out <= pixel_red_i;
-                elsif green_min then
-                    comp_min_out <= pixel_green_i;
+                -- Second stage of comparison
+                blue_pix_delay <= blue_i_int;
+
+                if r_versus_g_max < blue_pix_delay then
+                    b_versus_max <= blue_pix_delay;
+                    mux_select(1) <= 2;
                 else
-                    comp_min_out <= pixel_blue_i;
+                    b_versus_max <= r_versus_g_max;
+                    mux_select(1) <= mux_select(0);
                 end if;
+
+                if r_versus_g_min > blue_pix_delay then
+                    b_versus_min <= blue_pix_delay;
+                else
+                    b_versus_min <= r_versus_g_min;
+                end if;
+
+                comp_max(0) <= b_versus_max;
+                comp_max(1 to 2) <= comp_max(0 to 1);
+                max_min_min <= b_versus_max - b_versus_min;
 
                 -- Hue calculation
-                r_min_g <= red_i_int - green_i_int;
-                b_min_r <= blue_i_int - red_i_int;
-                g_min_b <= green_i_int - blue_i_int;
+                rgdiff <= abs(red_i_int - green_i_int);
+                brdiff <= abs(blue_i_int - red_i_int);
+                gbdiff <= abs(green_i_int - blue_i_int);
 
-                c_x_r_min_g <= 43 * r_min_g;
-                c_x_b_min_r <= 43 * b_min_r;
-                c_x_g_min_b <= 43 * g_min_b;
+                c_rgdiff <= 43 * rgdiff;
+                c_brdiff <= 43 * brdiff;
+                c_gbdiff <= 43 * gbdiff;
 
-                div_c_x_r_min_g <= c_x_r_min_g / max_min_min;
-                div_c_x_b_min_r <= c_x_b_min_r / max_min_min;
-                div_c_x_g_min_b <= c_x_g_min_b / max_min_min;
+                c_rgdiff_d0 <= c_rgdiff;
+                c_brdiff_d0 <= c_brdiff;
+                c_gbdiff_d0 <= c_gbdiff;
 
-                rg_mux_in <=       div_c_x_r_min_g;
-                br_mux_in <=  85 + div_c_x_r_min_g;
-                gb_mux_in <= 171 + div_c_x_g_min_b;
+                if max_min_min /= 0 then
+                    c_rgdiff_div_max <= (c_rgdiff_d0 / max_min_min) mod 2**wordsize;
+                    c_brdiff_div_max <= (c_brdiff_d0 / max_min_min) mod 2**wordsize;
+                    c_gbdiff_div_max <= (c_gbdiff_d0 / max_min_min) mod 2**wordsize;
+                else
+                    c_rgdiff_div_max <= 0;
+                    c_brdiff_div_max <= 0;
+                    c_gbdiff_div_max <= 0;
+                end if;
+
+                rg_mux_in <=         c_rgdiff_div_max;
+                br_mux_in <= ( 85 + c_brdiff_div_max) mod 2**wordsize;
+                gb_mux_in <= (171 + c_gbdiff_div_max) mod 2**wordsize;
 
                 -- mux delay
-                mux_select1 <= mux_select0;
-                mux_select2 <= mux_select1;
-                mux_select3 <= mux_select2;
+                mux_select(2 to 3) <= mux_select(1 to 2);
 
                 -- mux
-                if mux_select3 = 1 then
-                    pixel_hue_o <= std_logic_vector(to_unsigned(rg_mux_in, wordsize));
-                elsif mux_select3 = 2 then
-                    pixel_hue_o <= std_logic_vector(to_unsigned(br_mux_in, wordsize));
+                if mux_select(3) = 0 then
+                    mux_out := std_logic_vector(to_unsigned(rg_mux_in, wordsize));
+                elsif mux_select(3) = 1 then
+                    mux_out := std_logic_vector(to_unsigned(br_mux_in, wordsize));
                 else
-                    pixel_hue_o <= std_logic_vector(to_unsigned(gb_mux_in, wordsize));
+                    mux_out := std_logic_vector(to_unsigned(gb_mux_in, wordsize));
                 end if;
+
+                pixel_hue_o <= mux_out(wordsize-1 downto 0);
+                --pixel_hue_o <= (others => '0');
 
                 -- Saturation calculation
                 range_times_255 <= max_min_min * 255;
-                range_255_div_by_max <= range_times_255 / to_integer(unsigned(comp_max3));
-                pixel_sat_o <= std_logic_vector(to_unsigned(range_255_div_by_max, wordsize));
+
+                if comp_max(1) /= 0 then
+                    range_255_div_by_max <= ((range_times_255 / comp_max(1)) mod 2**wordsize);
+                else
+                    range_255_div_by_max <= 0;
+                end if;
+                sat_out := std_logic_vector(to_unsigned(range_255_div_by_max, wordsize));
+                pixel_sat_o <= sat_out;
+                --pixel_sat_o <= (others => '0');
  
                 -- Value calculation
-                comp_max0   <= comp_max_out; 
-                comp_max1   <= comp_max0; 
-                comp_max2   <= comp_max1; 
-                comp_max3   <= comp_max2; 
-                pixel_val_o <= comp_max3;
+                pixel_val_o <= std_logic_vector(to_unsigned(comp_max(2), wordsize));
+                --pixel_val_o <= (others => '0');
 
             else
                 pixel_hue_o <= (others => '0');
