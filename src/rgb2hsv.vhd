@@ -70,25 +70,25 @@ architecture behavioural of rgb2hsv is
 
     
     -- signal declarations
-    signal rgdiff:                 integer range 0 to 2**wordsize;   
-    signal brdiff:                 integer range 0 to 2**wordsize;      
-    signal gbdiff:                 integer range 0 to 2**wordsize;     
+    signal rgdiff:                 integer range -2**wordsize to 2**wordsize;   
+    signal brdiff:                 integer range -2**wordsize to 2**wordsize;      
+    signal gbdiff:                 integer range -2**wordsize to 2**wordsize;     
 
-    signal c_rgdiff:               integer range 0 to 2**wordsize * 43;
-    signal c_brdiff:               integer range 0 to 2**wordsize * 43;      
-    signal c_gbdiff:               integer range 0 to 2**wordsize * 43;     
+    signal c_rgdiff:               integer range -2**wordsize * 43 to 2**wordsize * 43;
+    signal c_brdiff:               integer range -2**wordsize * 43 to 2**wordsize * 43;      
+    signal c_gbdiff:               integer range -2**wordsize * 43 to 2**wordsize * 43;     
 
-    signal c_rgdiff_d0:            integer range 0 to 2**wordsize * 43;
-    signal c_brdiff_d0:            integer range 0 to 2**wordsize * 43;      
-    signal c_gbdiff_d0:            integer range 0 to 2**wordsize * 43;     
+    signal c_rgdiff_d0:            integer range -2**wordsize * 43 to 2**wordsize * 43;
+    signal c_brdiff_d0:            integer range -2**wordsize * 43 to 2**wordsize * 43;      
+    signal c_gbdiff_d0:            integer range -2**wordsize * 43 to 2**wordsize * 43;     
 
-    signal c_rgdiff_div_max:       integer range 0 to 2**wordsize;
-    signal c_brdiff_div_max:       integer range 0 to 2**wordsize;      
-    signal c_gbdiff_div_max:       integer range 0 to 2**wordsize;     
+    signal c_rgdiff_div_max:       integer range -2**wordsize to 2**wordsize;
+    signal c_brdiff_div_max:       integer range -2**wordsize to 2**wordsize;      
+    signal c_gbdiff_div_max:       integer range -2**wordsize to 2**wordsize;     
 
-    signal rg_mux_in:              integer range 0 to 2**wordsize;   
-    signal br_mux_in:              integer range 0 to 2**wordsize;      
-    signal gb_mux_in:              integer range 0 to 2**wordsize;     
+    signal rg_mux_in:              integer range -2**wordsize to 2**wordsize;   
+    signal br_mux_in:              integer range -2**wordsize to 2**wordsize;      
+    signal gb_mux_in:              integer range -2**wordsize to 2**wordsize;     
 
     signal mux_select:             mux_select_delay;
 
@@ -162,7 +162,7 @@ begin
                 blue_i_int  := to_integer(unsigned(pixel_blue_i));
 
                 -- First stage of comparison
-                if red_i_int > green_i_int then
+                if red_i_int >= green_i_int then
                     r_versus_g_max <= red_i_int;
                     r_versus_g_min <= green_i_int;
                     mux_select(0) <= 0;
@@ -172,9 +172,9 @@ begin
                     mux_select(0) <= 1;
                 end if;
              
-                -- Second stage of comparison
                 blue_pix_delay <= blue_i_int;
 
+                -- Second stage of comparison
                 if r_versus_g_max < blue_pix_delay then
                     b_versus_max <= blue_pix_delay;
                     mux_select(1) <= 2;
@@ -194,9 +194,9 @@ begin
                 max_min_min <= b_versus_max - b_versus_min;
 
                 -- Hue calculation
-                rgdiff <= abs(red_i_int - green_i_int);
-                brdiff <= abs(blue_i_int - red_i_int);
-                gbdiff <= abs(green_i_int - blue_i_int);
+                rgdiff <= (red_i_int - green_i_int);
+                brdiff <= (blue_i_int - red_i_int);
+                gbdiff <= (green_i_int - blue_i_int);
 
                 c_rgdiff <= 43 * rgdiff;
                 c_brdiff <= 43 * brdiff;
@@ -216,24 +216,23 @@ begin
                     c_gbdiff_div_max <= 0;
                 end if;
 
-                rg_mux_in <=         c_rgdiff_div_max;
+                gb_mux_in <=        c_gbdiff_div_max;
                 br_mux_in <= ( 85 + c_brdiff_div_max) mod 2**wordsize;
-                gb_mux_in <= (171 + c_gbdiff_div_max) mod 2**wordsize;
+                rg_mux_in <= (171 + c_rgdiff_div_max) mod 2**wordsize;
 
                 -- mux delay
                 mux_select(2 to 3) <= mux_select(1 to 2);
 
                 -- mux
                 if mux_select(3) = 0 then
-                    mux_out := std_logic_vector(to_unsigned(rg_mux_in, wordsize));
+                    mux_out := std_logic_vector(to_unsigned(gb_mux_in, wordsize));
                 elsif mux_select(3) = 1 then
                     mux_out := std_logic_vector(to_unsigned(br_mux_in, wordsize));
                 else
-                    mux_out := std_logic_vector(to_unsigned(gb_mux_in, wordsize));
+                    mux_out := std_logic_vector(to_unsigned(rg_mux_in, wordsize));
                 end if;
 
                 pixel_hue_o <= mux_out(wordsize-1 downto 0);
-                --pixel_hue_o <= (others => '0');
 
                 -- Saturation calculation
                 range_times_255 <= max_min_min * 255;
@@ -245,11 +244,9 @@ begin
                 end if;
                 sat_out := std_logic_vector(to_unsigned(range_255_div_by_max, wordsize));
                 pixel_sat_o <= sat_out;
-                --pixel_sat_o <= (others => '0');
  
                 -- Value calculation
                 pixel_val_o <= std_logic_vector(to_unsigned(comp_max(2), wordsize));
-                --pixel_val_o <= (others => '0');
 
             else
                 pixel_hue_o <= (others => '0');

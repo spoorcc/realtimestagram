@@ -39,7 +39,14 @@ function split {
     cp -f ${output_image}.tmp ${output_image}
     rm -f ${output_image}.tmp
 }
-create_color_image $1
-#remove_pnm_header_and_split
-split
 
+function create_HSV_image {
+    
+    convert ${output_image} -colorspace HSB -set colorspace RGB ${output_image}.tmp 
+    cat ${output_image}.tmp | pnmtoplainpnm > ${output_image}
+    
+    rm -f ${output_image}.tmp
+}
+
+create_color_image $1
+create_HSV_image

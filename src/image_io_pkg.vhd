@@ -484,28 +484,28 @@ package body image_io_pkg is
 
      procedure write_rgb_pixel(
 
-         variable pixel_r:  in integer;
-         variable pixel_g:  in integer;
+        variable pixel_r:  in integer;
+        variable pixel_g:  in integer;
         variable pixel_b:  in integer;    
 
            file pbmplus_file : text
         ) is
         
-        constant pixel_r_string : string := integer'image( pixel_r );
-        constant pixel_g_string : string := integer'image( pixel_g );
-             constant pixel_b_string : string := integer'image( pixel_b );
+        constant pixel_r_string : string := pad_string(integer'image(pixel_r), 3, ' ');
+        constant pixel_g_string : string := pad_string(integer'image(pixel_g), 3, ' ');
+        constant pixel_b_string : string := pad_string(integer'image(pixel_b), 3, ' ');
         variable text_line    : line;
 
     begin
     
-        write( text_line, pixel_r_string );
+        write( text_line, pixel_r_string&' '&pixel_g_string&' '&pixel_b_string);
         writeline( pbmplus_file, text_line);
 
-        write( text_line, pixel_g_string );
-        writeline( pbmplus_file, text_line);      
+        --write( text_line, pixel_g_string );
+        --writeline( pbmplus_file, text_line);      
 
-        write( text_line, pixel_b_string );
-        writeline( pbmplus_file, text_line);
+        --write( text_line, pixel_b_string );
+        --writeline( pbmplus_file, text_line);
     
     end procedure write_rgb_pixel;
 
