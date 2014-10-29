@@ -70,6 +70,9 @@ architecture behavioural of test_bench_driver_color is
     signal tb_rst:                    std_logic := '0';
     signal tb_enable:                 std_logic := '0';
 
+    signal tb_done:                   std_logic := '0';
+    signal dut_data_valid:            std_logic := '0';
+
     signal end_of_file:               std_logic := '0';
 
     signal red_pixel_tmp:   std_logic_vector(wordsize-1 downto 0) := (others => '0');
@@ -85,41 +88,49 @@ architecture behavioural of test_bench_driver_color is
 
 begin
      --===================rst===================--
-     tb_rst <= '0', '1' after rst_after, '0' after rst_after+rst_duration when (end_of_file = '0' or tb_enable = '1');
+     tb_rst <= '0', '1' after rst_after, '0' after rst_after+rst_duration when (tb_done = '0');
      rst <= tb_rst;
 
      --===================clock===================--
-     tb_clk <= not tb_clk after clk_period_ns when (end_of_file = '0');
+     tb_clk <= not tb_clk after clk_period_ns when (tb_done = '0');
      clk <= tb_clk;
 
     --=================== enable ===============--
     enable <= tb_enable;
 
-    process(tb_clk)
-    begin
-        if tb_rst = '1' then
-            tb_enable <= '1';
-        end if;
-        
-    end process;
-
     --=================== release ===============--
-    release_process: process(tb_rst, end_of_file)
+    release_process: process(tb_clk, tb_rst, end_of_file)
 
-        variable delay_count : integer := dut_delay;
+        variable pre_delay_count  : integer := dut_delay;
+        variable post_delay_count : integer := dut_delay - 1;
     begin
-        if tb_rst = '1' then
-            tb_enable <= '1';  -- enable tb
-        end if;
+        
+        if rising_edge(tb_clk) then
 
-        if end_of_file = '1' then
-
-            if delay_count > 0 then
-                delay_count := delay_count - 1;
-            else
-                tb_enable <= '0';
+            if tb_rst = '1' then
+                tb_enable <= '1';  -- enable tb
             end if;
-            
+
+            if tb_enable = '1' and tb_rst = '0' then
+
+                if pre_delay_count > 0 then
+                    pre_delay_count := pre_delay_count - 1;
+                else
+                    dut_data_valid <= '1';
+                end if;    
+
+            end if;
+
+            if end_of_file = '1' or post_delay_count < dut_delay-1 then
+
+                if post_delay_count > 0 then
+                    post_delay_count := post_delay_count - 1;
+                else
+                    tb_enable <= '0';
+                    tb_done <= '1';
+                end if;
+                
+            end if;
         end if;
     end process;
 
@@ -147,7 +158,7 @@ begin
             end if;
 
             if tb_rst = '0' then
-                if tb_enable = '1' then
+                if tb_enable = '1' and end_of_file = '0' then
 
                     read_rgb_pixel(file_input_pixel, red_pixel_tmp, green_pixel_tmp, blue_pixel_tmp, end_of_file);
 
@@ -169,8 +180,6 @@ begin
         variable g_val: integer := 0;
         variable b_val: integer := 0;
 
-        variable delay_count : integer := dut_delay;
-
     begin
         if rising_edge(tb_clk) then
 
@@ -181,19 +190,15 @@ begin
 
             end if;
 
-            if tb_enable = '1' and tb_rst = '0' then
-                if delay_count > 0 then
-                    delay_count := delay_count - 1;
-                else
+            if tb_enable = '1' and tb_rst = '0' and dut_data_valid = '1' then
                 
-                    -- write output image 
-                    r_val := to_integer(unsigned(red_pixel_to_file));
-                    g_val := to_integer(unsigned(green_pixel_to_file));
-                    b_val := to_integer(unsigned(blue_pixel_to_file));
+                -- write output image 
+                r_val := to_integer(unsigned(red_pixel_to_file));
+                g_val := to_integer(unsigned(green_pixel_to_file));
+                b_val := to_integer(unsigned(blue_pixel_to_file));
 
-                    write_rgb_pixel( r_val, g_val, b_val, file_output_pixel);
+                write_rgb_pixel( r_val, g_val, b_val, file_output_pixel);
 
-                end if;
             end if;
 
         end if;

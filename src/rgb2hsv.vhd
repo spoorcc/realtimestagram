@@ -36,6 +36,17 @@ use ieee.math_real.all;
 --!
 --!
 --!
+--! Hue calculation
+--! ---------------
+--! Hue is calculated following the function:
+--! \f[H =\left\{\begin{matrix} \\
+--! 0, & R=G=B\\
+--! \frac{(G-B)*60^{\circ}}{max(R,G,B)-min(R,G,B)}\textup{mod}\:360^{\circ}, & R \geq G,B\\
+--! \frac{(B-R)*60^{\circ}}{max(R,G,B)-min(R,G,B)}+120^{\circ}, & G \geq R,B\\ 
+--! \frac{(R-G)*60^{\circ}}{max(R,G,B)-min(R,G,B)}+240^{\circ} & B \geq R,G  \\
+--! \end{matrix}\right.\f]
+--! Because this does map correctly on the 8 bits of a byte everythin is normalised to the full range of a byte
+--!
 entity rgb2hsv is
   generic (
     wordsize:             integer := 8    --! input image wordsize in bits
