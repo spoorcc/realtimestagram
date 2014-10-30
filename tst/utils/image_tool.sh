@@ -20,8 +20,6 @@ HEIGHT=512
 
 # Creates pgm gray image where all color channels are averaged into single gray channel 
 function create_gray_image {
-    output_image=$1.pgm
-
     convert ${INPUT_FILE}                           \
             -resize ${WIDTH}x${HEIGHT}\!            \
             -compress none -depth ${BITDEPTH}       \
@@ -31,8 +29,6 @@ function create_gray_image {
 
 # Creates pnm color image
 function create_color_image {
-    output_image=$1.pnm
-
     convert ${INPUT_FILE}                           \
             -resize ${WIDTH}x${HEIGHT}\!            \
             -compress none -depth ${BITDEPTH}       \
@@ -86,10 +82,66 @@ function split_HSV_image {
     rm -f ${VAL}.tmp
 }
 
+function check_if_input_image {
 
-while getopts :h:w:i:o:cgr option
+    if [[ "${INPUT_FILE}" == "" ]]; then
+        echo "Please specify an input image with -i <input_file_path>"
+        exit 1;
+    fi
+}
+
+function create_input_image_color {
+   check_if_input_image
+   create_color_image
+   split_color
+}
+
+function create_input_image_gray {
+   check_if_input_image
+   create_gray_image
+   split_gray
+}
+
+function create_hsv_image {
+
+   check_if_input_image
+   create_HSV_image ${INPUT_FILE} ${OUTPUT_FILE}
+   split_HSV_image ${OUTPUT_FILE}
+
+   rm -f ${OUTPUT_FILE}
+}
+
+function usage {
+
+    printf "\n"
+    printf "image_tool.sh -i <file_path> [opts] (--create_hsv_image|--create_input_image_color|--create_input_image_gray)\n"
+    printf "\n"
+    printf "\tOptions:\n"
+    printf "\t\t-d\t Number of bits in the output image [default = ${BITDEPTH}]\n"
+    printf "\t\t-h\t Height in number of pixels of the output image [default = ${HEIGHT}]\n"
+    printf "\t\t-w\t Width in number of pixels of the output image [default = ${WIDTH}]\n"
+    printf "\t\t-i\t Input file name [MANDATORY]\n"
+    printf "\t\t-o\t Output file name [default = <input_file>.pnm]\n"
+    printf "\t\t-u\t Print this message\n"
+    printf "\n"
+    printf "\tActions:\n"
+    printf "\t\t--create_hsv_image\n"
+    printf "\t\t                  Creates an separate image for Hue Saturation and Value channel\n"
+    printf "\n"
+    printf "\t\t--create_input_image_gray\n"
+    printf "\t\t                  Creates an gray Netpbm image\n"
+    printf "\n"
+    printf "\t\t--create_input_image_color\n"
+    printf "\t\t                  Creates an color Netpbm image\n"
+    printf "\n"
+}
+
+while getopts :uh:w:i:o:cgr-: option
 do
     case "$option" in
+    u)
+         usage
+         ;;
     d)
          BITDEPTH=$OPTARG
          ;;
@@ -106,47 +158,33 @@ do
     o)  
          OUTPUT_FILE=$OPTARG.pnm
          ;;
-    c)
-         COLOR_CONVERSION=1
-         ;;
-    g) 
-         GRAY_CONVERSION=1
-         ;;
-    r)
-         CREATE_REF_IMAGE=1
-         ;;
+    -)
+         case "${OPTARG}" in
+             create_hsv_image)
+                create_hsv_image
+                ;;
+
+             create_input_image_gray)
+                create_input_image_gray
+                ;;
+
+             create_input_image_color)
+                create_input_image_color
+                ;;
+             *)
+                if [ "$OPTERR" = 1 ] && [ "${optspec:0:1}" != ":" ]; then
+                    echo "Unknown option --${OPTARG}" >&2
+                    usage
+                    exit 1
+                fi
+                ;;
+         esac;;
     *)
-        echo "Hmm, an invalid option was received. -h, and -w require an argument."
-        echo "Here's the usage statement:"
         echo ""
-        return
+        echo "ERROR: Invalid option: -${OPTARG}" 
+        usage
+        exit 1
         ;;
         esac
 done
-
-if [[ $CREATE_REF_IMAGE -eq 1 ]]; then
-
-   create_HSV_image ${INPUT_FILE} ${OUTPUT_FILE}
-   split_HSV_image ${OUTPUT_FILE}
-
-   rm -f ${OUTPUT_FILE}
-
-else
-    if [[ $COLOR_CONVERSION -eq $GRAY_CONVERSION ]]; then
-
-        echo "Select either gray with [-g] or color [-c] output images";
-        exit 1; 
-
-    fi
-fi
-
-if [[ $color_conversion -eq 1 ]]; then
-   create_color_image
-   split_color
-fi
-
-if [[ $gray_conversion -eq 1 ]]; then
-   create_gray_image
-   split_gray
-fi
 
