@@ -53,7 +53,7 @@ function split_color {
     rm -f ${OUTPUT_FILE}.tmp
 }
 
-function create_HSV_image {
+function _create_HSV_image {
     
     convert $1 -colorspace HSB -set colorspace RGB $2 
     cat $2 | pnmtoplainpnm > $2.tmp
@@ -64,9 +64,11 @@ function create_HSV_image {
 
 function split_HSV_image {
     
-    HUE=${1}.hue
-    SAT=${1}.sat
-    VAL=${1}.val
+    FILE_EXTENSION="${1##*.}"
+
+    HUE="${1%.*}_hue.${FILE_EXTENSION}"
+    SAT="${1%.*}_sat.${FILE_EXTENSION}"
+    VAL="${1%.*}_val.${FILE_EXTENSION}"
 
     convert $1 -channel R -separate ${HUE}.tmp 
     cat ${HUE}.tmp | pnmtoplainpnm > ${HUE}
@@ -102,19 +104,25 @@ function create_input_image_gray {
    split_gray
 }
 
-function create_hsv_image {
+function create_split_HSV_images {
 
    check_if_input_image
-   create_HSV_image ${INPUT_FILE} ${OUTPUT_FILE}
+   _create_HSV_image ${INPUT_FILE} ${OUTPUT_FILE}
    split_HSV_image ${OUTPUT_FILE}
 
    rm -f ${OUTPUT_FILE}
 }
 
+function create_HSV_image {
+    
+   check_if_input_image
+   _create_HSV_image ${INPUT_FILE} ${OUTPUT_FILE}
+}
+
 function usage {
 
     printf "\n"
-    printf "image_tool.sh -i <file_path> [opts] (--create_hsv_image|--create_input_image_color|--create_input_image_gray)\n"
+    printf "image_tool.sh -i <file_path> [opts] --<action>\n"
     printf "\n"
     printf "\tOptions:\n"
     printf "\t\t-d\t Number of bits in the output image [default = ${BITDEPTH}]\n"
@@ -125,8 +133,11 @@ function usage {
     printf "\t\t-u\t Print this message\n"
     printf "\n"
     printf "\tActions:\n"
-    printf "\t\t--create_hsv_image\n"
+    printf "\t\t--create_split_HSV_images\n"
     printf "\t\t                  Creates an separate image for Hue Saturation and Value channel\n"
+    printf "\n"
+    printf "\t\t--create_HSV_image\n"
+    printf "\t\t                  Creates an image with R:Hue G:Saturation and B:Value channel\n"
     printf "\n"
     printf "\t\t--create_input_image_gray\n"
     printf "\t\t                  Creates an gray Netpbm image\n"
@@ -153,15 +164,19 @@ do
          ;;
     i)  
          INPUT_FILE=$OPTARG
-         OUTPUT_FILE=$OPTARG.pnm
+         OUTPUT_FILE="${OPTARG%.*}.pnm"
          ;;
     o)  
          OUTPUT_FILE=$OPTARG.pnm
          ;;
     -)
          case "${OPTARG}" in
-             create_hsv_image)
-                create_hsv_image
+             create_split_HSV_images)
+                create_split_HSV_images
+                ;;
+
+             create_HSV_image)
+                create_HSV_image
                 ;;
 
              create_input_image_gray)
