@@ -14,12 +14,12 @@
 --   along with Realtimestagram.  If not, see <http://www.gnu.org/licenses/>.
 
 
-entity lomo_testsets_tb is
+entity rgb2hsv_testsets_tb is
 end entity;
 
-architecture all_tests of lomo_testsets_tb is
+architecture all_tests of rgb2hsv_testsets_tb is
 
-    component lomo_tb is
+    component rgb2hsv_tb is
         generic (
             input_file:   string; --! Input file of test 
             output_file:  string  --! Output file of test 
@@ -28,34 +28,34 @@ architecture all_tests of lomo_testsets_tb is
 
 begin
 
-    Lenna: lomo_tb
+    Lenna: rgb2hsv_tb
         generic map(
             input_file  => "tst/input/Lenna.pnm",
-            output_file => "tst/output/lomo_lenna.pnm"
+            output_file => "tst/output/rgb2hsv_lenna.pnm"
         );
 
-    windmill: lomo_tb
+    windmill: rgb2hsv_tb
         generic map(
             input_file  => "tst/input/windmill.pnm",
-            output_file => "tst/output/lomo_windmill.pnm"
+            output_file => "tst/output/rgb2hsv_windmill.pnm"
         );
 
-    danger_zone: lomo_tb
+    danger_zone: rgb2hsv_tb
         generic map(
             input_file  => "tst/input/danger_zone.pnm",
-            output_file => "tst/output/lomo_danger_zone.pnm"
+            output_file => "tst/output/rgb2hsv_danger_zone.pnm"
         );
 
-    amersfoort: lomo_tb
+    amersfoort: rgb2hsv_tb
         generic map(
             input_file  => "tst/input/amersfoort.pnm",
-            output_file => "tst/output/lomo_amersfoort.pnm"
+            output_file => "tst/output/rgb2hsv_amersfoort.pnm"
         );
 
-    rainbow: lomo_tb
+    rainbow: rgb2hsv_tb
         generic map(
             input_file  => "tst/input/rainbow.pnm",
-            output_file => "tst/output/lomo_rainbow.pnm"
+            output_file => "tst/output/rgb2hsv_rainbow.pnm"
         );
 
 end architecture;
