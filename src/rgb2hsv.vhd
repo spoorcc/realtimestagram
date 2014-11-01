@@ -13,17 +13,6 @@
 --   You should have received a copy of the GNU General Public License
 --   along with Realtimestagram.  If not, see <http://www.gnu.org/licenses/>.
 
---! <!------------------------------------------------------------------------------>
---! <!------------------------------------------------------------------------------>
---! \class rgb2hsv
---! \brief Creates seperate Hue Saturation Value channels from rgb signal
---!
---!
---! <!------------------------------------------------------------------------------>
---! <!------------------------------------------------------------------------------>
-
---------------------------------------------------------------------------------
-
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
@@ -32,21 +21,37 @@ use ieee.numeric_std.all;
 use ieee.math_real.all;
 
 --============================================================================--
+--! \class rgb2hsv
+--! \brief Creates seperate Hue Saturation Value channels from rgb signal
 --!
---!
---!
---!
---! Hue calculation
+--! Hue
 --! ---------------
+--! The Hue indicates the degrees on the color circle. Starting at 0 degrees with red, 
+--! 120 degrees for green and 240 degrees for blue. 
+--! Because 360 degrees does map not correctly on the 8 bits of a byte everything is normalised 
+--! to the full range of a byte
 --! Hue is calculated following the function:
---! \f[H =\left\{\begin{matrix} \\
---! 0, & R=G=B\\
+--! \f[H =\left\{\begin{matrix} 0, & R=G=B\\
 --! \frac{(G-B)*60^{\circ}}{max(R,G,B)-min(R,G,B)}\textup{mod}\:360^{\circ}, & R \geq G,B\\
 --! \frac{(B-R)*60^{\circ}}{max(R,G,B)-min(R,G,B)}+120^{\circ}, & G \geq R,B\\ 
 --! \frac{(R-G)*60^{\circ}}{max(R,G,B)-min(R,G,B)}+240^{\circ} & B \geq R,G  \\
 --! \end{matrix}\right.\f]
---! Because this does map correctly on the 8 bits of a byte everythin is normalised to the full range of a byte
 --!
+--! Saturation
+--! ----------------------
+--! The saturation indicates the strength of the color.
+--! Saturation is calculated following the function:
+--! \f[S =\left\{\begin{matrix} 0, & max(R,G,B)=0 \\
+--! \frac{max(R,G,B)-min(R,G,B)}{max(R,G,B)}, & otherwise\\
+--! \end{matrix}\right.\f]
+--!
+--! Value
+--! ----------------------
+--! The value indicates the intensity of the pixel.
+--! Value is calculated using the following function:
+--! \f[ V = max(R,G,B)\f]
+--!
+
 entity rgb2hsv is
   generic (
     wordsize:             integer := 8    --! input image wordsize in bits
@@ -68,10 +73,12 @@ entity rgb2hsv is
     pixel_val_o:          out std_logic_vector((wordsize-1) downto 0)  --! value of pixel
   );
 
-
     type mux_select_delay is array(0 to 3) of integer range 0 to 2;
     type max_delay is array(0 to 2) of integer range 0 to 2**wordsize;
-
+    
+    constant c_60_degrees  : integer := integer(round(real( 60)/real(360) * real(2**wordsize)));
+    constant c_120_degrees : integer := integer(round(real(120)/real(360) * real(2**wordsize)));
+    constant c_240_degrees : integer := integer(round(real(240)/real(360) * real(2**wordsize)));
 
 end entity;
 
@@ -81,21 +88,21 @@ architecture behavioural of rgb2hsv is
 
     
     -- signal declarations
-    signal rgdiff:                 integer range -2**wordsize to 2**wordsize;   
-    signal brdiff:                 integer range -2**wordsize to 2**wordsize;      
-    signal gbdiff:                 integer range -2**wordsize to 2**wordsize;     
+    signal rgdiff:                 integer range -2**wordsize to 2**wordsize; --! Difference between Red and Green input pixel 
+    signal brdiff:                 integer range -2**wordsize to 2**wordsize; --! Difference between Blue and Red input pixel 
+    signal gbdiff:                 integer range -2**wordsize to 2**wordsize; --! Difference between Green and Blue input pixel   
 
-    signal c_rgdiff:               integer range -2**wordsize * 43 to 2**wordsize * 43;
-    signal c_brdiff:               integer range -2**wordsize * 43 to 2**wordsize * 43;      
-    signal c_gbdiff:               integer range -2**wordsize * 43 to 2**wordsize * 43;     
+    signal c_rgdiff:               integer range -2**wordsize * c_60_degrees to 2**wordsize * c_60_degrees; --! rg_diff * 60 degrees
+    signal c_brdiff:               integer range -2**wordsize * c_60_degrees to 2**wordsize * c_60_degrees; --! br_diff * 60 degrees
+    signal c_gbdiff:               integer range -2**wordsize * c_60_degrees to 2**wordsize * c_60_degrees; --! gb_diff * 60 degrees
 
-    signal c_rgdiff_d0:            integer range -2**wordsize * 43 to 2**wordsize * 43;
-    signal c_brdiff_d0:            integer range -2**wordsize * 43 to 2**wordsize * 43;      
-    signal c_gbdiff_d0:            integer range -2**wordsize * 43 to 2**wordsize * 43;     
+    signal c_rgdiff_d0:            integer range -2**wordsize * c_60_degrees to 2**wordsize * c_60_degrees; --! delayed c_rgdiff
+    signal c_brdiff_d0:            integer range -2**wordsize * c_60_degrees to 2**wordsize * c_60_degrees; --! delayed c_brdiff
+    signal c_gbdiff_d0:            integer range -2**wordsize * c_60_degrees to 2**wordsize * c_60_degrees; --! delayed c_gbdiff
 
-    signal c_rgdiff_div_max:       integer range -2**wordsize to 2**wordsize;
-    signal c_brdiff_div_max:       integer range -2**wordsize to 2**wordsize;      
-    signal c_gbdiff_div_max:       integer range -2**wordsize to 2**wordsize;     
+    signal c_rgdiff_div_max:       integer range -2**wordsize to 2**wordsize; --! delayed c_rgdiff divided by max
+    signal c_brdiff_div_max:       integer range -2**wordsize to 2**wordsize; --! delayed c_brdiff divided by max     
+    signal c_gbdiff_div_max:       integer range -2**wordsize to 2**wordsize; --! delayed c_gbdiff divided by max    
 
     signal rg_mux_in:              integer range -2**wordsize to 2**wordsize;   
     signal br_mux_in:              integer range -2**wordsize to 2**wordsize;      
@@ -209,9 +216,9 @@ begin
                 brdiff <= (blue_i_int - red_i_int);
                 gbdiff <= (green_i_int - blue_i_int);
 
-                c_rgdiff <= 43 * rgdiff;
-                c_brdiff <= 43 * brdiff;
-                c_gbdiff <= 43 * gbdiff;
+                c_rgdiff <= c_60_degrees * rgdiff;
+                c_brdiff <= c_60_degrees * brdiff;
+                c_gbdiff <= c_60_degrees * gbdiff;
 
                 c_rgdiff_d0 <= c_rgdiff;
                 c_brdiff_d0 <= c_brdiff;
@@ -227,9 +234,9 @@ begin
                     c_gbdiff_div_max <= 0;
                 end if;
 
-                gb_mux_in <=        c_gbdiff_div_max;
-                br_mux_in <= ( 85 + c_brdiff_div_max) mod 2**wordsize;
-                rg_mux_in <= (171 + c_rgdiff_div_max) mod 2**wordsize;
+                gb_mux_in <=                  c_gbdiff_div_max;
+                br_mux_in <= (c_120_degrees + c_brdiff_div_max) mod 2**wordsize;
+                rg_mux_in <= (c_240_degrees + c_rgdiff_div_max) mod 2**wordsize;
 
                 -- mux delay
                 mux_select(2 to 3) <= mux_select(1 to 2);
