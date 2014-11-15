@@ -64,7 +64,7 @@ entity hsv2rgb is
 
     -- Types for bailey architecture
     type val_delay         is array(0 to 2) of integer range 0 to 2**wordsize;
-    type h_msb_delay       is array(0 to 2) of integer range 0 to 6;
+    type h_msb_delay       is array(0 to 3) of integer range 0 to 6;
 
 end entity;
 
@@ -227,7 +227,7 @@ end architecture;
 
 architecture bailey of hsv2rgb is
 
-    constant degrees60:             integer := 60*256/360;
+    constant degrees60:             integer := integer(ceil(real(60)*real(256)/real(360)));
     
     signal val_times_sat:           integer range 0 to 2**(wordsize*2);
 
@@ -237,7 +237,7 @@ architecture bailey of hsv2rgb is
     signal hue_lsb:                 integer range 0 to 2**wordsize;
     signal hue_msb:                 h_msb_delay;
 
-    signal hue_msb_odd:             integer range 0 to 1;
+    --signal hue_msb_odd:             integer range 0 to 1;
 
     signal one_min_hue_lsb:         integer range 0 to 2**wordsize;
 
@@ -251,6 +251,8 @@ begin
         variable hue_i_int : integer range 0 to 2**wordsize := 0;
         variable sat_i_int : integer range 0 to 2**wordsize := 0;
         variable val_i_int : integer range 0 to 2**wordsize := 0;
+
+        variable hue_msb_odd : integer range 0 to 1;
         
     begin
         if rst = '1' then
@@ -262,7 +264,7 @@ begin
            hue_lsb <= 0;
            hue_msb <= (others => 0);
 
-           hue_msb_odd <= 0;
+           hue_msb_odd := 0;
 
            one_min_hue_lsb <= 0;
 
@@ -286,11 +288,11 @@ begin
                 val_min_valsat <= 2**wordsize * val(0) - val_times_sat;
 
                 hue_lsb    <= (hue_i_int mod degrees60) * 6; 
-                hue_msb(0) <= hue_i_int / degrees60; 
+                hue_msb(0) <=  hue_i_int / degrees60; 
 
-                hue_msb_odd <= hue_msb(0) mod 2;
+                hue_msb_odd := hue_msb(0) mod 2;
 
-                hue_msb(1 to 2) <= hue_msb(0 to 1);
+                hue_msb(1 to 3) <= hue_msb(0 to 2);
 
                 if hue_msb_odd = 1 then
                     one_min_hue_lsb <= 2**wordsize - hue_lsb;
@@ -315,7 +317,7 @@ begin
                         pixel_green_o <= std_logic_vector(to_unsigned(val(2), wordsize));
                         pixel_blue_o  <= std_logic_vector(to_unsigned(val_min_valsat/2**wordsize, wordsize));
                     when 2 =>
-                        pixel_red_o   <= std_logic_vector(to_unsigned(val_min_valsat, wordsize));
+                        pixel_red_o   <= std_logic_vector(to_unsigned(val_min_valsat/2**wordsize, wordsize));
                         pixel_green_o <= std_logic_vector(to_unsigned(val(2), wordsize));
                         pixel_blue_o  <= std_logic_vector(to_unsigned(valsat_t_hue_lsb/2**(wordsize*2), wordsize));
                     when 3 =>
