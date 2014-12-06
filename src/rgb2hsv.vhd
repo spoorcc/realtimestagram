@@ -109,6 +109,7 @@ architecture behavioural of rgb2hsv is
     signal gb_mux_in:              integer range -2**wordsize to 2**wordsize;     
 
     signal mux_select:             mux_select_delay;
+    signal mux_out:                std_logic_vector(wordsize-1 downto 0);
 
     -- comparator
     signal r_versus_g_max:         integer range 0 to 2**wordsize;
@@ -133,7 +134,6 @@ begin
         variable green_i_int : integer range 0 to 2**wordsize := 0;
         variable blue_i_int  : integer range 0 to 2**wordsize := 0;
 
-        variable mux_out  : std_logic_vector(wordsize-1 downto 0) := (others => '0');
         variable sat_out  : std_logic_vector(wordsize-1 downto 0) := (others => '0');
 
     begin
@@ -212,42 +212,42 @@ begin
                 max_min_min <= b_versus_max - b_versus_min;
 
                 -- Hue calculation
-                rgdiff <= (red_i_int - green_i_int);
-                brdiff <= (blue_i_int - red_i_int);
                 gbdiff <= (green_i_int - blue_i_int);
+                brdiff <= (blue_i_int - red_i_int);
+                rgdiff <= (red_i_int - green_i_int);
 
-                c_rgdiff <= c_60_degrees * rgdiff;
-                c_brdiff <= c_60_degrees * brdiff;
                 c_gbdiff <= c_60_degrees * gbdiff;
+                c_brdiff <= c_60_degrees * brdiff;
+                c_rgdiff <= c_60_degrees * rgdiff;
 
-                c_rgdiff_d0 <= c_rgdiff;
-                c_brdiff_d0 <= c_brdiff;
                 c_gbdiff_d0 <= c_gbdiff;
+                c_brdiff_d0 <= c_brdiff;
+                c_rgdiff_d0 <= c_rgdiff;
 
                 if max_min_min /= 0 then
-                    c_rgdiff_div_max <= (c_rgdiff_d0 / max_min_min) mod 2**wordsize;
-                    c_brdiff_div_max <= (c_brdiff_d0 / max_min_min) mod 2**wordsize;
                     c_gbdiff_div_max <= (c_gbdiff_d0 / max_min_min) mod 2**wordsize;
+                    c_brdiff_div_max <= (c_brdiff_d0 / max_min_min);
+                    c_rgdiff_div_max <= (c_rgdiff_d0 / max_min_min);
                 else
-                    c_rgdiff_div_max <= 0;
-                    c_brdiff_div_max <= 0;
                     c_gbdiff_div_max <= 0;
+                    c_brdiff_div_max <= 0;
+                    c_rgdiff_div_max <= 0;
                 end if;
 
                 gb_mux_in <=                  c_gbdiff_div_max;
-                br_mux_in <= (c_120_degrees + c_brdiff_div_max) mod 2**wordsize;
-                rg_mux_in <= (c_240_degrees + c_rgdiff_div_max) mod 2**wordsize;
+                br_mux_in <= (c_120_degrees + c_brdiff_div_max);
+                rg_mux_in <= (c_240_degrees + c_rgdiff_div_max);
 
                 -- mux delay
                 mux_select(2 to 3) <= mux_select(1 to 2);
 
                 -- mux
                 if mux_select(3) = 0 then
-                    mux_out := std_logic_vector(to_unsigned(gb_mux_in, wordsize));
+                    mux_out <= std_logic_vector(to_unsigned(gb_mux_in, wordsize));
                 elsif mux_select(3) = 1 then
-                    mux_out := std_logic_vector(to_unsigned(br_mux_in, wordsize));
+                    mux_out <= std_logic_vector(to_unsigned(br_mux_in, wordsize));
                 else
-                    mux_out := std_logic_vector(to_unsigned(rg_mux_in, wordsize));
+                    mux_out <= std_logic_vector(to_unsigned(rg_mux_in, wordsize));
                 end if;
 
                 pixel_hue_o <= mux_out(wordsize-1 downto 0);
