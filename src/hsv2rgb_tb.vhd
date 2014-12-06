@@ -26,7 +26,7 @@ use ieee.math_real.all;
 
 entity hsv2rgb_tb is
     generic (
-        input_file:           string  := "tst/output/rgb2hsv_rainbow.pnm"; --! Input file of test 
+        input_file:           string  := "tst/output/rgb2hsv_hue_gradient.pnm"; --! Input file of test 
         output_file:          string  := "tst/output/hsv2rgb_output.pnm"; --! Output file of test 
 
         image_width:          integer := const_imagewidth; --! Width of input image
