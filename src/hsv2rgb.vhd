@@ -63,8 +63,8 @@ entity hsv2rgb is
     type v_delay           is array(0 to 5) of integer range 0 to 2**wordsize;
 
     -- Types for bailey architecture
-    type val_delay         is array(0 to 2) of integer range 0 to 2**wordsize;
-    type h_msb_delay       is array(0 to 2) of integer range 0 to 6;
+    type val_delay         is array(0 to 4) of integer range 0 to 2**wordsize;
+    type h_msb_delay       is array(0 to 3) of integer range 0 to 6;
 
 end entity;
 
@@ -72,21 +72,25 @@ end entity;
 
 architecture bailey of hsv2rgb is
 
-    constant degrees60:             integer := integer(ceil(real(60)*real(256)/real(360)));
+    constant degrees60:                 integer := integer(ceil(real(60)*real(256)/real(360)));
     
-    signal val_times_sat:           integer range 0 to 2**(wordsize*2);
-    signal val_times_sat_d0:        integer range 0 to 2**(wordsize*2);
+    signal val_times_sat:               integer range 0 to 2**(wordsize*2);
+    signal val_times_sat_d0:            integer range 0 to 2**(wordsize*2);
 
-    signal val_min_valsat:          integer range 0 to 2**(wordsize*2);
+    signal val_min_valsat:              integer range 0 to 2**(wordsize*2);
 
-    signal hue_lsb:                 integer range 0 to 2**wordsize;
-    signal hue_msb:                 h_msb_delay;
+    signal hue_lsb:                     integer range 0 to 2**wordsize;
+    signal hue_msb:                     h_msb_delay;
 
-    signal one_min_hue_lsb:         integer range 0 to 2**wordsize;
+    signal one_min_hue_lsb:             integer range 0 to 2**wordsize;
 
-    signal valsat_t_hue_lsb:        integer range 0 to 2**(wordsize*3);
+    signal valsat_t_hue_lsb:            integer range 0 to 2**(wordsize*3);
+    signal val_min_vs_hlsb:             integer range 0 to 2**(wordsize*3);
  
-    signal val:                     val_delay;
+    signal val_min_valsat_scaled:       integer range 0 to 2**wordsize;
+    signal val_min_valsat_scaled_d0:    integer range 0 to 2**wordsize;
+ 
+    signal val:                         val_delay;
 begin
 
     hsv2rgb : process(clk, rst)
@@ -97,8 +101,7 @@ begin
 
         variable hue_msb_odd : integer range 0 to 1;
        
-        variable valsat_t_hue_lsb_scaled : integer range 0 to 2**wordsize := 0; 
-        variable val_min_valsat_scaled   : integer range 0 to 2**wordsize := 0; 
+        variable v_min_vs_hlsb_scaled : integer range 0 to 2**wordsize := 0; 
     begin
         if rst = '1' then
 
@@ -106,6 +109,8 @@ begin
            val_times_sat_d0 <= 0;
 
            val_min_valsat <= 0;
+           val_min_valsat_scaled <= 0;
+           val_min_valsat_scaled_d0 <= 0;
 
            hue_lsb <= 0;
            hue_msb <= (others => 0);
@@ -115,7 +120,7 @@ begin
            one_min_hue_lsb <= 0;
 
            valsat_t_hue_lsb <= 0; 
-
+           
            val <= (others => 0);
 
         elsif rising_edge(clk) then
@@ -130,14 +135,14 @@ begin
                 val_times_sat_d0 <= val_times_sat;
 
                 val(0) <= val_i_int;
-                val(1 to 2) <= val(0 to 1);
+                val(1 to 4) <= val(0 to 3);
 
                 val_min_valsat <= 2**wordsize * val(0) - val_times_sat;
 
                 hue_lsb    <= (hue_i_int mod degrees60) * 6;
                 hue_msb(0) <= (hue_i_int  /  degrees60 + 1) mod 6; 
 
-                hue_msb(1 to 2) <= hue_msb(0 to 1);
+                hue_msb(1 to 3) <= hue_msb(0 to 2);
 
                 hue_msb_odd := hue_msb(0) mod 2;
                 if hue_msb_odd = 1 then
@@ -148,35 +153,38 @@ begin
 
                 valsat_t_hue_lsb <= one_min_hue_lsb * val_times_sat_d0; 
 
-                valsat_t_hue_lsb_scaled := (val(2) * 2**(wordsize*2) - valsat_t_hue_lsb) / 2**(wordsize*2);
-                val_min_valsat_scaled   := val_min_valsat   / 2**wordsize;
+                val_min_vs_hlsb <= val(2) * 2**(wordsize*2) - valsat_t_hue_lsb;
+
+                v_min_vs_hlsb_scaled := val_min_vs_hlsb / 2**(wordsize*2);
+                val_min_valsat_scaled   <= val_min_valsat   / 2**wordsize;
+                val_min_valsat_scaled_d0   <= val_min_valsat_scaled;
 
                 -- Mux output selection
-                output_mux: case hue_msb(2) is
+                output_mux: case hue_msb(3) is
                     when 0 =>
-                        pixel_red_o   <= std_logic_vector(to_unsigned(val(2), wordsize));
-                        pixel_green_o <= std_logic_vector(to_unsigned(val_min_valsat_scaled, wordsize));
-                        pixel_blue_o  <= std_logic_vector(to_unsigned(valsat_t_hue_lsb_scaled, wordsize));
+                        pixel_red_o   <= std_logic_vector(to_unsigned(val(3), wordsize));
+                        pixel_green_o <= std_logic_vector(to_unsigned(val_min_valsat_scaled_d0, wordsize));
+                        pixel_blue_o  <= std_logic_vector(to_unsigned(v_min_vs_hlsb_scaled, wordsize));
                     when 1 =>
-                        pixel_red_o   <= std_logic_vector(to_unsigned(val(2), wordsize));
-                        pixel_green_o <= std_logic_vector(to_unsigned(valsat_t_hue_lsb_scaled, wordsize));
-                        pixel_blue_o  <= std_logic_vector(to_unsigned(val_min_valsat_scaled, wordsize));
+                        pixel_red_o   <= std_logic_vector(to_unsigned(val(3), wordsize));
+                        pixel_green_o <= std_logic_vector(to_unsigned(v_min_vs_hlsb_scaled, wordsize));
+                        pixel_blue_o  <= std_logic_vector(to_unsigned(val_min_valsat_scaled_d0, wordsize));
                     when 2 =>
-                        pixel_red_o   <= std_logic_vector(to_unsigned(valsat_t_hue_lsb_scaled, wordsize));
-                        pixel_green_o <= std_logic_vector(to_unsigned(val(2), wordsize));
-                        pixel_blue_o  <= std_logic_vector(to_unsigned(val_min_valsat_scaled, wordsize));
+                        pixel_red_o   <= std_logic_vector(to_unsigned(v_min_vs_hlsb_scaled, wordsize));
+                        pixel_green_o <= std_logic_vector(to_unsigned(val(3), wordsize));
+                        pixel_blue_o  <= std_logic_vector(to_unsigned(val_min_valsat_scaled_d0, wordsize));
                     when 3 =>
-                        pixel_red_o   <= std_logic_vector(to_unsigned(val_min_valsat_scaled, wordsize));
-                        pixel_green_o <= std_logic_vector(to_unsigned(val(2), wordsize));
-                        pixel_blue_o  <= std_logic_vector(to_unsigned(valsat_t_hue_lsb_scaled, wordsize));
+                        pixel_red_o   <= std_logic_vector(to_unsigned(val_min_valsat_scaled_d0, wordsize));
+                        pixel_green_o <= std_logic_vector(to_unsigned(val(3), wordsize));
+                        pixel_blue_o  <= std_logic_vector(to_unsigned(v_min_vs_hlsb_scaled, wordsize));
                     when 4 =>
-                        pixel_red_o   <= std_logic_vector(to_unsigned(val_min_valsat_scaled, wordsize));
-                        pixel_green_o <= std_logic_vector(to_unsigned(valsat_t_hue_lsb_scaled, wordsize));
-                        pixel_blue_o  <= std_logic_vector(to_unsigned(val(2), wordsize));
+                        pixel_red_o   <= std_logic_vector(to_unsigned(val_min_valsat_scaled_d0, wordsize));
+                        pixel_green_o <= std_logic_vector(to_unsigned(v_min_vs_hlsb_scaled, wordsize));
+                        pixel_blue_o  <= std_logic_vector(to_unsigned(val(3), wordsize));
                     when 5 =>
-                        pixel_red_o   <= std_logic_vector(to_unsigned(valsat_t_hue_lsb_scaled, wordsize));
-                        pixel_green_o <= std_logic_vector(to_unsigned(val_min_valsat_scaled, wordsize));
-                        pixel_blue_o  <= std_logic_vector(to_unsigned(val(2), wordsize));
+                        pixel_red_o   <= std_logic_vector(to_unsigned(v_min_vs_hlsb_scaled, wordsize));
+                        pixel_green_o <= std_logic_vector(to_unsigned(val_min_valsat_scaled_d0, wordsize));
+                        pixel_blue_o  <= std_logic_vector(to_unsigned(val(3), wordsize));
                     when others =>
                         pixel_red_o   <= (others => '0');
                         pixel_green_o <= (others => '0');

@@ -26,7 +26,7 @@ use ieee.math_real.all;
 
 entity hsv2rgb_tb is
     generic (
-        input_file:           string  := "tst/output/rgb2hsv_hue_gradient.pnm"; --! Input file of test 
+        input_file:           string  := "tst/output/rgb2hsv_rainbow.pnm"; --! Input file of test 
         output_file:          string  := "tst/output/hsv2rgb_output.pnm"; --! Output file of test 
 
         image_width:          integer := const_imagewidth; --! Width of input image
@@ -51,7 +51,7 @@ architecture structural of hsv2rgb_tb is
             rst_after:          time := 9 ns;
             rst_duration:       time := 8 ns;
 
-            dut_delay:          integer := 4
+            dut_delay:          integer := 5
         );
         port (
             clk:                out std_logic;
