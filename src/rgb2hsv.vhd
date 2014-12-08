@@ -73,7 +73,7 @@ entity rgb2hsv is
     pixel_val_o:          out std_logic_vector((wordsize-1) downto 0)  --! value of pixel
   );
 
-    type mux_select_delay is array(0 to 3) of integer range 0 to 2;
+    type mux_select_delay is array(0 to 4) of integer range 0 to 2;
     type max_delay is array(0 to 2) of integer range 0 to 2**wordsize;
     
     constant c_60_degrees  : integer := integer(round(real( 60)/real(360) * real(2**wordsize)));
@@ -109,7 +109,6 @@ architecture behavioural of rgb2hsv is
     signal gb_mux_in:              integer range -2**wordsize to 2**wordsize;     
 
     signal mux_select:             mux_select_delay;
-    signal mux_out:                std_logic_vector(wordsize-1 downto 0);
 
     -- comparator
     signal r_versus_g_max:         integer range 0 to 2**wordsize;
@@ -134,7 +133,9 @@ begin
         variable green_i_int : integer range 0 to 2**wordsize := 0;
         variable blue_i_int  : integer range 0 to 2**wordsize := 0;
 
-        variable sat_out  : std_logic_vector(wordsize-1 downto 0) := (others => '0');
+        variable sat_out     : std_logic_vector(wordsize-1 downto 0) := (others => '0');
+
+        variable mux_out     : std_logic_vector(wordsize-1 downto 0) := (others => '0');
 
     begin
         if rst = '1' then
@@ -239,15 +240,15 @@ begin
                 rg_mux_in <= (c_240_degrees + c_rgdiff_div_max);
 
                 -- mux delay
-                mux_select(2 to 3) <= mux_select(1 to 2);
+                mux_select(2 to 4) <= mux_select(1 to 3);
 
                 -- mux
-                if mux_select(3) = 0 then
-                    mux_out <= std_logic_vector(to_unsigned(gb_mux_in, wordsize));
-                elsif mux_select(3) = 1 then
-                    mux_out <= std_logic_vector(to_unsigned(br_mux_in, wordsize));
+                if mux_select(4) = 0 then
+                    mux_out := std_logic_vector(to_unsigned(gb_mux_in, wordsize));
+                elsif mux_select(4) = 1 then
+                    mux_out := std_logic_vector(to_unsigned(br_mux_in, wordsize));
                 else
-                    mux_out <= std_logic_vector(to_unsigned(rg_mux_in, wordsize));
+                    mux_out := std_logic_vector(to_unsigned(rg_mux_in, wordsize));
                 end if;
 
                 pixel_hue_o <= mux_out(wordsize-1 downto 0);
