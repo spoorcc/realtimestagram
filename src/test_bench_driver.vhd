@@ -66,9 +66,10 @@ architecture behavioural of test_bench_driver is
     signal tb_rst:                    std_logic := '0';
     signal tb_enable:                 std_logic := '0';
 
-    signal end_of_file:               std_logic := '0';
-
     signal tb_done:                   std_logic := '0';
+    signal dut_data_valid:            std_logic := '0';
+
+    signal end_of_file:               std_logic := '0';
 
     signal pixel_tmp: std_logic_vector(wordsize-1 downto 0) := (others => '0');
 
@@ -94,31 +95,60 @@ begin
     --=================== release ===============--
     release_process: process(tb_clk, tb_rst, end_of_file)
 
-        variable delay_count : integer := dut_delay;
+        variable pre_delay_count  : integer := dut_delay;
+        variable post_delay_count : integer := dut_delay - 1;
     begin
-        if tb_rst = '1' then
-            tb_enable <= '1';  -- enable tb
-        end if;
+        
+        if rising_edge(tb_clk) then
 
-        if end_of_file = '1' or delay_count < dut_delay then
-
-            if delay_count > 0 then
-                delay_count := delay_count - 1;
-            else
-                tb_enable <= '0';
-                tb_done <= '1';
+            if tb_rst = '1' then
+                tb_enable <= '1';  -- enable tb
             end if;
-            
+
+            if tb_enable = '1' and tb_rst = '0' then
+
+                if pre_delay_count > 0 then
+                    pre_delay_count := pre_delay_count - 1;
+                else
+                    dut_data_valid <= '1';
+                end if;    
+
+            end if;
+
+            if end_of_file = '1' or post_delay_count < dut_delay-1 then
+
+                if post_delay_count > 0 then
+                    post_delay_count := post_delay_count - 1;
+                else
+                    tb_enable <= '0';
+                    tb_done <= '1';
+                end if;
+                
+            end if;
         end if;
     end process;
 
     --===================process for reading input_pixels ===============--
     reading_input_pixels: process(tb_clk)
+
+        constant pgm_width         : integer := const_imagewidth;
+        constant pgm_height        : integer := const_imageheight;
+        constant max_pixel_value   : integer := 2**wordsize-1;
+
+        variable readheader: std_logic := '1';
     begin
 
         pixel_from_file <= pixel_tmp;
 
         if rising_edge(tb_clk) then
+
+            if readheader = '1' then
+
+                read_pbmplus_header( pgm_width, pgm_height, max_pixel_value, pgm, file_input_pixel );
+                readheader := '0';
+
+            end if;
+
             if tb_rst = '0' then
                 if tb_enable = '1' and end_of_file = '0' then
 

@@ -27,11 +27,14 @@ use work.curves_pkg.all;
 
 entity vignette_tb is
     generic (
-        input_file:           string  := "tst/input_pixel.txt";     --! Input file of test 
-        output_file:          string  := "tst/vignette_output.pgm"; --! Output file of test 
+        input_file:           string  := "tst/input/amersfoort_gray.pgm";  --! Input file of test 
+        output_file:          string  := "tst/output/vignette_output.pgm"; --! Output file of test 
 
-        image_width:          integer := const_imagewidth; --! Width of input image
-        image_height:         integer := const_imageheight  --! Height of input image
+        image_width:          integer := const_imagewidth;  --! Width of input image
+        image_height:         integer := const_imageheight; --! Height of input image
+
+        vignette_x_c:         real := 1.0; --! Strength of vignette in x direction
+        vignette_y_c:         real := 1.0  --! Strength of vignette in y direction
     );
 end entity;
 
@@ -76,8 +79,8 @@ architecture structural of vignette_tb is
             width:                integer := image_width;
             height:               integer := image_height;
 
-            lut_x:                array_pixel := create_sine_lut(image_width,  1.0);
-            lut_y:                array_pixel := create_sine_lut(image_height, 1.0)
+            lut_x:                array_pixel := create_sine_lut(image_width,  vignette_x_c);
+            lut_y:                array_pixel := create_sine_lut(image_height, vignette_y_c)
         );
         port (
             clk:                  in std_logic;

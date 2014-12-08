@@ -24,8 +24,8 @@ use work.curves_pkg.all;
 
 entity sigmoid_tb is
     generic (
-        input_file:           string  := "tst/input_pixel.txt"; --! Input file of test 
-        output_file:          string  := "tst/sigmoid_output.pgm"; --! Output file of test 
+        input_file:           string  := "tst/input/amersfoort_gray.pgm"; --! Input file of test 
+        output_file:          string  := "tst/output/sigmoid_output.pgm"; --! Output file of test 
 
         c_factor:             real    := 15.0 --! Amount of contrast adjustment
     );

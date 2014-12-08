@@ -24,8 +24,8 @@ use work.curves_pkg.all;
 
 entity gamma_tb is
     generic (
-        input_file:           string  := "tst/input_pixel.txt"; --! Input file of test 
-        output_file:          string  := "tst/gamma_output.pgm"; --! Output file of test 
+        input_file:           string  := "tst/input/amersfoort_gray.pgm"; --! Input file of test 
+        output_file:          string  := "tst/output/gamma_output.pgm"; --! Output file of test 
 
         gamma:                real    := 0.5;  --! Amount of contrast adjustment
         c_factor:             real    := 1.0 --! Amount of contrast adjustment
