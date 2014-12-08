@@ -63,7 +63,7 @@ entity hsv2rgb is
     type v_delay           is array(0 to 5) of integer range 0 to 2**wordsize;
 
     -- Types for bailey architecture
-    type val_delay         is array(0 to 4) of integer range 0 to 2**wordsize;
+    type val_delay         is array(0 to 3) of integer range 0 to 2**wordsize;
     type h_msb_delay       is array(0 to 3) of integer range 0 to 6;
 
 end entity;
@@ -135,7 +135,7 @@ begin
                 val_times_sat_d0 <= val_times_sat;
 
                 val(0) <= val_i_int;
-                val(1 to 4) <= val(0 to 3);
+                val(1 to 3) <= val(0 to 2);
 
                 val_min_valsat <= 2**wordsize * val(0) - val_times_sat;
 
