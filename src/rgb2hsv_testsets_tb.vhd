@@ -58,4 +58,22 @@ begin
             output_file => "tst/output/rgb2hsv_rainbow.pnm"
         );
 
+    hue_gradient: rgb2hsv_tb
+        generic map(
+            input_file  => "tst/input/hue_gradient.pnm",
+            output_file => "tst/output/rgb2hsv_hue_gradient.pnm"
+        );
+
+    sat_gradient: rgb2hsv_tb
+        generic map(
+            input_file  => "tst/input/sat_gradient.pnm",
+            output_file => "tst/output/rgb2hsv_sat_gradient.pnm"
+        );
+
+    val_gradient: rgb2hsv_tb
+        generic map(
+            input_file  => "tst/input/val_gradient.pnm",
+            output_file => "tst/output/rgb2hsv_val_gradient.pnm"
+        );
+
 end architecture;

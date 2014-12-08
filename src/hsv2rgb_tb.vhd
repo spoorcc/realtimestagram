@@ -24,10 +24,10 @@ use ieee.math_real.all;
 
 --======================================================================================--
 
-entity rgb2hsv_tb is
+entity hsv2rgb_tb is
     generic (
-        input_file:           string  := "tst/input/smpte_bars.pnm"; --! Input file of test 
-        output_file:          string  := "tst/output/rgb2hsv_smpte_bars.pnm"; --! Output file of test 
+        input_file:           string  := "tst/output/rgb2hsv_smpte_bars.pnm"; --! Input file of test 
+        output_file:          string  := "tst/output/hsv2rgb_output.pnm";     --! Output file of test 
 
         image_width:          integer := const_imagewidth; --! Width of input image
         image_height:         integer := const_imageheight  --! Height of input image
@@ -36,7 +36,7 @@ end entity;
 
 --======================================================================================--
 
-architecture structural of rgb2hsv_tb is
+architecture structural of hsv2rgb_tb is
 
   --===================component declaration===================--
 
@@ -51,7 +51,7 @@ architecture structural of rgb2hsv_tb is
             rst_after:          time := 9 ns;
             rst_duration:       time := 8 ns;
 
-            dut_delay:          integer := 6
+            dut_delay:          integer := 5
         );
         port (
             clk:                out std_logic;
@@ -73,7 +73,7 @@ architecture structural of rgb2hsv_tb is
 
     ----------------------------------------------------------------------------------------------
 
-    component rgb2hsv is
+    component hsv2rgb is
         generic (
             wordsize:             integer := 8    --! input image wordsize in bits
         );
@@ -84,16 +84,19 @@ architecture structural of rgb2hsv_tb is
             rst:                  in std_logic;       --! asynchronous reset
             enable:               in std_logic;       --! enables block
         
-            pixel_red_i:          in std_logic_vector; --! the input pixel
-            pixel_green_i:        in std_logic_vector; --! the input pixel
-            pixel_blue_i:         in std_logic_vector; --! the input pixel
+            pixel_hue_i:          in std_logic_vector;
+            pixel_sat_i:          in std_logic_vector;
+            pixel_val_i:          in std_logic_vector;
 
             -- outputs
-            pixel_hue_o:          out std_logic_vector;
-            pixel_sat_o:          out std_logic_vector;
-            pixel_val_o:          out std_logic_vector
+            pixel_red_o:          out std_logic_vector;
+            pixel_green_o:        out std_logic_vector;
+            pixel_blue_o:         out std_logic_vector
+
         );
     end component;
+
+    for device_under_test : hsv2rgb use entity work.hsv2rgb(bailey);
 
     ----------------------------------------------------------------------------------------------
 
@@ -134,19 +137,19 @@ begin
             blue_pixel_to_file  => blue_pixel_to_file
         );
 
-    device_under_test: rgb2hsv
+    device_under_test: hsv2rgb
         port map(
             clk             => clk,
             rst             => rst,
             enable          => enable,
 
-            pixel_red_i     => red_pixel_from_file,
-            pixel_green_i   => green_pixel_from_file,
-            pixel_blue_i    => blue_pixel_from_file,
+            pixel_hue_i     => red_pixel_from_file,
+            pixel_sat_i     => green_pixel_from_file,
+            pixel_val_i     => blue_pixel_from_file,
 
-            pixel_hue_o     => red_pixel_to_file,
-            pixel_sat_o   => green_pixel_to_file,
-            pixel_val_o    => blue_pixel_to_file
+            pixel_red_o     => red_pixel_to_file,
+            pixel_green_o   => green_pixel_to_file,
+            pixel_blue_o    => blue_pixel_to_file
 
         );
 

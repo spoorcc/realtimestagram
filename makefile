@@ -18,10 +18,12 @@
 TMPDIR=tmp
 BLDTMPDIR=bld/tmp
 BLDDIR=bld
+TSTDIR=tst
+TST_OUT_DIR=tst/output
 
 MKDIR_P = mkdir -p
 
-TESTBENCHES = sigmoid_tb gamma_tb vignette_tb
+TESTBENCHES = sigmoid_tb gamma_tb vignette_tb rgb2hsv_tb hsv2rgb_tb
 
 VIEW_CMD = /usr/bin/gtkwave
 
@@ -36,6 +38,7 @@ clean:
 	@cd doc; make clean
 	@cd src; make clean
 	@rm -rf $(BLDDIR)/*;echo "Cleared $(BLDDIR)"
+	@rm -rf $(TST_OUT_DIR)/*;echo "Cleared $(TST_OUT_DIR)"
 
 directories:
 	${MKDIR_P} ${BLDDIR}
@@ -46,7 +49,8 @@ docs:
 
 test: all
 	@echo "Starting TB "
-	@$(BLDDIR)/rgb2hsv_tb --vcdgz=$(TMPDIR)/rgb2hsv_tb.vcd.gz
+	@$(BLDDIR)/rgb2hsv_tb --wave=$(TMPDIR)/rgb2hsv_tb.ghw
+	@$(BLDDIR)/hsv2rgb_tb --wave=$(TMPDIR)/hsv2rgb_tb.ghw
 	#@$(BLDDIR)/lomo_tb --vcdgz=$(TMPDIR)/lomo_tb.vcd.gz
 	#@$(BLDDIR)/vignette_tb --vcdgz=$(TMPDIR)/vignette_tb.vcd.gz
 	#@$(BLDDIR)/sigmoid_tb --vcdgz=$(TMPDIR)/sigmoid_tb.vcd.gz

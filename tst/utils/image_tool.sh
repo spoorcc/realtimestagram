@@ -117,6 +117,7 @@ function create_HSV_image {
     
    check_if_input_image
    _create_HSV_image ${INPUT_FILE} ${OUTPUT_FILE}
+   split_color
 }
 
 function usage {
@@ -164,7 +165,7 @@ do
          ;;
     i)  
          INPUT_FILE=$OPTARG
-         OUTPUT_FILE="${OPTARG%.*}.pnm"
+         OUTPUT_FILE="${OPTARG%.*}_out.pnm"
          ;;
     o)  
          OUTPUT_FILE=$OPTARG.pnm
