@@ -23,7 +23,7 @@ TST_OUT_DIR=tst/output
 
 MKDIR_P = mkdir -p
 
-TESTBENCHES = sigmoid_tb gamma_tb vignette_tb rgb2hsv_tb hsv2rgb_tb
+TESTBENCHES = sigmoid_tb gamma_tb vignette_tb sepia_tb rgb2hsv_tb hsv2rgb_tb
 
 VIEW_CMD = /usr/bin/gtkwave
 
@@ -49,10 +49,14 @@ docs:
 
 test: all
 	@echo "Starting TB "
-	@$(BLDDIR)/rgb2hsv_tb --wave=$(TMPDIR)/rgb2hsv_tb.ghw
-	@$(BLDDIR)/hsv2rgb_tb --wave=$(TMPDIR)/hsv2rgb_tb.ghw
-	#@$(BLDDIR)/lomo_tb --vcdgz=$(TMPDIR)/lomo_tb.vcd.gz
-	#@$(BLDDIR)/vignette_tb --vcdgz=$(TMPDIR)/vignette_tb.vcd.gz
-	#@$(BLDDIR)/sigmoid_tb --vcdgz=$(TMPDIR)/sigmoid_tb.vcd.gz
-	#@$(BLDDIR)/gamma_tb --vcdgz=$(TMPDIR)/gamma_tb.vcd.gz
+	@$(BLDDIR)/rgb2hsv_tb  --wave=$(TMPDIR)/rgb2hsv_tb.ghw
+	@$(BLDDIR)/hsv2rgb_tb  --wave=$(TMPDIR)/hsv2rgb_tb.ghw
+	@$(BLDDIR)/lomo_tb     --wave=$(TMPDIR)/lomo_tb.ghw
+	@$(BLDDIR)/vignette_tb --wave=$(TMPDIR)/vignette_tb.ghw
+	@$(BLDDIR)/sigmoid_tb  --wave=$(TMPDIR)/sigmoid_tb.ghw
+	@$(BLDDIR)/sepia_tb    --wave=$(TMPDIR)/sepia_tb.ghw
+	@$(BLDDIR)/gamma_tb    --wave=$(TMPDIR)/gamma_tb.ghw
+	@$(BLDDIR)/lomo_testsets_tb
+	@$(BLDDIR)/rgb2hsv_testsets_tb
+	@$(BLDDIR)/hsv2rgb_testsets_tb
 

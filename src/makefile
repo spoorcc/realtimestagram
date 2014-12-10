@@ -24,11 +24,29 @@ EFLAGS='--workdir=$(BLDTMPDIR)'
 
 MKDIR_P = mkdir -p
 
-COMPS = lookup_table vignette lomo rgb2hsv hsv2rgb
-PKGS = config_const_pkg curves_pkg
-TST_UTILS = image_io_pkg test_bench_driver test_bench_driver_color
+COMPS = lookup_table \
+        vignette     \
+        lomo         \
+        sepia        \
+        rgb2hsv      \
+        hsv2rgb
 
-TST_BENCHES = sigmoid_tb gamma_tb vignette_tb lomo_tb lomo_testsets_tb rgb2hsv_tb hsv2rgb_tb rgb2hsv_testsets_tb hsv2rgb_testsets_tb
+PKGS = config_const_pkg curves_pkg
+
+TST_UTILS = image_io_pkg            \
+            test_bench_driver       \
+            test_bench_driver_color
+
+TST_BENCHES = sigmoid_tb          \
+              gamma_tb            \
+              vignette_tb         \
+              lomo_tb             \
+              lomo_testsets_tb    \
+              sepia_tb            \
+              rgb2hsv_tb          \
+              hsv2rgb_tb          \
+              rgb2hsv_testsets_tb \
+              hsv2rgb_testsets_tb
 
 TB_DEPS = $(addsuffix .o, $(PKGS)) $(addsuffix .o, $(TST_UTILS)) $(addsuffix .o, $(COMPS))
 

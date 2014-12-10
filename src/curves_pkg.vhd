@@ -32,11 +32,12 @@ package curves_pkg is
     ----------------------------------------------------------------------     								
     --! Function to create Look up table for a straight line
     --! Used for testing purposes, creates a straight line.
-    --! The straight function is \f[p_{out}=p_{in} \f]
+    --! The straight function is \f[p_{out}=c*p_{in} \f]
     --! \param[in] size  Number of elements to create
+    --! \param[in] c     Amplification factor
     --! \image html straight.png
-    function create_straight_lut( size:       integer)
-
+    function create_straight_lut( size:    integer;
+                                  c:       real := 1.0)
                                   return array_pixel;
 
     ----------------------------------------------------------------------     								
@@ -101,7 +102,8 @@ end curves_pkg;
 package body curves_pkg is
 
 --======================================================================================--
-    function create_straight_lut( size:    integer)
+    function create_straight_lut( size:    integer;
+                                  c:       real := 1.0)
                                   return array_pixel is
 
         variable calc_val:     real := 0.0;
@@ -111,10 +113,15 @@ package body curves_pkg is
 
         for i in return_value'range loop
 
-            calc_val := real(i);
-            report_lut_value( calc_val, i);
-            return_value(i) := std_logic_vector(to_unsigned(integer(calc_val), wordsize));
+            calc_val := c * real(i);
+            
+            calc_val := realmin( calc_val, real( 2**wordsize ) - 1.0 );
+            calc_val := realmax( calc_val, 0.0 );
 
+            report_lut_value( calc_val, i);
+            verify_valid_value(calc_val, wordsize);
+
+            return_value(i) := std_logic_vector(to_unsigned(integer(calc_val), wordsize));
         end loop;
 
         return return_value;
