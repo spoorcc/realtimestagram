@@ -1,7 +1,7 @@
-install:
-- "sudo add-apt-repository ppa:pgavin/ghdl"
-- "sudo apt-get update"
-- "sudo apt-get install ghdl"
-- "sudo apt-get install imagemagick"
+before_install:
+- "sudo add-apt-repository ppa:pgavin/ghdl -y"
+- "sudo apt-get update -qq -y"
+- "sudo apt-get install ghdl -y"
+- "sudo apt-get install imagemagick -y"
 script:
 - "make test"
