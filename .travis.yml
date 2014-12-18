@@ -1,6 +1,8 @@
 before_install:
 - "sudo add-apt-repository ppa:pgavin/ghdl -y"
 - "sudo apt-get update -qq -y"
+- "mkdir tmp"
+install:
 - "sudo apt-get install ghdl -y"
 - "sudo apt-get install imagemagick -y"
 script:
