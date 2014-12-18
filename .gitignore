@@ -10,7 +10,6 @@ $ cat .gitignore
 # Tempory files
 *~
 *.csv
-*.pgm
 *.swp
 
 *.wlf
