@@ -26,8 +26,8 @@ use work.config_const_pkg.all;
 
 entity sepia_tb is
     generic (
-        input_file:           string  := "tst/input/amersfoort.pnm"; --! Input file of test 
-        output_file:          string  := "tst/output/sepia_output.pnm"; --! Output file of test 
+        input_file:           string  := "tst/input/hue_gradient.pnm"; --! Input file of test 
+        output_file:          string  := "tst/output/sepia_hue_gradient.pnm"; --! Output file of test 
 
         image_width:          integer := const_imagewidth; --! Width of input image
         image_height:         integer := const_imageheight  --! Height of input image
@@ -75,9 +75,9 @@ architecture structural of sepia_tb is
 
     component sepia is
     generic (
-        wordsize:             integer := const_wordsize;      --! input image wordsize in bits
-        image_width:          integer := image_width;   --! width of input image
-        image_height:         integer := image_height;   --! height of input image
+        wordsize:             integer := const_wordsize;    --! input image wordsize in bits
+        image_width:          integer := image_width;       --! width of input image
+        image_height:         integer := image_height;      --! height of input image
 
         amount:               real := 1.0
     );
