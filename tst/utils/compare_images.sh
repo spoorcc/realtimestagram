@@ -91,6 +91,14 @@ function create_diff_statistics_per_channel {
 
     print_comparison_header
 
+    print_metrics
+
+}
+
+function create_extended_diff_statistics_per_channel {
+
+    print_comparison_header
+
     print_extended_metrics
 
 }
@@ -122,6 +130,9 @@ function usage {
     printf "\t\t--create_diff_stats_per_channel\n"
     printf "\t\t                  Prints out information about the difference between the actual and expected image\n"
     printf "\n"
+    printf "\t\t--create_extended_diff_stats_per_channel\n"
+    printf "\t\t                  Prints out more information about the difference between the actual and expected image\n"
+    printf "\n"
 }
 
 while getopts :ua:e:d:-: option
@@ -142,11 +153,12 @@ do
          ;;
     -)
          case "${OPTARG}" in
-             create_diff_image)                 create_diff_image;;
-             create_norm_diff_image)            create_normalized_diff_image;;
-             create_diff_mask)                  create_diff_mask;;
-             create_diff_stats)                 create_diff_statistics;;
-             create_diff_stats_per_channel)     create_diff_statistics_per_channel;;
+             create_diff_image)                         create_diff_image;;
+             create_norm_diff_image)                    create_normalized_diff_image;;
+             create_diff_mask)                          create_diff_mask;;
+             create_diff_stats)                         create_diff_statistics;;
+             create_diff_stats_per_channel)             create_diff_statistics_per_channel;;
+             create_extended_diff_stats_per_channel)    create_extended_diff_statistics_per_channel;;
 
              *)
                 if [ "$OPTERR" = 1 ] && [ "${optspec:0:1}" != ":" ]; then

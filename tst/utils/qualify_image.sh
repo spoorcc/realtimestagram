@@ -14,6 +14,7 @@
 #   You should have received a copy of the GNU General Public License
 #   along with Realtimestagram.  If not, see <http://www.gnu.org/licenses/>.
 
+## Checkes if an input and an output file is provided
 function check_inputs {
 
     if [[ "${INPUT_FILE}" == "" ]]; then
@@ -27,16 +28,45 @@ function check_inputs {
     fi
 }
 
-function qualify_rgb2hsv_image {
+## \brief Qualifies a conversion of rgb to hsv colorspace
+## \param INPUT_FILE  file used as input
+## \param OUTPUT_FILE file that should be qualified
+## Creates a reference image and compares that to the OUTPUT_FILE 
+
+## @fn qualify_rgb2hsv_image
+qualify_rgb2hsv_image() {
 
     check_inputs
 
     INPUT_FILE_BASE="${INPUT_FILE##*/}"
-    REF_FILE="tmp/${INPUT_FILE_BASE%.*}_ref"
+    REF_FILE="tmp/${INPUT_FILE_BASE%.*}_hsv_ref"
 
     # Create a reference file
     echo "Creating reference file"
     ./tst/utils/image_tool.sh -i ${INPUT_FILE} -o ${REF_FILE}  --create_HSV_image
+
+    # Compare test output with reference file
+    echo "Comparing reference file to test output"
+    ./tst/utils/compare_images.sh -a ${OUTPUT_FILE} -e ${REF_FILE}".pnm"  --create_diff_stats_per_channel
+
+}
+
+## \brief Qualifies a conversion of image to sepia
+## \param INPUT_FILE  file used as input
+## \param OUTPUT_FILE file that should be qualified
+## Creates a reference image and compares that to the OUTPUT_FILE 
+
+## @fn qualify_sepia_image
+qualify_sepia_image() {
+
+    check_inputs
+
+    INPUT_FILE_BASE="${INPUT_FILE##*/}"
+    REF_FILE="tmp/${INPUT_FILE_BASE%.*}_sepia_ref"
+
+    # Create a reference file
+    echo "Creating reference file"
+    ./tst/utils/image_tool.sh -i ${INPUT_FILE} -o ${REF_FILE}  --create_sepia_image
 
     # Compare test output with reference file
     echo "Comparing reference file to test output"
@@ -58,6 +88,9 @@ function usage {
     printf "\t\t--rgb2hsv\n"
     printf "\t\t        Qualifies the output from a rgb2hsv conversion using rgb input image\n"
     printf "\n"
+    printf "\t\t--sepia\n"
+    printf "\t\t        Qualifies the output from a sepia conversion\n"
+    printf "\n"
 }
 
 while getopts :i:o:u-: option
@@ -75,6 +108,7 @@ do
     -)
          case "${OPTARG}" in
              rgb2hsv)      qualify_rgb2hsv_image;;
+             sepia)        qualify_sepia_image;;
              *)
                 if [ "$OPTERR" = 1 ] && [ "${optspec:0:1}" != ":" ]; then
                     echo ""

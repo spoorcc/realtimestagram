@@ -17,6 +17,7 @@
 BITDEPTH=8
 WIDTH=512 
 HEIGHT=512
+PERCENTAGE=80
 
 # Creates pgm gray image where all color channels are averaged into single gray channel 
 function create_gray_image {
@@ -56,10 +57,22 @@ function split_color {
 function _create_HSV_image {
     
     convert $1 -colorspace HSB -set colorspace RGB $2 
-    cat $2 | pnmtoplainpnm > $2.tmp
+    _convert_to_plain $2
+}
+
+# Creates pnm color image
+function _create_sepia_image {
+
+    convert $1 -sepia-tone "${PERCENTAGE}%" $2
+    _convert_to_plain $2
+}
+
+function _convert_to_plain {
+
+    cat $1 | pnmtoplainpnm > $1.tmp
     
-    cp -f $2.tmp $2
-    rm -f $2.tmp
+    cp -f $1.tmp $1
+    rm -f $1.tmp
 }
 
 function split_HSV_image {
@@ -120,6 +133,13 @@ function create_HSV_image {
    split_color
 }
 
+function create_sepia_image {
+    
+   check_if_input_image
+   _create_sepia_image ${INPUT_FILE} ${OUTPUT_FILE}
+   split_color
+}
+
 function usage {
 
     printf "\n"
@@ -131,6 +151,7 @@ function usage {
     printf "\t\t-w\t Width in number of pixels of the output image [default = ${WIDTH}]\n"
     printf "\t\t-i\t Input file name [MANDATORY]\n"
     printf "\t\t-o\t Output file name [default = <input_file>.pnm]\n"
+    printf "\t\t-p\t Percentage [default = ${PERCENTAGE}%]\n"
     printf "\t\t-u\t Print this message\n"
     printf "\n"
     printf "\tActions:\n"
@@ -140,6 +161,9 @@ function usage {
     printf "\t\t--create_HSV_image\n"
     printf "\t\t                  Creates an image with R:Hue G:Saturation and B:Value channel\n"
     printf "\n"
+    printf "\t\t--create_sepia_image\n"
+    printf "\t\t                  Convertes an image to sepia with percentage specified by -p\n"
+    printf "\n"
     printf "\t\t--create_input_image_gray\n"
     printf "\t\t                  Creates an gray Netpbm image\n"
     printf "\n"
@@ -148,7 +172,7 @@ function usage {
     printf "\n"
 }
 
-while getopts :uh:w:i:o:cgr-: option
+while getopts :uh:w:p:i:o:cgr-: option
 do
     case "$option" in
     u)
@@ -170,6 +194,9 @@ do
     o)  
          OUTPUT_FILE=$OPTARG.pnm
          ;;
+    p)
+         PERCENTARGE=$OPTARG
+         ;;
     -)
          case "${OPTARG}" in
              create_split_HSV_images)
@@ -180,6 +207,10 @@ do
                 create_HSV_image
                 ;;
 
+             create_sepia_image)
+                create_sepia_image
+                ;;
+
              create_input_image_gray)
                 create_input_image_gray
                 ;;
@@ -187,6 +218,7 @@ do
              create_input_image_color)
                 create_input_image_color
                 ;;
+
              *)
                 if [ "$OPTERR" = 1 ] && [ "${optspec:0:1}" != ":" ]; then
                     echo "Unknown option --${OPTARG}" >&2
