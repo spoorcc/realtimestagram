@@ -9,6 +9,10 @@ to keep my VHDL up to date.
 See the [documentation](http://benboz.github.io/realtimestagram)
 or get the source on [Github](http://www.github.com/benboz/realtimestagram)
 
+
+The repository is continiously integrated using [Travis-ci](http://www.travis-ci.org).
+[![Build Status](https://travis-ci.org/BenBoZ/realtimestagram.svg?branch=develop)](https://travis-ci.org/BenBoZ/realtimestagram)
+
 Techniques used
 ===============
 
@@ -18,7 +22,8 @@ but are used to learn.
 Building/running
 ----------------
 * [GHDL](http://sourceforge.net/projects/ghdl-updates/) 
-* [GTKWave](http://gtkwave.sourceforge.net/) 
+* [GTKWave](http://gtkwave.sourceforge.net/)
+* [ImageMagick](http://imagemagick.org/)
 
 Documentation
 -------------
