@@ -43,6 +43,8 @@ clean:
 directories:
 	${MKDIR_P} ${BLDDIR}
 	${MKDIR_P} ${BLDTMPDIR}
+	${MKDIR_P} ${TST_OUT_DIR}
+	${MKDIR_P} ${TMPDIR}
 
 docs:
 	@cd doc; make
