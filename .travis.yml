@@ -1,4 +1,6 @@
 install:
+- "sudo add-apt-repository ppa:pgavin/ghdl"
+- "sudo apt-get update"
 - "sudo apt-get install ghdl"
 - "sudo apt-get install imagemagick"
 script:
