@@ -14,9 +14,13 @@
 #   You should have received a copy of the GNU General Public License
 #   along with Realtimestagram.  If not, see <http://www.gnu.org/licenses/>.
 
-AE_FUZZ_DIFF=0.5
+## @var AE_FUZZ_DIFF
+## @brief The Absolute Error fuzz difference factor 
+declare -i AE_FUZZ_DIFF=0.5
 
-function print_metrics {
+## @fn print_metrics()
+## @brief Prints difference metrics between actual and expected image
+print_metrics() {
 
         printf "\n======================= Metrics =======================\n"
         printf "Mean Absolute Error:\t\t "
@@ -33,7 +37,9 @@ function print_metrics {
         printf "\n\n"
 }
 
-function print_extended_metrics {
+## @fn print_extended_metrics()
+## @brief Prints difference metrics between actual and expected image
+print_extended_metrics() {
 
         printf "\n======================= Metrics =======================\n"
         printf "Mean Absolute Error\n-----------------------------------\n"
@@ -50,18 +56,24 @@ function print_extended_metrics {
         printf "\n\n"
 }
 
-function print_comparison_header {
+## @fn print_comparison_header()
+## @brief Prints header with name of actual and expected image
+print_comparison_header() {
         printf "\n======================= Comparison =======================\n"
         printf "Actual image:\t%s\n" ${ACTUAL_FILE}
         printf "Expected image:\t%s\n" ${EXPECTED_FILE}
 }
 
-function create_diff_image {
+## @fn create_diff_image()
+## @brief Creates an image with all differences between actual and expected
+create_diff_image() {
     compare -metric AE -fuzz $AE_FUZZ_DIFF    \
             ${ACTUAL_FILE} ${EXPECTED_FILE} ${DIFF_FILE}
 }
 
-function create_normalized_diff_image {
+## @fn create_normalized_diff_image()
+## @brief Creates a normalized image with all differences between actual and expected
+create_normalized_diff_image() {
     composite ${ACTUAL_FILE} ${EXPECTED_FILE}  \
              -compose difference ${DIFF_FILE}.tmp
 
@@ -70,13 +82,17 @@ function create_normalized_diff_image {
     rm -f ${DIFF_FILE}.tmp
 }
 
-function create_diff_mask {
+## @fn create_diff_mask()
+## @brief Creates a difference mask between actual and expected image
+create_diff_mask() {
     convert ${ACTUAL_FILE} ${EXPECTED_FILE} -compose difference -composite \
             -threshold 0 -separate -evaluate-sequence Add \
             ${DIFF_FILE}
 }
 
-function create_diff_statistics {
+## @fn create_diff_statistics()
+## @brief Prints complete metrics of difference between actual and expected image
+create_diff_statistics() {
 
     print_comparison_header
     printf "\nDifferences:\n"
@@ -87,23 +103,27 @@ function create_diff_statistics {
     print_metrics
 }
 
-function create_diff_statistics_per_channel {
+## @fn create_diff_statistics_per_channel()
+## @brief Prints complete metrics of difference between actual and expected image per channel
+create_diff_statistics_per_channel() {
 
     print_comparison_header
 
     print_metrics
-
 }
 
-function create_extended_diff_statistics_per_channel {
+## @fn create_extended_diff_statistics_per_channel()
+## @brief Prints complete metrics of difference between actual and expected image per channel
+create_extended_diff_statistics_per_channel() {
 
     print_comparison_header
 
     print_extended_metrics
-
 }
 
-function usage {
+## @fn usage()
+## @brief Prints usage of this shell script
+usage() {
 
     printf "\n"
     printf "compare_image.sh -a <file_path> -e <file_path> [opts] --<action>\n"
