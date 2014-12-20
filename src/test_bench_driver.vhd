@@ -93,6 +93,7 @@ begin
     enable <= tb_enable;
 
     --=================== release ===============--
+    --! \vhdlflow [Release process]
     release_process: process(tb_clk, tb_rst, end_of_file)
 
         variable pre_delay_count  : integer := dut_delay;
