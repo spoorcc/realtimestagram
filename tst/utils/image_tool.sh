@@ -14,13 +14,25 @@
 #   You should have received a copy of the GNU General Public License
 #   along with Realtimestagram.  If not, see <http://www.gnu.org/licenses/>.
 
-BITDEPTH=8
-WIDTH=512 
-HEIGHT=512
-PERCENTAGE=80
+## @var BITDEPTH
+## @brief Number of bits in output image
+declare -i BITDEPTH=8
 
-# Creates pgm gray image where all color channels are averaged into single gray channel 
-function create_gray_image {
+## @var WIDTH
+## @brief Number of pixels wide the output image will be 
+declare -i WIDTH=512
+
+## @var HEIGHT
+## @brief Number of pixels high the output image will be 
+declare -i HEIGHT=512
+
+## @var PERCENTAGE
+## @brief The percentage used in the sepia algorithm
+declare -i PERCENTAGE=80
+
+## @fn create_gray_image()
+## @brief Creates pgm gray image where all color channels are averaged into single gray channel 
+create_gray_image() {
     convert ${INPUT_FILE}                           \
             -resize ${WIDTH}x${HEIGHT}\!            \
             -compress none -depth ${BITDEPTH}       \
@@ -28,16 +40,18 @@ function create_gray_image {
             ${OUTPUT_FILE}
 }
 
-# Creates pnm color image
-function create_color_image {
+## @fn create_color_image()
+## @brief Creates pnm color image
+create_color_image() {
     convert ${INPUT_FILE}                           \
             -resize ${WIDTH}x${HEIGHT}\!            \
             -compress none -depth ${BITDEPTH}       \
             ${OUTPUT_FILE}
 }
 
-# Split all bit values into single lines
-function split_gray {
+## @fn split_gray()
+## @brief Split all bit values into single lines
+split_gray() {
     cat ${OUTPUT_FILE} | sed 1,3!d > ${OUTPUT_FILE}.tmp
     cat ${OUTPUT_FILE} | sed 1,3d | sed 's/ \+/\n/g' | sed '/^$/d' >> ${OUTPUT_FILE}.tmp
 
@@ -45,8 +59,9 @@ function split_gray {
     rm -f ${OUTPUT_FILE}.tmp
 }
 
-# Split all rgb values into single lines
-function split_color {
+## @fn split_color()
+## @brief Split all rgb values into single lines
+split_color() {
     cat ${OUTPUT_FILE} | sed 1,3!d > ${OUTPUT_FILE}.tmp
     cat ${OUTPUT_FILE} | sed 1,3d | sed 's/\([0-9]\+ [0-9]\+ [0-9]\+\) /\1\n/g' | sed '/^$/d' >> ${OUTPUT_FILE}.tmp
 
@@ -54,20 +69,25 @@ function split_color {
     rm -f ${OUTPUT_FILE}.tmp
 }
 
-function _create_HSV_image {
+## @fn _create_HSV_image()
+## @brief Converts an image to HSV colorspace
+_create_HSV_image() {
     
     convert $1 -colorspace HSB -set colorspace RGB $2 
     _convert_to_plain $2
 }
 
-# Creates pnm color image
-function _create_sepia_image {
+## @fn _create_sepia_image()
+## @brief Converts an image to sepia using image_magick
+_create_sepia_image() {
 
     convert $1 -sepia-tone "${PERCENTAGE}%" $2
     _convert_to_plain $2
 }
 
-function _convert_to_plain {
+## @fn _convert_to_plain()
+## @brief Converts a pnm image to plain text
+_convert_to_plain() {
 
     cat $1 | pnmtoplainpnm > $1.tmp
     
@@ -75,7 +95,9 @@ function _convert_to_plain {
     rm -f $1.tmp
 }
 
-function split_HSV_image {
+## @fn split_HSV_image()
+## @brief Splits an input image into separate Hue, Saturation and Value images
+split_HSV_image() {
     
     FILE_EXTENSION="${1##*.}"
 
@@ -97,7 +119,9 @@ function split_HSV_image {
     rm -f ${VAL}.tmp
 }
 
-function check_if_input_image {
+## @fn check_if_input_image()
+## @brief Checks wheter an input image was provided
+check_if_input_image() {
 
     if [[ "${INPUT_FILE}" == "" ]]; then
         echo "Please specify an input image with -i <input_file_path>"
@@ -105,19 +129,25 @@ function check_if_input_image {
     fi
 }
 
-function create_input_image_color {
+## @fn create_input_image_color()
+## @brief Creates a color input image
+create_input_image_color() {
    check_if_input_image
    create_color_image
    split_color
 }
 
-function create_input_image_gray {
+## @fn create_input_image_gray()
+## @brief Creates a gray input image
+create_input_image_gray() {
    check_if_input_image
    create_gray_image
    split_gray
 }
 
-function create_split_HSV_images {
+## @fn create_split_HSV_images()
+## @brief Creates a separate image for Hue, Saturation and Value channel
+create_split_HSV_images() {
 
    check_if_input_image
    _create_HSV_image ${INPUT_FILE} ${OUTPUT_FILE}
@@ -126,21 +156,27 @@ function create_split_HSV_images {
    rm -f ${OUTPUT_FILE}
 }
 
-function create_HSV_image {
+## @fn create_HSV_image()
+## @brief Creates a HSV input image with all value per pixel on a single line
+create_HSV_image() {
     
    check_if_input_image
    _create_HSV_image ${INPUT_FILE} ${OUTPUT_FILE}
    split_color
 }
 
-function create_sepia_image {
+## @fn create_sepia_image()
+## @brief Creates a sepia input image with all value per pixel on a single line
+create_sepia_image() {
     
    check_if_input_image
    _create_sepia_image ${INPUT_FILE} ${OUTPUT_FILE}
    split_color
 }
 
-function usage {
+## @fn usage()
+## @brief Prints the usage of this shell script
+usage() {
 
     printf "\n"
     printf "image_tool.sh -i <file_path> [opts] --<action>\n"

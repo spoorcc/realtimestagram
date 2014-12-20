@@ -14,8 +14,9 @@
 #   You should have received a copy of the GNU General Public License
 #   along with Realtimestagram.  If not, see <http://www.gnu.org/licenses/>.
 
-## Checkes if an input and an output file is provided
-function check_inputs {
+## @fn check_inputs()
+## @brief Checkes if an input and an output file is provided
+check_inputs() {
 
     if [[ "${INPUT_FILE}" == "" ]]; then
         echo "Please specify an input image with -i <input_file_path>"
@@ -28,12 +29,11 @@ function check_inputs {
     fi
 }
 
-## \brief Qualifies a conversion of rgb to hsv colorspace
-## \param INPUT_FILE  file used as input
-## \param OUTPUT_FILE file that should be qualified
+## @fn qualify_rgb2hsv_image()
+## @brief Qualifies a conversion of rgb to hsv colorspace
+## @param INPUT_FILE  file used as input
+## @param OUTPUT_FILE file that should be qualified
 ## Creates a reference image and compares that to the OUTPUT_FILE 
-
-## @fn qualify_rgb2hsv_image
 qualify_rgb2hsv_image() {
 
     check_inputs
@@ -51,12 +51,11 @@ qualify_rgb2hsv_image() {
 
 }
 
-## \brief Qualifies a conversion of image to sepia
-## \param INPUT_FILE  file used as input
-## \param OUTPUT_FILE file that should be qualified
+## @fn qualify_sepia_image()
+## @brief Qualifies a conversion of image to sepia
+## @param INPUT_FILE  file used as input
+## @param OUTPUT_FILE file that should be qualified
 ## Creates a reference image and compares that to the OUTPUT_FILE 
-
-## @fn qualify_sepia_image
 qualify_sepia_image() {
 
     check_inputs
@@ -74,7 +73,9 @@ qualify_sepia_image() {
 
 }
 
-function usage {
+## @fn usage()
+## @brief Prints usage of this shell script
+usage() {
 
     printf "\n"
     printf "qualify_image.sh -i <file_path> -o <file_path> [opts] (--rgb2hsv)\n"
