@@ -10,8 +10,9 @@ See the [documentation](http://benboz.github.io/realtimestagram)
 or get the source on [Github](http://www.github.com/benboz/realtimestagram)
 
 
-The repository is continiously integrated using [Travis-ci](http://www.travis-ci.org).
-[![Build Status](https://travis-ci.org/BenBoZ/realtimestagram.svg?branch=develop)](https://travis-ci.org/BenBoZ/realtimestagram)
+The repository is continiously integrated using [Travis-ci](https://travis-ci.org/BenBoZ/realtimestagram).
+
+![Build Status](https://travis-ci.org/BenBoZ/realtimestagram.svg?branch=develop)
 
 Techniques used
 ===============

@@ -13,31 +13,6 @@
 --   You should have received a copy of the GNU General Public License
 --   along with Realtimestagram.  If not, see <http://www.gnu.org/licenses/>.
 
-
---! <!------------------------------------------------------------------------------>
---! <!------------------------------------------------------------------------------>
---! \class image_io_pkg
---! \brief Provides functionality for easy reading and writing of netbpm images
---!
---! Reading and writing of images has been placed into single package. This way writing
---! and reading them is centralized and easier.
---!
---! Supported image types
---! ---------------------
---!
---!    Type | Description
---!    -----|----------------------------------------------------------
---!    pbm  | Supports monochrome bitmaps (1 bit per pixel).
---!    pgm  | Supports greyscale images.  Reads  either  pbm  or  pgm formats and writes pgm format.
---!    ppm  | Supports full-color images.  Reads either pbm, pgm,  or ppm formats, writes ppm format.
---!    pnm  | Supports content-independent manipulations  on  any  of the  three  formats  listed  above,
---!    .    | as well as external formats having multiple types.  Reads either pbm,  pgm, or  ppm  formats,
---!    .    | and generally writes the same type as it read (whenever a pnm tool  makes  an  exception
---!    .    | and "promotes"  a  file  to a higher format, it informs the user).
---!
---! <!------------------------------------------------------------------------------>
---! <!------------------------------------------------------------------------------>
-
 --! use standard library
 library ieee;
 --! use std_logic_vector
@@ -49,22 +24,84 @@ use std.textio.all;
 --! used only for calculation of constants
 use ieee.math_real.all;
 
+
+--! \brief Provides functionality for easy reading and writing of netbpm images
+--! 
+--! Reading and writing of images has been placed into single package. This way writing
+--! and reading them is centralized and easier. 
+--!
+--! Netbpm image format
+--! -------------------
+--! It is completly designed around netbpm image format.
+--! This plain version of this format are ascii based and make them suitable for trivial reading and
+--! writing from VHDL. The images can directly be viewed in any image viewer and are very protable and
+--! recognized by many tools.
+--!
+--! For a description of this format see the [Wikipedia page about Netbpm](https://en.wikipedia.org/wiki/Netpbm_format).
+--!
+--! Typical reading usage
+--! ---------------------
+--! 
+--! ~~~~~~~~~~~~~{.vhdl}
+--! -- First read the header
+--! read_pbmplus_header( pgm_width, pgm_height, max_pixel_value, pgm, file_input_pixel );
+--! 
+--! -- Then read the pixels
+--! read_pixel(file_input_pixel, pixel_tmp, end_of_file);
+--! ~~~~~~~~~~~~~
+--! 
+--! Typical writing usage
+--! ---------------------
+--! 
+--! ~~~~~~~~~~~~~{.vhdl}
+--! -- First write the header
+--! write_pbmplus_header( pgm_width, pgm_height, max_pixel_value, pgm, file_output_pixel );
+--!
+--! -- Then write the pixels
+--! write_pixel( val, file_output_pixel);
+--! ~~~~~~~~~~~~~
+--! 
 package image_io_pkg is
 
-    --! Number of bits in a pixel
-    constant wordsize   : integer := 8; 
+    constant wordsize   : integer := 8; --! Number of bits in a pixel   
 
-    --! three types can be selected, these types are specified in the detailed description
+    --! \brief Enumeration for type of pbm
+    --!
+    --! There are three types of pbm available, these types are specified in the table below
+    --!
+    --! Type | Description
+    --! -----|------------------------------------------------------------------------------------------------
+    --! pbm  | Supports monochrome bitmaps (1 bit per pixel).
+    --! pgm  | Supports greyscale images.  Reads  either  pbm  or  pgm formats and writes pgm format.
+    --! ppm  | Supports full-color images.  Reads either pbm, pgm,  or ppm formats, writes ppm format.
+    --!
     type pbmplustype is (pbm, pgm, ppm);
 
-    --! generic procedure for writing pbm plus headers
-    procedure read_pbmplus_header( constant exp_width       : in integer;            
+    ----------------------------------------------------------------------                                     
+    --! \brief Generic procedure for reading pbm plus headers
+    --!
+    --! \details Reads the header from a file and compares the read values to the expected files, by using this
+    --! it can be asserted the correct input image was provided
+    --!
+    --! \param[in] exp_width       Expected width in number of pixels  
+    --! \param[in] exp_height      Expected height in number of pixels  
+    --! \param[in] exp_max_value   Expected maximum value    
+    --! \param[in] exp_type_of_pbm Expected pbmplustype
+    --!
+    procedure read_pbmplus_header( constant exp_width       : in integer;
                                    constant exp_height      : in integer;
                                    constant exp_max_value   : in integer;
                                    constant exp_type_of_pbm : in pbmplustype;
                                    file p_file : text               );
 
-    --! generic procedure for writing pbm plus headers
+    ----------------------------------------------------------------------                                     
+    --! \brief generic procedure for writing pbm plus headers
+    --!
+    --! 
+    --! \param[in] p_width       Width in number of pixels  
+    --! \param[in] p_height      Height in number of pixels  
+    --! \param[in] max_value     Maximum value    
+    --! \param[in] type_of_pbm   pbmplustype
     procedure write_pbmplus_header( constant p_width     : in integer;            
                                     constant p_height    : in integer;
                                     constant max_value   : in integer;
@@ -72,41 +109,68 @@ package image_io_pkg is
                                     file p_file : text               );
 
     ----------------------------------------------------------------------                                     
-    --! generic procedure for reading single pixel value from pbm file to variable
-    procedure read_pixel( file pbmplus_file : text;
-                          variable pixel : out integer;
-                          signal end_of_file: out std_logic );
+    --! \brief generic procedure for reading single pixel value from pbm file to variable
+    --!
+    --! Reads a single pixel every call from the specified file and outputs it as variable
+    --!  
+    --! \param[in] pbmplus_file    file to read from
+    --! \param[out] pixel           variable to place value in
+    --! \param[out] end_of_file     signal that is true when end_of_file is reached
+    procedure read_pixel( file pbmplus_file  : text;            
+                          variable pixel     : out integer;     
+                          signal end_of_file : out std_logic ); 
 
-    --! generic procedure for reading single pixel value from pbm file to signal
-    procedure read_pixel( file pbmplus_file : text;
-                          signal pixel:  out std_logic_vector;                                                  
-                          signal end_of_file: out std_logic );
+    --! \brief generic procedure for reading single pixel value from pbm file to signal
+    --!  
+    --! Reads a single pixel every call from the specified file
+    --!  
+    --! \param[in] pbmplus_file    file to read from
+    --! \param[out] pixel           signal to place value in
+    --! \param[out] end_of_file     signal that is true when end_of_file is reached
+    procedure read_pixel( file pbmplus_file  : text;
+                          signal pixel       : out std_logic_vector;
+                          signal end_of_file : out std_logic );
 
     ----------------------------------------------------------------------                                     
-    --! generic procedure to read rgb variable from a file
+    --! \brief generic procedure to read rgb variable from a file
+    --!  
+    --! Reads a single rgb pixel every call from the specified file and outputs it as 
+    --! seperate variable per color channel.
+    --!  
+    --! \param[in] pbmplus_file    file to read from
+    --! \param[out] pixel_r        variable to place red pixel value in
+    --! \param[out] pixel_g        variable to place green pixel value in
+    --! \param[out] pixel_b        variable to place blue pixel value in
+    --! \param[out] end_of_file    signal that is true when end_of_file is reached
     procedure read_rgb_pixel( file pbmplus_file : text;      
-                              variable pixel_r: out integer;
-                              variable pixel_g: out integer;
-                              variable pixel_b: out integer;    
+                              variable pixel_r  : out integer;
+                              variable pixel_g  : out integer;
+                              variable pixel_b  : out integer;    
 
                               signal end_of_file: out std_logic );
 
-    --! generic procedure to write rgb signal of a file
-    --! the header must be written with ppm as image type
-    procedure read_rgb_pixel( file pbmplus_file : text;       
-                              signal pixel_r: out std_logic_vector(wordsize-1 downto 0);
-                              signal pixel_g: out std_logic_vector(wordsize-1 downto 0);
-                              signal pixel_b: out std_logic_vector(wordsize-1 downto 0);
+    --! Reads a single rgb pixel every call from the specified file and outputs it as 
+    --! seperate signal per color channel.
+    --!  
+    --! \param[in] pbmplus_file    file to read from
+    --! \param[out] pixel_r        signal to place red pixel value in
+    --! \param[out] pixel_g        signal to place green pixel value in
+    --! \param[out] pixel_b        signal to place blue pixel value in
+    --! \param[out] end_of_file    signal that is true when end_of_file is reached
+    procedure read_rgb_pixel( file pbmplus_file  : text;       
+                              signal pixel_r     : out std_logic_vector(wordsize-1 downto 0);
+                              signal pixel_g     : out std_logic_vector(wordsize-1 downto 0);
+                              signal pixel_b     : out std_logic_vector(wordsize-1 downto 0);
 
-                              signal end_of_file: out std_logic );
+                              signal end_of_file : out std_logic );
 
     ----------------------------------------------------------------------                                     
     --! generic procedure for writing single pixel value from variable to pbm file                                                  
-    procedure write_pixel( variable pixel:  in integer;                                                  
+    procedure write_pixel( variable pixel    : in integer;                                                  
                            file pbmplus_file : text       );
 
     --! generic procedure for writing single pixel value from signal to pbm file
-    procedure write_pixel( signal pixel:  in std_logic_vector;                                                  
+    procedure write_pixel( signal pixel      : in std_logic_vector;                                                  
                            file pbmplus_file : text       );
 
     ----------------------------------------------------------------------
@@ -208,25 +272,39 @@ package body image_io_pkg is
         ) is
 
         variable magic_identifier : string(1 to 2);
-        variable height   : integer;
-        variable width    : integer;
-        variable space    : character;
-        variable max_val  : integer;
-        variable text_line:    line;
+        variable height           : integer;
+        variable width            : integer;
+        variable space            : character;
+        variable max_val          : integer;
+        variable text_line        : line;
 
     begin
     
-        --read the header
+        -- First line
         readline(p_file, text_line);
         read(text_line, magic_identifier);
 
+        -- Second line
         readline(p_file, text_line);
         read(text_line, width);
         read(text_line, space);
         read(text_line, height);
 
+        assert(width = exp_width) 
+            report "Width was not as expected, expected " & integer'image(exp_width) & " but got " & integer'image(width)
+            severity failure;
+
+        assert(height = exp_height) 
+            report "Height was not as expected, expected " & integer'image(exp_height) & " but got " & integer'image(height)
+            severity failure;
+
+        -- Third line
         readline(p_file, text_line);
         read(text_line, max_val);
+
+        assert(max_val = exp_max_value) 
+            report "Maximum value was not as expected, expected " & integer'image(exp_max_value) & " but got " & integer'image(max_val)
+            severity failure;
     
     end procedure read_pbmplus_header;
 
@@ -501,12 +579,6 @@ package body image_io_pkg is
         write( text_line, pixel_r_string&' '&pixel_g_string&' '&pixel_b_string);
         writeline( pbmplus_file, text_line);
 
-        --write( text_line, pixel_g_string );
-        --writeline( pbmplus_file, text_line);      
-
-        --write( text_line, pixel_b_string );
-        --writeline( pbmplus_file, text_line);
-    
     end procedure write_rgb_pixel;
 
     ------------------------------------------------------------------------------------------
@@ -523,20 +595,14 @@ package body image_io_pkg is
         
         constant pixel_r_string : string := integer'image( to_integer( unsigned(pixel_r) ) );
         constant pixel_g_string : string := integer'image( to_integer( unsigned(pixel_g) ) );
-             constant pixel_b_string : string := integer'image( to_integer( unsigned(pixel_b) ) );
+        constant pixel_b_string : string := integer'image( to_integer( unsigned(pixel_b) ) );
         variable text_line    : line;
 
     begin
     
-        write( text_line, pixel_r_string );
+        write( text_line, pixel_r_string&' '&pixel_g_string&' '&pixel_b_string);
         writeline( pbmplus_file, text_line);
 
-        write( text_line, pixel_g_string );
-        writeline( pbmplus_file, text_line);      
-
-        write( text_line, pixel_b_string );
-        writeline( pbmplus_file, text_line);
-    
     end procedure write_rgb_pixel;
 
     ------------------------------------------------------------------------
@@ -547,20 +613,20 @@ package body image_io_pkg is
         variable pixel_cb:  in integer;
         variable pixel_cr:  in integer;    
 
-           file pbmplus_file : text
+        file pbmplus_file : text
 
     ) is
-          variable var_pixel_y:  unsigned(9 downto 0);
+        variable var_pixel_y:  unsigned(9 downto 0);
         variable var_pixel_cb: unsigned(9 downto 0);
         variable var_pixel_cr: unsigned(9 downto 0);
 
         variable pixel_r : unsigned(7 downto 0);
         variable pixel_g : unsigned(7 downto 0);
-             variable pixel_b : unsigned(7 downto 0);    
+        variable pixel_b : unsigned(7 downto 0);    
 
     begin
         
-        var_pixel_y        := to_unsigned(pixel_y, 10);
+        var_pixel_y     := to_unsigned(pixel_y, 10);
         var_pixel_cb    := to_unsigned(pixel_cb, 10);
         var_pixel_cr    := to_unsigned(pixel_cr, 10);
 
@@ -587,11 +653,11 @@ package body image_io_pkg is
 
         variable pixel_r : unsigned(7 downto 0);
         variable pixel_g : unsigned(7 downto 0);
-             variable pixel_b : unsigned(7 downto 0);
+        variable pixel_b : unsigned(7 downto 0);
 
     begin
 
-        var_pixel_y        := pixel_y;
+        var_pixel_y     := pixel_y;
         var_pixel_cb    := pixel_cb;
         var_pixel_cr    := pixel_cr;
 
@@ -660,11 +726,13 @@ package body image_io_pkg is
 
     end procedure ycbcr_to_rgb;
 
-    function pad_string(     arg_str :         string;
-                            ret_len_c :     natural   := 10;
-                            fill_char_c :     character := ' ' )
+    --======================================================================================--
 
-                            return string is
+    function pad_string( arg_str :       string;
+                         ret_len_c :     natural   := 10;
+                         fill_char_c :   character := ' ' )
+
+                         return string is
 
         variable ret_v :         string (1 to ret_len_c);
         constant pad_len_c :     integer := ret_len_c - arg_str'length ;

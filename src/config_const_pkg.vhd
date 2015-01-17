@@ -13,12 +13,12 @@
 --   You should have received a copy of the GNU General Public License
 --   along with Realtimestagram.  If not, see <http://www.gnu.org/licenses/>.
 
-
+--! Package for configuring project wide constants
 package config_const_pkg is
 
-    constant const_wordsize :integer := 8;
+    constant const_wordsize :integer := 8;      --! Number of bits per pixel 
 
-    constant const_imageheight :integer := 512;
-    constant const_imagewidth  :integer := 512;
+    constant const_imageheight :integer := 512; --! Number of pixels wide for image pipeline
+    constant const_imagewidth  :integer := 512; --! Number of pixels high for image pipeline
     
 end config_const_pkg;
