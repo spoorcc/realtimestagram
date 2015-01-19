@@ -61,7 +61,7 @@ qualify_sepia_image() {
     check_inputs
 
     INPUT_FILE_BASE="${INPUT_FILE##*/}"
-    REF_FILE="tmp/${INPUT_FILE_BASE%.*}_sepia_ref"
+    REF_FILE="tmp/sepia_${INPUT_FILE_BASE%.*}_ref"
 
     # Create a reference file
     echo "Creating reference file"
