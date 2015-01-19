@@ -16,7 +16,7 @@
 
 ## @var AE_FUZZ_DIFF
 ## @brief The Absolute Error fuzz difference factor 
-declare -i AE_FUZZ_DIFF=0.5
+declare AE_FUZZ_DIFF=0.5
 
 ## @fn print_metrics()
 ## @brief Prints difference metrics between actual and expected image
