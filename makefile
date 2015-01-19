@@ -25,6 +25,8 @@ MKDIR_P = mkdir -p
 
 TESTBENCHES = sigmoid_tb gamma_tb vignette_tb sepia_tb rgb2hsv_tb hsv2rgb_tb
 
+TESTSETS = lomo_testsets_tb sepia_testsets_tb rgb2hsv_testsets_tb hsv2rgb_testsets_tb 
+
 VIEW_CMD = /usr/bin/gtkwave
 
 .PHONY: all clean directories docs test
@@ -49,16 +51,18 @@ directories:
 docs:
 	@cd doc; make
 
-test: all
-	@echo "Starting TB "
-	@$(BLDDIR)/rgb2hsv_tb  --wave=$(TMPDIR)/rgb2hsv_tb.ghw
-	@$(BLDDIR)/hsv2rgb_tb  --wave=$(TMPDIR)/hsv2rgb_tb.ghw
-	@$(BLDDIR)/lomo_tb     --wave=$(TMPDIR)/lomo_tb.ghw
-	@$(BLDDIR)/vignette_tb --wave=$(TMPDIR)/vignette_tb.ghw
-	@$(BLDDIR)/sigmoid_tb  --wave=$(TMPDIR)/sigmoid_tb.ghw
-	@$(BLDDIR)/sepia_tb    --wave=$(TMPDIR)/sepia_tb.ghw
-	@$(BLDDIR)/gamma_tb    --wave=$(TMPDIR)/gamma_tb.ghw
-	@$(BLDDIR)/lomo_testsets_tb
-	@$(BLDDIR)/rgb2hsv_testsets_tb
-	@$(BLDDIR)/hsv2rgb_testsets_tb
+%_tb: all
+	@echo "Starting $@"
+	@$(BLDDIR)/$@ --wave=$(TMPDIR)/$@.ghw
+	@echo "> Done: wavefile saved as $(TMPDIR)/$@.ghw"
 
+%_testsets_tb: all
+	@echo "Starting $@"
+	@$(BLDDIR)/$@
+	@echo "> Done"
+
+test: $(TESTBENCHES)
+	@echo "> Done: running testbenches $(TESTBENCHES)"
+
+testsets: $(TESTSETS)
+	@echo "> Done: running testsets $(TESTSETS)"
