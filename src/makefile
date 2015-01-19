@@ -43,6 +43,7 @@ TST_BENCHES = sigmoid_tb          \
               lomo_tb             \
               lomo_testsets_tb    \
               sepia_tb            \
+              sepia_testsets_tb   \
               rgb2hsv_tb          \
               hsv2rgb_tb          \
               rgb2hsv_testsets_tb \
