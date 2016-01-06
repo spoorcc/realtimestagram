@@ -3,3 +3,8 @@
 \form#2:\[p_{out}=\frac{p_{max}}{1+\exp({-c/p_{max}*(p_{in}-p_{max})})} \]
 \form#3:\[p_{out}=c*p_{max}*(\frac{p_{in}}{p_{max}})^{\gamma} \]
 \form#4:\[p_{out}=p_{max} * sin^c\left (\frac{\pi*x}{width} \right)\]
+\form#5:\[p_{out}=c*p_{in} \]
+\form#6:\[I_{RGB} = \left\{\begin{matrix} \{V,V-VS,V-VSH_{LSB}\}, & H_{MSB}=0 \\ \{V,V-VS(1-H_{LSB}),V-VS\}, & H_{MSB}=1 \\ \{V-VSH_{LSB},V,V-VS\}, & H_{MSB}=2 \\ \{V-VS,V,V-VS(1-H_{LSB})\}, & H_{MSB}=3 \\ \{V-VS,V-VSH_{LSB},V\}, & H_{MSB}=4 \\ \{V-VS(1-H_{LSB}),V-VS,V\}, & H_{MSB}=5 \end{matrix}\right.\]
+\form#7:\[H =\left\{\begin{matrix} 0, & R=G=B\\ \frac{(G-B)*60^{\circ}}{max(R,G,B)-min(R,G,B)}\textup{mod}\:360^{\circ}, & R \geq G,B\\ \frac{(B-R)*60^{\circ}}{max(R,G,B)-min(R,G,B)}+120^{\circ}, & G \geq R,B\\ \frac{(R-G)*60^{\circ}}{max(R,G,B)-min(R,G,B)}+240^{\circ} & B \geq R,G \\ \end{matrix}\right.\]
+\form#8:\[S =\left\{\begin{matrix} 0, & max(R,G,B)=0 \\ \frac{max(R,G,B)-min(R,G,B)}{max(R,G,B)}, & otherwise\\ \end{matrix}\right.\]
+\form#9:\[ V = max(R,G,B)\]

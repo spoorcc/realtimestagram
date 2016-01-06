@@ -1,4 +1,28 @@
 var searchData=
 [
-  ['numeric_5fstd',['numeric_std',['../classcurves__pkg.html#a2edc34402b573437d5f25fa90ba4013e',1,'curves_pkg.numeric_std()'],['../classgamma__tb.html#a2edc34402b573437d5f25fa90ba4013e',1,'gamma_tb.numeric_std()'],['../classimage__io__pkg.html#a2edc34402b573437d5f25fa90ba4013e',1,'image_io_pkg.numeric_std()'],['../classlookup__table.html#a2edc34402b573437d5f25fa90ba4013e',1,'lookup_table.numeric_std()'],['../classsigmoid__tb.html#a2edc34402b573437d5f25fa90ba4013e',1,'sigmoid_tb.numeric_std()'],['../classtest__bench__driver.html#a2edc34402b573437d5f25fa90ba4013e',1,'test_bench_driver.numeric_std()'],['../classvignette.html#a2edc34402b573437d5f25fa90ba4013e',1,'vignette.numeric_std()'],['../classvignette__tb.html#a2edc34402b573437d5f25fa90ba4013e',1,'vignette_tb.numeric_std()']]]
+  ['lomo',['lomo',['../classlomo__tb_1_1structural.html#ae40907dba510096bf5d5942da08471bc',1,'lomo_tb::structural']]],
+  ['lomo_5ftb',['lomo_tb',['../classlomo__testsets__tb_1_1all__tests.html#a02a855a430de12a199ef037d7a0953b4',1,'lomo_testsets_tb::all_tests']]],
+  ['lookup_5ftable',['lookup_table',['../classgamma__tb_1_1structural.html#a0de4d1aa7bd956ffb625ea3e3cfc8216',1,'gamma_tb.structural.lookup_table()'],['../classsigmoid__tb_1_1structural.html#a0de4d1aa7bd956ffb625ea3e3cfc8216',1,'sigmoid_tb.structural.lookup_table()']]],
+  ['lut',['lut',['../classlookup__table.html#a985b0040e8b612b642eadfed5c1743e6',1,'lookup_table']]],
+  ['lut_5fb',['lut_b',['../classlomo_1_1behavioural.html#a006e722c41e7dcee3f6ef09a2ead45aa',1,'lomo::behavioural']]],
+  ['lut_5fbb',['lut_bb',['../classsepia_1_1behavioural.html#a610b6144a2891693065be108d77c051f',1,'sepia::behavioural']]],
+  ['lut_5fbg',['lut_bg',['../classsepia_1_1behavioural.html#af0349f3fa00684787da603c4f3239f13',1,'sepia::behavioural']]],
+  ['lut_5fbr',['lut_br',['../classsepia_1_1behavioural.html#a016abca92d7a74b4ffcb41b9216aa4c4',1,'sepia::behavioural']]],
+  ['lut_5fg',['lut_g',['../classlomo_1_1behavioural.html#a6883abfd189e050ab9b960226b3290d0',1,'lomo::behavioural']]],
+  ['lut_5fgb',['lut_gb',['../classsepia_1_1behavioural.html#af66304c4273b537ad23714b2912e50ef',1,'sepia::behavioural']]],
+  ['lut_5fgg',['lut_gg',['../classsepia_1_1behavioural.html#ac1afdcffb5f8777a66c7e2b559a2a476',1,'sepia::behavioural']]],
+  ['lut_5fgr',['lut_gr',['../classsepia_1_1behavioural.html#adef528d2119b4d64f0977655bd353df1',1,'sepia::behavioural']]],
+  ['lut_5fr',['lut_r',['../classlomo_1_1behavioural.html#af7e21a4c8a99d22ca9d3212e8281250d',1,'lomo::behavioural']]],
+  ['lut_5frb',['lut_rb',['../classsepia_1_1behavioural.html#a03b70262bf73e19435b2f12c20f988e3',1,'sepia::behavioural']]],
+  ['lut_5frg',['lut_rg',['../classsepia_1_1behavioural.html#a10f815799106389044b285e75c27f308',1,'sepia::behavioural']]],
+  ['lut_5frr',['lut_rr',['../classsepia_1_1behavioural.html#a00e840c5211d72990ab7f5ea4a6437a3',1,'sepia::behavioural']]],
+  ['lut_5fvalue_5fb_5fs',['lut_value_b_s',['../classlomo_1_1behavioural.html#acec373d4b078e1993571d732b7933517',1,'lomo::behavioural']]],
+  ['lut_5fvalue_5fg_5fs',['lut_value_g_s',['../classlomo_1_1behavioural.html#a29728b43c78969c6204d4df0c137cee7',1,'lomo::behavioural']]],
+  ['lut_5fvalue_5fr_5fs',['lut_value_r_s',['../classlomo_1_1behavioural.html#acfcc001e191f9103cc150d39f2237de0',1,'lomo::behavioural']]],
+  ['lut_5fvalue_5fs',['lut_value_s',['../classlookup__table_1_1behavioural.html#a7cd4b7cf8ad9258ac45b6ad09e201220',1,'lookup_table::behavioural']]],
+  ['lut_5fvalue_5fx',['lut_value_x',['../classlomo_1_1behavioural.html#aafffc896dd997f52453a8a1498a130b2',1,'lomo.behavioural.lut_value_x()'],['../classvignette_1_1behavioural.html#aafffc896dd997f52453a8a1498a130b2',1,'vignette.behavioural.lut_value_x()']]],
+  ['lut_5fvalue_5fy',['lut_value_y',['../classlomo_1_1behavioural.html#a6a9ff3b5e9f6e074ffab43d6a2650362',1,'lomo.behavioural.lut_value_y()'],['../classvignette_1_1behavioural.html#a6a9ff3b5e9f6e074ffab43d6a2650362',1,'vignette.behavioural.lut_value_y()']]],
+  ['lut_5fx',['lut_x',['../classlomo_1_1behavioural.html#a9f24e14a617fdce69a572426ea0262af',1,'lomo.behavioural.lut_x()'],['../classvignette.html#a6071b15c50b64716c669e3b78253e7e4',1,'vignette.lut_x()']]],
+  ['lut_5fx_5flut_5fy',['lut_x_lut_y',['../classlomo_1_1behavioural.html#ac562b13c59cd3cd276f0e0fb2aab41c0',1,'lomo.behavioural.lut_x_lut_y()'],['../classvignette_1_1behavioural.html#ac562b13c59cd3cd276f0e0fb2aab41c0',1,'vignette.behavioural.lut_x_lut_y()']]],
+  ['lut_5fy',['lut_y',['../classlomo_1_1behavioural.html#aaa25f70733f62afa3b134e6c2d48af6a',1,'lomo.behavioural.lut_y()'],['../classvignette.html#a9d572d642852807d5a7f0d57e68f9f3c',1,'vignette.lut_y()']]]
 ];
