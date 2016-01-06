@@ -1,0 +1,65 @@
+ digraph G { 
+rankdir=TB 
+concentrate=true
+stylesheet="doxygen.css"
+node22[shape=box , style=rounded label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="0" >
+ <TR><TD BGCOLOR="white"> release_process:process( tb_clk,tb_rst,end_of_file) </TD></TR></TABLE>>];node0[shape=none margin=0.1, label=<
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="2" >
+ <TR><TD BGCOLOR="lightyellow" >  variable pre_delay_count:integer  :=   dut_delay<BR ALIGN="LEFT"/> variable post_delay_count:integer  :=   dut_delay- 1 </TD></TR></TABLE>>];node2 [shape=diamond,style=filled,color="0.7 0.3 1.0",label=" if    rising_edge(tb_clk  ) then"]
+node3 [shape=diamond,style=filled,color="0.7 0.3 1.0",label=" if    tb_rst= &#39;1&#39; then"]
+node4[shape=none margin=0.1, label=<
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="2" >
+ <TR><TD BGCOLOR="lightcyan" > tb_enable&lt;= &#39;1&#39; </TD></TR></TABLE>>];node6 [shape=diamond,style=filled,color="0.7 0.3 1.0",label=" if    tb_enable= &#39;1&#39;and   tb_rst= &#39;0&#39; then"]
+node7 [shape=diamond,style=filled,color="0.7 0.3 1.0",label=" if    pre_delay_count&gt; 0 then"]
+node8[shape=none margin=0.1, label=<
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="2" >
+ <TR><TD BGCOLOR="lightcyan" > pre_delay_count:=   pre_delay_count- 1 </TD></TR></TABLE>>];node10[shape=none margin=0.1, label=<
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="2" >
+ <TR><TD BGCOLOR="lightcyan" > dut_data_valid&lt;= &#39;1&#39; </TD></TR></TABLE>>];node13 [shape=diamond,style=filled,color="0.7 0.3 1.0",label=" if    end_of_file= &#39;1&#39;or   post_delay_count&lt;   dut_delay- 1 then"]
+node14 [shape=diamond,style=filled,color="0.7 0.3 1.0",label=" if    post_delay_count&gt; 0 then"]
+node15[shape=none margin=0.1, label=<
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="2" >
+ <TR><TD BGCOLOR="lightcyan" > post_delay_count:=   post_delay_count- 1 </TD></TR></TABLE>>];node17[shape=none margin=0.1, label=<
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="2" >
+ <TR><TD BGCOLOR="lightcyan" > tb_enable&lt;= &#39;0&#39;<BR ALIGN="LEFT"/>tb_done&lt;= &#39;1&#39;    . </TD></TR></TABLE>>];node23[shape=box , style=rounded label=<
+<TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0" CELLPADDING="0" >
+ <TR><TD BGCOLOR="white"> end process  </TD></TR></TABLE>>];edge [color="green",label=""]
+node22->node0
+edge [color="green",label=""]
+node0->node2:n
+edge [color="red",label="yes"]
+node2:s->node3:n
+edge [color="black",label="no"]
+node2:s->node23
+edge [color="red",label="yes"]
+node3:s->node4
+edge [color="black",label="no"]
+node3:s->node6:n
+edge [color="green",label=""]
+node4->node6:n
+edge [color="red",label="yes"]
+node6:s->node7:n
+edge [color="black",label="no"]
+node6:s->node13:n
+edge [color="red",label="yes"]
+node7:s->node8
+edge [color="black",label="no"]
+node7:s->node10
+edge [color="green",label=""]
+node8->node13:n
+edge [color="green",label=""]
+node10->node13:n
+edge [color="red",label="yes"]
+node13:s->node14:n
+edge [color="black",label="no"]
+node13:s->node23
+edge [color="red",label="yes"]
+node14:s->node15
+edge [color="black",label="no"]
+node14:s->node17
+edge [color="green",label=""]
+node15->node23
+edge [color="green",label=""]
+node17->node23
+ } 
