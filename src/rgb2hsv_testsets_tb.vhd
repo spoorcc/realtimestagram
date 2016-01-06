@@ -30,7 +30,7 @@ begin
 
     Lenna: rgb2hsv_tb
         generic map(
-            input_file  => "tst/input/Lenna.pnm",
+            input_file  => "tst/input/lenna.pnm",
             output_file => "tst/output/rgb2hsv_lenna.pnm"
         );
 

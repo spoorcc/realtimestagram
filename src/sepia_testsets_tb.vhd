@@ -36,7 +36,7 @@ begin
 
     Lenna: sepia_tb
         generic map(
-            input_file  => "tst/input/Lenna.pnm",
+            input_file  => "tst/input/lenna.pnm",
             output_file => "tst/output/sepia_lenna.pnm",
 
             sepia_threshold => threshold
