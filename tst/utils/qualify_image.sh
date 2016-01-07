@@ -41,14 +41,19 @@ qualify_rgb2hsv_image() {
     INPUT_FILE_BASE="${INPUT_FILE##*/}"
     REF_FILE="tmp/${INPUT_FILE_BASE%.*}_hsv_ref"
 
+    PSNR_THRESHOLD=13.05
+
+    printf "\n--> Qualifying %s" "$OUTPUT_FILE"
+
     # Create a reference file
-    echo "Creating reference file"
-    ./tst/utils/image_tool.sh -i ${INPUT_FILE} -o ${REF_FILE}  --create_HSV_image
+    printf "\n\tCreating reference file"
+    ./tst/utils/image_tool.sh -i "${INPUT_FILE}" -o "${REF_FILE}"  --create_HSV_image
 
     # Compare test output with reference file
-    echo "Comparing reference file to test output"
-    ./tst/utils/compare_images.sh -a ${OUTPUT_FILE} -e ${REF_FILE}".pnm"  --create_diff_stats_per_channel
+    printf "\n\tComparing reference file to test output\n"
+    ./tst/utils/compare_images.sh -a "${OUTPUT_FILE}" -e "${REF_FILE}.pnm"  -t $PSNR_THRESHOLD --psnr
 
+    return $?
 }
 
 ## @fn qualify_sepia_image()
@@ -63,14 +68,19 @@ qualify_sepia_image() {
     INPUT_FILE_BASE="${INPUT_FILE##*/}"
     REF_FILE="tmp/sepia_${INPUT_FILE_BASE%.*}_ref"
 
+    PSNR_THRESHOLD=4.65
+
+    printf "\n--> Qualifying %s" "$OUTPUT_FILE"
+
     # Create a reference file
-    echo "Creating reference file"
-    ./tst/utils/image_tool.sh -i ${INPUT_FILE} -o ${REF_FILE}  --create_sepia_image
+    printf "\n\tCreating reference file"
+    ./tst/utils/image_tool.sh -i "${INPUT_FILE}" -o "${REF_FILE}"  --create_sepia_image
 
     # Compare test output with reference file
-    echo "Comparing reference file to test output"
-    ./tst/utils/compare_images.sh -a ${OUTPUT_FILE} -e ${REF_FILE}".pnm"  --create_diff_stats_per_channel
+    printf "\n\tComparing reference file to test output\n"
+    ./tst/utils/compare_images.sh -a "${OUTPUT_FILE}" -e "${REF_FILE}.pnm"  -t $PSNR_THRESHOLD --psnr
 
+    return $?
 }
 
 ## @fn usage()

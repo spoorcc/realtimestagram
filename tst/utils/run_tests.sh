@@ -29,6 +29,8 @@ run_sepia_test() {
     echo "> Running sepia tests"
     $TESTSET_FOLDER/sepia_testsets_tb
 
+    SEPIA_TEST_RESULT=0
+
     # Qualify the results
     echo "> Qualifying sepia tests"
     for image in lenna windmill danger_zone amersfoort rainbow hue_gradient sat_gradient val_gradient
@@ -37,7 +39,16 @@ run_sepia_test() {
         OUTPUT_IMAGE="$TEST_OUTPUT_FOLDER/sepia_$image.pnm"
 
         $TEST_SCRIPTING/qualify_image.sh -i $INPUT_IMAGE -o $OUTPUT_IMAGE --sepia
+
+        result=$?
+
+        if [ $result != 0 ]
+        then
+           SEPIA_TEST_RESULT=1
+        fi
     done
+
+    return $SEPIA_TEST_RESULT
 }
 
 ## @fn run_rgb2hsv_test()
@@ -48,6 +59,8 @@ run_rgb2hsv_test() {
     echo "> Running rgb2hsv tests"
     $TESTSET_FOLDER/rgb2hsv_testsets_tb
 
+    RGB2HSV_TEST_RESULT=0
+
     # Qualify the results
     echo "> Qualifying rgb2hsv tests"
     for image in lenna windmill danger_zone amersfoort rainbow hue_gradient sat_gradient val_gradient
@@ -56,9 +69,31 @@ run_rgb2hsv_test() {
         OUTPUT_IMAGE="$TEST_OUTPUT_FOLDER/rgb2hsv_$image.pnm"
 
         $TEST_SCRIPTING/qualify_image.sh -i $INPUT_IMAGE -o $OUTPUT_IMAGE --rgb2hsv
-    done
-}
 
+        result=$?
+
+        if [ $result != 0 ]
+        then
+           RGB2HSV_TEST_RESULT=1
+        fi
+    done
+
+    return $RGB2HSV_TEST_RESULT
+}
 run_sepia_test
+SEPIA_RESULT=$?
+
 run_rgb2hsv_test
+RGB2HSV_RESULT=$?
+
+if [[ $(($SEPIA_RESULT + $RGB2HSV_RESULT)) -ne 0 ]]
+then 
+   echo "FAIL: Some tests failed"
+   exit 1
+else
+   echo "PASS: All tests passed"
+   exit 0
+fi
+
+
 
