@@ -63,6 +63,7 @@ docs:
 
 test: $(TESTBENCHES)
 	@echo "> Done: running testbenches $(TESTBENCHES)"
+	@$(TSTDIR)/utils/run_tests.sh
 
 testsets: $(TESTSETS)
 	@echo "> Done: running testsets $(TESTSETS)"
