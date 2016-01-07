@@ -18,6 +18,22 @@
 ## @brief The Absolute Error fuzz difference factor 
 declare AE_FUZZ_DIFF=0.5
 
+## @fn psnr()
+## @brief Compares on PSNR based on given threshold
+psnr() {
+
+    result=`compare -metric PSNR ${ACTUAL_FILE} ${EXPECTED_FILE} null: 2>&1`
+
+    if [ $(echo "$result > $THRESHOLD" | bc) -ne 0 ]
+    then
+        printf "\tPASS: PSNR %s is above %s\n" "$result" "$THRESHOLD"
+        return 0
+    else
+        printf "\tFAIL: PSNR %s is below %s\n" "$result" "$THRESHOLD"
+        return 1
+    fi
+}
+
 ## @fn print_metrics()
 ## @brief Prints difference metrics between actual and expected image
 print_metrics() {
@@ -132,9 +148,13 @@ usage() {
     printf "\t\t-a\t Actual file name [MANDATORY]\n"
     printf "\t\t-e\t Expected file name [MANDATORY]\n"
     printf "\t\t-d\t Difference file name [MANDATORY]\n"
+    printf "\t\t-t\t threshold [MANDATORY]\n"
     printf "\t\t-u\t Print this message\n"
     printf "\n"
     printf "\tActions:\n"
+    printf "\t\t--psnr\n"
+    printf "\t\t     compares based on psnr threshold \n"
+    printf "\n"
     printf "\t\t--create_diff_image\n"
     printf "\t\t                  Creates a diference image between actual and expected\n"
     printf "\n"
@@ -155,7 +175,7 @@ usage() {
     printf "\n"
 }
 
-while getopts :ua:e:d:-: option
+while getopts :ua:e:d:t:-: option
 do
     case "$option" in
     u)
@@ -171,8 +191,12 @@ do
     d)  
          DIFF_FILE=$OPTARG
          ;;
+    t)  
+         THRESHOLD=$OPTARG
+         ;;
     -)
          case "${OPTARG}" in
+             psnr)                                      psnr;;
              create_diff_image)                         create_diff_image;;
              create_norm_diff_image)                    create_normalized_diff_image;;
              create_diff_mask)                          create_diff_mask;;
