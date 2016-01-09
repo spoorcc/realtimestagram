@@ -8,6 +8,7 @@ addons:
     packages:
       - imagemagick
       - ghdl
+      - bc
 script:
 - "make test"
 
