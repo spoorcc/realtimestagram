@@ -24,12 +24,36 @@ psnr() {
 
     result=`compare -metric PSNR ${ACTUAL_FILE} ${EXPECTED_FILE} null: 2>&1`
 
-    if [ $(echo "$result > $THRESHOLD" | bc) -ne 0 ]
+    check_limits "PSNR" $result $THRESHOLD
+
+    return $?
+}
+
+## @fn check_limits()
+## @brief Compares value versus threshold
+## @param metric_name String used for printing result message
+## @param value       Value (can also be inf)
+## @param threshold
+## Compares "value > threshold" print a message of the result and returns
+## @retval 0 value is above threshold
+## @retval 1 value is equal to or lower then threshold
+check_limits() {
+
+    metric_name="$1"
+    result="$2"
+    threshold="$3"
+
+    if [ "$result" == "inf" ]
     then
-        printf "\tPASS: PSNR %s is above %s\n" "$result" "$THRESHOLD"
+        result="99e9"
+    fi
+
+    if [ $(echo "$result > $threshold" | bc) -ne 0 ]
+    then
+        printf "\tPASS: %s %s is above %s\n" "$metric_name" "$result" "$threshold"
         return 0
     else
-        printf "\tFAIL: PSNR %s is below %s\n" "$result" "$THRESHOLD"
+        printf "\tFAIL: %s %s is below %s\n" "$metric_name" "$result" "$threshold"
         return 1
     fi
 }
