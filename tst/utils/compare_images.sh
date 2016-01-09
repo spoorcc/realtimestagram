@@ -45,7 +45,7 @@ check_limits() {
 
     if [ "$result" == "inf" ]
     then
-        result="99e9"
+        result="9999.99"
     fi
 
     if [ $(echo "$result > $threshold" | bc) -ne 0 ]
