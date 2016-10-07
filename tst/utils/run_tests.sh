@@ -86,7 +86,7 @@ SEPIA_RESULT=$?
 run_rgb2hsv_test
 RGB2HSV_RESULT=$?
 
-if [[ $(($SEPIA_RESULT + $RGB2HSV_RESULT)) -ne 0 ]]
+if [[ $((SEPIA_RESULT + RGB2HSV_RESULT)) -ne 0 ]]
 then 
    echo "FAIL: Some tests failed"
    exit 1
