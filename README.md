@@ -6,12 +6,12 @@ In modern apps it is popular to make your pictures look old. This project tries
 to recreate the most popular \*stagram filters in VHDL. This is purely a learning project
 to keep my VHDL up to date.
 
-See the [documentation](http://benboz.github.io/realtimestagram)
-or get the source on [Github](http://www.github.com/benboz/realtimestagram)
+See the [documentation](http://spoorcc.github.io/realtimestagram)
+or get the source on [Github](http://www.github.com/spoorcc/realtimestagram)
 
 
 The repository is continiously integrated using [Travis-ci](http://www.travis-ci.org).
-[![Build Status](https://travis-ci.org/BenBoZ/realtimestagram.svg?branch=develop)](https://travis-ci.org/BenBoZ/realtimestagram)
+[![Build Status](https://travis-ci.org/spoorcc/realtimestagram.svg?branch=develop)](https://travis-ci.org/spoorcc/realtimestagram)
 
 Techniques used
 ===============
