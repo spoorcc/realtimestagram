@@ -22,9 +22,9 @@ declare AE_FUZZ_DIFF=0.5
 ## @brief Compares on PSNR based on given threshold
 psnr() {
 
-    result=`compare -metric PSNR ${ACTUAL_FILE} ${EXPECTED_FILE} null: 2>&1`
+    result=$(compare -metric PSNR "${ACTUAL_FILE}" "${EXPECTED_FILE}" null: 2>&1)
 
-    check_limits "PSNR" $result $THRESHOLD
+    check_limits "PSNR" "$result" "$THRESHOLD"
 
     return $?
 }
