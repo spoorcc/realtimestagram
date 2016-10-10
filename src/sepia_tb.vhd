@@ -26,11 +26,13 @@ use work.config_const_pkg.all;
 
 entity sepia_tb is
     generic (
-        input_file:           string  := "tst/input/hue_gradient.pnm"; --! Input file of test 
-        output_file:          string  := "tst/output/sepia_hue_gradient.pnm"; --! Output file of test 
+        input_file:           string  := "tst/input/amersfoort.pnm"; --! Input file of test 
+        output_file:          string  := "tst/output/sepia_amersfoort.pnm"; --! Output file of test 
 
         image_width:          integer := const_imagewidth; --! Width of input image
-        image_height:         integer := const_imageheight  --! Height of input image
+        image_height:         integer := const_imageheight;  --! Height of input image
+
+        sepia_threshold:      integer := (255 * 50) / 100
     );
 end entity;
 
@@ -51,7 +53,7 @@ architecture structural of sepia_tb is
             rst_after:          time := 9 ns;
             rst_duration:       time := 8 ns;
 
-            dut_delay:          integer := 2
+            dut_delay:          integer := 4
         );
         port (
             clk:                out std_logic;
@@ -77,9 +79,7 @@ architecture structural of sepia_tb is
     generic (
         wordsize:             integer := const_wordsize;    --! input image wordsize in bits
         image_width:          integer := image_width;       --! width of input image
-        image_height:         integer := image_height;      --! height of input image
-
-        amount:               real := 1.0
+        image_height:         integer := image_height       --! height of input image
     );
     port (
         clk:                  in std_logic;       --! completely clocked process
@@ -89,6 +89,8 @@ architecture structural of sepia_tb is
         pixel_red_i:          in std_logic_vector((wordsize-1) downto 0); --! the input pixel
         pixel_green_i:        in std_logic_vector((wordsize-1) downto 0); --! the input pixel
         pixel_blue_i:         in std_logic_vector((wordsize-1) downto 0); --! the input pixel
+
+        threshold:            in std_logic_vector((wordsize-1) downto 0); --! the input pixel
 
         pixel_red_o:          out std_logic_vector((wordsize-1) downto 0); --! the output pixel
         pixel_green_o:        out std_logic_vector((wordsize-1) downto 0); --! the output pixel
@@ -105,6 +107,8 @@ architecture structural of sepia_tb is
 
     signal h_count:                  std_logic_vector((integer(ceil(log2(real(image_width))))-1) downto 0) := (others => '0');
     signal v_count:                  std_logic_vector((integer(ceil(log2(real(image_height))))-1) downto 0) := (others => '0');
+
+    signal threshold_in:             std_logic_vector((const_wordsize-1) downto 0) := (others => '0');
 
     signal red_pixel_from_file:      std_logic_vector((const_wordsize-1) downto 0) := (others => '0');
     signal green_pixel_from_file:    std_logic_vector((const_wordsize-1) downto 0) := (others => '0');
@@ -145,10 +149,15 @@ begin
             pixel_green_i   => green_pixel_from_file,
             pixel_blue_i    => blue_pixel_from_file,
 
+            threshold       => threshold_in,
+
             pixel_red_o     => red_pixel_to_file,
             pixel_green_o   => green_pixel_to_file,
             pixel_blue_o    => blue_pixel_to_file
 
         );
+
+    threshold_in <= std_logic_vector(to_unsigned(sepia_threshold, const_wordsize));
+
 
 end architecture;

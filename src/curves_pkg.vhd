@@ -114,11 +114,11 @@ package body curves_pkg is
         for i in return_value'range loop
 
             calc_val := c * real(i);
-            
+
             calc_val := realmin( calc_val, real( 2**wordsize ) - 1.0 );
             calc_val := realmax( calc_val, 0.0 );
 
-            report_lut_value( calc_val, i);
+            -- report_lut_value( calc_val, i);
             verify_valid_value(calc_val, wordsize);
 
             return_value(i) := std_logic_vector(to_unsigned(integer(calc_val), wordsize));
@@ -141,7 +141,7 @@ package body curves_pkg is
         for i in return_value'range loop
 
             calc_val := max_val-real(i);
-            report_lut_value( calc_val, i);
+            -- report_lut_value( calc_val, i);
             return_value(i) := std_logic_vector(to_unsigned(integer(calc_val), wordsize));
 
         end loop;
@@ -166,7 +166,7 @@ package body curves_pkg is
             exponent := (c/max_val)*(real(i) - max_val * 0.5 );
             calc_val := ceil(max_val / (real(1) + exp(-exponent)));
 
-            report_lut_value( calc_val, i);
+            -- report_lut_value( calc_val, i);
             verify_valid_value(calc_val, wordsize);
 
             return_value(i) := std_logic_vector(to_unsigned(integer(calc_val), wordsize));
@@ -193,7 +193,7 @@ package body curves_pkg is
 
             calc_val := c*max_val*(real(i)/max_val)**gamma;
 
-            report_lut_value( calc_val, i);
+            -- report_lut_value( calc_val, i);
             verify_valid_value(calc_val, wordsize);
 
             return_value(i) := std_logic_vector(to_unsigned(integer(calc_val), wordsize));
@@ -217,9 +217,9 @@ package body curves_pkg is
 
         for i in return_value'range loop
 
-            calc_val := max_val * sin( math_pi * real(i) / real(size))**c; 
+            calc_val := max_val * sin( math_pi * real(i) / real(size))**c;
 
-            report_lut_value( calc_val, i);
+            -- report_lut_value( calc_val, i);
             verify_valid_value(calc_val, wordsize);
 
             return_value(i) := std_logic_vector(to_unsigned(integer(calc_val), wordsize));
