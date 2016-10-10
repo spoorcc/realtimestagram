@@ -48,7 +48,7 @@ check_limits() {
         result="9999.99"
     fi
 
-    if [ $(echo "$result" > "$threshold" | bc) -ne 0 ]
+    if [ $(echo "$result > $threshold" | bc) -ne 0 ]
     then
         printf "\tPASS: %s %s is above %s\n" "$metric_name" "$result" "$threshold"
         return 0
