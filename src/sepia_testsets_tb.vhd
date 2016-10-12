@@ -14,66 +14,87 @@
 --   along with Realtimestagram.  If not, see <http://www.gnu.org/licenses/>.
 
 
-entity rgb2hsv_testsets_tb is
+entity sepia_testsets_tb is
 end entity;
 
-architecture all_tests of rgb2hsv_testsets_tb is
+architecture all_tests of sepia_testsets_tb is
 
-    component rgb2hsv_tb is
+    constant threshold:      integer  := 220;
+
+
+    component sepia_tb is
         generic (
             input_file:   string; --! Input file of test 
-            output_file:  string  --! Output file of test 
+            output_file:  string;  --! Output file of test 
+
+            sepia_threshold: integer
         );
     end component;
 
+
 begin
 
-    Lenna: rgb2hsv_tb
+    Lenna: sepia_tb
         generic map(
             input_file  => "tst/input/lenna.pnm",
-            output_file => "tst/output/rgb2hsv_lenna.pnm"
+            output_file => "tst/output/sepia_lenna.pnm",
+
+            sepia_threshold => threshold
         );
 
-    windmill: rgb2hsv_tb
+    windmill: sepia_tb
         generic map(
             input_file  => "tst/input/windmill.pnm",
-            output_file => "tst/output/rgb2hsv_windmill.pnm"
+            output_file => "tst/output/sepia_windmill.pnm",
+
+            sepia_threshold => threshold
         );
 
-    danger_zone: rgb2hsv_tb
+    danger_zone: sepia_tb
         generic map(
             input_file  => "tst/input/danger_zone.pnm",
-            output_file => "tst/output/rgb2hsv_danger_zone.pnm"
+            output_file => "tst/output/sepia_danger_zone.pnm",
+
+            sepia_threshold => threshold
         );
 
-    amersfoort: rgb2hsv_tb
+    amersfoort: sepia_tb
         generic map(
             input_file  => "tst/input/amersfoort.pnm",
-            output_file => "tst/output/rgb2hsv_amersfoort.pnm"
+            output_file => "tst/output/sepia_amersfoort.pnm",
+
+            sepia_threshold => threshold
         );
 
-    rainbow: rgb2hsv_tb
+    rainbow: sepia_tb
         generic map(
             input_file  => "tst/input/rainbow.pnm",
-            output_file => "tst/output/rgb2hsv_rainbow.pnm"
+            output_file => "tst/output/sepia_rainbow.pnm",
+
+            sepia_threshold => threshold
         );
 
-    hue_gradient: rgb2hsv_tb
+    hue_gradient: sepia_tb
         generic map(
             input_file  => "tst/input/hue_gradient.pnm",
-            output_file => "tst/output/rgb2hsv_hue_gradient.pnm"
+            output_file => "tst/output/sepia_hue_gradient.pnm",
+
+            sepia_threshold => threshold
         );
 
-    sat_gradient: rgb2hsv_tb
+    sat_gradient: sepia_tb
         generic map(
             input_file  => "tst/input/sat_gradient.pnm",
-            output_file => "tst/output/rgb2hsv_sat_gradient.pnm"
+            output_file => "tst/output/sepia_sat_gradient.pnm",
+
+            sepia_threshold => threshold
         );
 
-    val_gradient: rgb2hsv_tb
+    val_gradient: sepia_tb
         generic map(
             input_file  => "tst/input/val_gradient.pnm",
-            output_file => "tst/output/rgb2hsv_val_gradient.pnm"
-        );
+            output_file => "tst/output/sepia_val_gradient.pnm",
 
+            sepia_threshold => threshold
+        );
 end architecture;

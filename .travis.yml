@@ -1,8 +1,14 @@
-before_install:
-- "sudo add-apt-repository ppa:pgavin/ghdl -y"
-- "sudo apt-get update -qq -y"
-install:
-- "sudo apt-get install ghdl -y"
-- "sudo apt-get install imagemagick -y"
+# http://docs.travis-ci.com/user/workers/container-based-infrastructure/
+sudo: false
+
+addons:
+  apt:
+    sources:
+      - pgavin-ghdl
+    packages:
+      - imagemagick
+      - ghdl
+      - bc
 script:
 - "make test"
+

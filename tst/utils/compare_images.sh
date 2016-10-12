@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 #   This file is part of Realtimestagram.
 #
 #   Realtimestagram is free software: you can redistribute it and/or modify
@@ -16,7 +16,47 @@
 
 ## @var AE_FUZZ_DIFF
 ## @brief The Absolute Error fuzz difference factor 
-declare -i AE_FUZZ_DIFF=0.5
+declare AE_FUZZ_DIFF=0.5
+
+## @fn psnr()
+## @brief Compares on PSNR based on given threshold
+psnr() {
+
+    result=$(compare -metric PSNR "${ACTUAL_FILE}" "${EXPECTED_FILE}" null: 2>&1)
+
+    check_limits "PSNR" "$result" "$THRESHOLD"
+
+    return $?
+}
+
+## @fn check_limits()
+## @brief Compares value versus threshold
+## @param metric_name String used for printing result message
+## @param value       Value (can also be inf)
+## @param threshold
+## Compares "value > threshold" print a message of the result and returns
+## @retval 0 value is above threshold
+## @retval 1 value is equal to or lower then threshold
+check_limits() {
+
+    metric_name="$1"
+    result="$2"
+    threshold="$3"
+
+    if [ "$result" = "inf" ]
+    then
+        result="9999.99"
+    fi
+
+    if [ $(echo "$result > $threshold" | bc) -ne 0 ]
+    then
+        printf "\tPASS: %s %s is above %s\n" "$metric_name" "$result" "$threshold"
+        return 0
+    else
+        printf "\tFAIL: %s %s is below %s\n" "$metric_name" "$result" "$threshold"
+        return 1
+    fi
+}
 
 ## @fn print_metrics()
 ## @brief Prints difference metrics between actual and expected image
@@ -132,9 +172,13 @@ usage() {
     printf "\t\t-a\t Actual file name [MANDATORY]\n"
     printf "\t\t-e\t Expected file name [MANDATORY]\n"
     printf "\t\t-d\t Difference file name [MANDATORY]\n"
+    printf "\t\t-t\t threshold [MANDATORY]\n"
     printf "\t\t-u\t Print this message\n"
     printf "\n"
     printf "\tActions:\n"
+    printf "\t\t--psnr\n"
+    printf "\t\t     compares based on psnr threshold \n"
+    printf "\n"
     printf "\t\t--create_diff_image\n"
     printf "\t\t                  Creates a diference image between actual and expected\n"
     printf "\n"
@@ -155,7 +199,7 @@ usage() {
     printf "\n"
 }
 
-while getopts :ua:e:d:-: option
+while getopts :ua:e:d:t:-: option
 do
     case "$option" in
     u)
@@ -171,8 +215,12 @@ do
     d)  
          DIFF_FILE=$OPTARG
          ;;
+    t)  
+         THRESHOLD=$OPTARG
+         ;;
     -)
          case "${OPTARG}" in
+             psnr)                                      psnr;;
              create_diff_image)                         create_diff_image;;
              create_norm_diff_image)                    create_normalized_diff_image;;
              create_diff_mask)                          create_diff_mask;;

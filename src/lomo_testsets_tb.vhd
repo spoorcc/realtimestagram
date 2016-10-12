@@ -30,7 +30,7 @@ begin
 
     Lenna: lomo_tb
         generic map(
-            input_file  => "tst/input/Lenna.pnm",
+            input_file  => "tst/input/lenna.pnm",
             output_file => "tst/output/lomo_lenna.pnm"
         );
 
