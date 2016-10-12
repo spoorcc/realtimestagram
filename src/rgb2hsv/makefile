@@ -19,15 +19,16 @@ CC=ghdl
 # To seperate source from build files, export them to the seperate bld folder
 BLDTMPDIR=bld/tmp
 BLDDIR=bld
-AFLAGS='--workdir=$(BLDTMPDIR)'
-EFLAGS='--workdir=$(BLDTMPDIR)'
+
+INCS = -P../common/bld -P../test/bld
+AFLAGS=--workdir=$(BLDTMPDIR) $(INCS)
+EFLAGS=--workdir=$(BLDTMPDIR) $(INCS)
 
 MKDIR_P = mkdir -p
 
 SRCS = $(wildcard src/*.vhd)
 OBJS = $(notdir $(SRCS:.vhd=.o))
 
-INCS = -P../common/bld -P../test/bld
 
 TST_BENCHES_SRCS = $(wildcard tst/*_tb.vhd)
 TST_BENCHES = $(notdir $(TST_BENCHES_SRCS:.vhd=))
@@ -35,25 +36,25 @@ TST_OBJS = $(notdir $(TST_BENCHES_SRCS:.vhd=.o))
 
 .PHONY: all dirs clean
 
-all: dirs $(TST_BENCHES)
+all: dirs $(OBJS) $(TST_OBJS) $(TST_BENCHES)
 
 dirs:
 	${MKDIR_P} ${BLDDIR}
 	${MKDIR_P} ${BLDTMPDIR}
 
 # Testbenches
-%_tb: $(OBJS) $(TST_OBJS)
+#%_tb: $(OBJS) $(TST_OBJS)
+%_tb:
 	$(CC) -e $(AFLAGS) -o ${BLDDIR}/$@ $@ 
 
 # Objects
 %.o : src/%.vhd
 	$(CC) -a $(AFLAGS) $<
 
-# Objects
-%_tb.o : tst/%.vhd
+%tb.o : tst/%tb.vhd
 	$(CC) -a $(AFLAGS) $<
 
 # Housekeeping
 clean:
 	$(info removing temp folder)
-	@-rm -f *.cf
+	@-rm -rf bld
