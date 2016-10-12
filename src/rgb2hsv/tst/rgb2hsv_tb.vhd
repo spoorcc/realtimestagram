@@ -17,7 +17,8 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-use work.config_const_pkg.all;
+library common;
+use common.config_const_pkg.all;
 
 --! Used for calculation of h_count and v_count port width
 use ieee.math_real.all;

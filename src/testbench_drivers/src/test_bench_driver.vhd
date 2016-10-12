@@ -24,10 +24,11 @@ use std.textio.all;
 --! used only for calculation of constants
 use ieee.math_real.all;
 
-use work.image_io_pkg.all;
-use work.config_const_pkg.all;
+library common;
+use common.image_io_pkg.all;
+use common.config_const_pkg.all;
 
-entity test_bench_driver_color is
+entity test_bench_driver is
     generic (
         wordsize:             integer; --! size of input pixel value in bits
 
@@ -52,18 +53,14 @@ entity test_bench_driver_color is
         h_count:            out std_logic_vector(h_count_size-1 downto 0) := (others => '0');
         v_count:            out std_logic_vector(v_count_size-1 downto 0) := (others => '0');
 
-        red_pixel_from_file:    out std_logic_vector((wordsize-1) downto 0);       --! the input pixel
-        green_pixel_from_file:  out std_logic_vector((wordsize-1) downto 0);       --! the input pixel
-        blue_pixel_from_file:   out std_logic_vector((wordsize-1) downto 0);       --! the input pixel
+        pixel_from_file:    out std_logic_vector((wordsize-1) downto 0);       --! the input pixel
 
-        red_pixel_to_file:      in std_logic_vector((wordsize-1) downto 0);       --! the output pixel
-        green_pixel_to_file:    in std_logic_vector((wordsize-1) downto 0);       --! the output pixel
-        blue_pixel_to_file:     in std_logic_vector((wordsize-1) downto 0)       --! the output pixel
+        pixel_to_file:      in std_logic_vector((wordsize-1) downto 0)       --! the output pixel
     );
 end entity;
 
 
-architecture behavioural of test_bench_driver_color is
+architecture behavioural of test_bench_driver is
 
     --===================signal declaration===================--
     signal tb_clk:                    std_logic := '0';
@@ -75,9 +72,7 @@ architecture behavioural of test_bench_driver_color is
 
     signal end_of_file:               std_logic := '0';
 
-    signal red_pixel_tmp:   std_logic_vector(wordsize-1 downto 0) := (others => '0');
-    signal green_pixel_tmp: std_logic_vector(wordsize-1 downto 0) := (others => '0');
-    signal blue_pixel_tmp:  std_logic_vector(wordsize-1 downto 0) := (others => '0');
+    signal pixel_tmp: std_logic_vector(wordsize-1 downto 0) := (others => '0');
 
     --===================file declaration===================--
     --! File containing pixels for input of the testbench
@@ -88,17 +83,18 @@ architecture behavioural of test_bench_driver_color is
 
 begin
      --===================rst===================--
-     tb_rst <= '0', '1' after rst_after, '0' after rst_after+rst_duration when (tb_done = '0');
+     tb_rst <= '0', '1' after rst_after, '0' after rst_after+rst_duration when tb_done = '0';
      rst <= tb_rst;
 
      --===================clock===================--
-     tb_clk <= not tb_clk after clk_period_ns when (tb_done = '0');
+     tb_clk <= not tb_clk after clk_period_ns when tb_done = '0';
      clk <= tb_clk;
 
     --=================== enable ===============--
     enable <= tb_enable;
 
     --=================== release ===============--
+    --! \vhdlflow [Release process]
     release_process: process(tb_clk, tb_rst, end_of_file)
 
         variable pre_delay_count  : integer := dut_delay;
@@ -144,15 +140,13 @@ begin
         variable readheader: std_logic := '1';
     begin
 
-        red_pixel_from_file   <= red_pixel_tmp;
-        green_pixel_from_file <= green_pixel_tmp;
-        blue_pixel_from_file  <= blue_pixel_tmp;
+        pixel_from_file <= pixel_tmp;
 
         if rising_edge(tb_clk) then
 
             if readheader = '1' then
 
-                read_pbmplus_header( pgm_width, pgm_height, max_pixel_value, ppm, file_input_pixel );
+                read_pbmplus_header( pgm_width, pgm_height, max_pixel_value, pgm, file_input_pixel );
                 readheader := '0';
 
             end if;
@@ -160,7 +154,7 @@ begin
             if tb_rst = '0' then
                 if tb_enable = '1' and end_of_file = '0' then
 
-                    read_rgb_pixel(file_input_pixel, red_pixel_tmp, green_pixel_tmp, blue_pixel_tmp, end_of_file);
+                    read_pixel(file_input_pixel, pixel_tmp, end_of_file);
 
                 end if;
             end if;
@@ -176,29 +170,25 @@ begin
 
         variable writeheader: std_logic := '1';
 
-        variable r_val: integer := 0;
-        variable g_val: integer := 0;
-        variable b_val: integer := 0;
+        variable val: integer := 0;
 
     begin
         if rising_edge(tb_clk) then
 
             if writeheader = '1' then
 
-                write_pbmplus_header( pgm_width, pgm_height, max_pixel_value, ppm, file_output_pixel );
+                write_pbmplus_header( pgm_width, pgm_height, max_pixel_value, pgm, file_output_pixel );
                 writeheader := '0';
 
             end if;
 
-            if tb_enable = '1' and tb_rst = '0' and dut_data_valid = '1' then
+            if tb_enable = '1' and tb_rst = '0' and tb_done = '0' then
                 
                 -- write output image 
-                r_val := to_integer(unsigned(red_pixel_to_file));
-                g_val := to_integer(unsigned(green_pixel_to_file));
-                b_val := to_integer(unsigned(blue_pixel_to_file));
+                val := to_integer(unsigned(pixel_to_file));
 
-                write_rgb_pixel( r_val, g_val, b_val, file_output_pixel);
-
+                --report integer'image(val);
+                write_pixel( val, file_output_pixel);
             end if;
 
         end if;
