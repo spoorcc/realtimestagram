@@ -29,7 +29,7 @@ bld
 # Test outputs
 tst/output
 src/*/tst/output
-src/*/tst/inputs
+src/*/tst/input
 
 # Doxygen documentation
 doc/html
