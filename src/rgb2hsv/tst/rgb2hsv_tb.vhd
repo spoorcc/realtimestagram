@@ -17,6 +17,9 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
+library test;
+use test.test_bench_driver_color;
+
 library common;
 use common.config_const_pkg.all;
 

@@ -20,7 +20,7 @@ CC=ghdl
 TMPDIR=tmp
 BLDDIR=bld
 
-INCS = -P../common/bld -P../test/bld
+INCS = -P../common/bld -P../testbench_drivers/bld
 AFLAGS=--workdir=$(TMPDIR) $(INCS)
 EFLAGS=--workdir=$(TMPDIR) $(INCS)
 
