@@ -17,12 +17,12 @@
 CC=ghdl
 # 
 # To seperate source from build files, export them to the seperate bld folder
-BLDTMPDIR=bld/tmp
+TMPDIR=tmp
 BLDDIR=bld
 
 INCS = -P../common/bld -P../test/bld
-AFLAGS=--workdir=$(BLDTMPDIR) $(INCS)
-EFLAGS=--workdir=$(BLDTMPDIR) $(INCS)
+AFLAGS=--workdir=$(TMPDIR) $(INCS)
+EFLAGS=--workdir=$(TMPDIR) $(INCS)
 
 MKDIR_P = mkdir -p
 
@@ -40,7 +40,7 @@ all: dirs $(OBJS) $(TST_OBJS) $(TST_BENCHES)
 
 dirs:
 	${MKDIR_P} ${BLDDIR}
-	${MKDIR_P} ${BLDTMPDIR}
+	${MKDIR_P} ${TMPDIR}
 
 # Testbenches
 #%_tb: $(OBJS) $(TST_OBJS)
