@@ -39,7 +39,7 @@ TST_BENCHES_SRCS = $(wildcard tst/*_tb.vhd)
 TST_BENCHES = $(notdir $(TST_BENCHES_SRCS:.vhd=))
 TST_OBJS = $(notdir $(TST_BENCHES_SRCS:.vhd=.o))
 
-.PHONY: all dirs clean
+.PHONY: all dirs clean test docs
 
 all: dirs $(OBJS) $(TST_OBJS) $(TST_BENCHES)
 
@@ -48,6 +48,10 @@ dirs:
 	${MKDIR_P} ${TMPDIR}
 	${MKDIR_P} ${TST_OUTPUTDIR}
 	${MKLINK} ${TST_INPUT_SRC} ${TST_INPUTDIR}
+
+test: all
+	$(info Running all tests in $(BLDDIR))
+	@$(foreach tb,$(shell ls ${BLDDIR}/*tb), $(info Starting $(tb)) $(tb);)
 
 # Testbenches
 #%_tb: $(OBJS) $(TST_OBJS)
@@ -64,7 +68,7 @@ dirs:
 # Housekeeping
 clean:
 	$(info removing temp folder)
-	@-rm -rf bld
+	@-rm -rf ${BLDDIR}
 	@-rm -rf ${TST_OUTPUTDIR}
 	${RMLINK} ${TST_INPUTDIR}
 
