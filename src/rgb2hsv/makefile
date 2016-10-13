@@ -69,6 +69,7 @@ test: all
 clean:
 	$(info removing temp folder)
 	@-rm -rf ${BLDDIR}
+	@-rm -rf ${TMPDIR}
 	@-rm -rf ${TST_OUTPUTDIR}
 	${RMLINK} ${TST_INPUTDIR}
 
