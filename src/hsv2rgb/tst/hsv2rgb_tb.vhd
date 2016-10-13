@@ -17,7 +17,11 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-use work.config_const_pkg.all;
+library test;
+use test.test_bench_driver_color;
+
+library common;
+use common.config_const_pkg.all;
 
 --! Used for calculation of h_count and v_count port width
 use ieee.math_real.all;
@@ -26,8 +30,8 @@ use ieee.math_real.all;
 
 entity hsv2rgb_tb is
     generic (
-        input_file:           string  := "tst/output/rgb2hsv_smpte_bars.pnm"; --! Input file of test 
-        output_file:          string  := "tst/output/hsv2rgb_output.pnm";     --! Output file of test 
+        input_file:           string  := "../../tst/output/rgb2hsv_smpte_bars.pnm"; --! Input file of test 
+        output_file:          string  := "../tmp/output/hsv2rgb_output.pnm";     --! Output file of test 
 
         image_width:          integer := const_imagewidth; --! Width of input image
         image_height:         integer := const_imageheight  --! Height of input image

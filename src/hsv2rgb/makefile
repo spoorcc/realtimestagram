@@ -19,17 +19,12 @@ CC=ghdl
 # To seperate source from build files, export them to the seperate bld folder
 TMPDIR=tmp
 BLDDIR=bld
-TST_INPUT_SRC=../../../tst/input
-TST_INPUTDIR=tst/input
-TST_OUTPUTDIR=tst/output
 
 INCS = -P../common/bld -P../testbench_drivers/bld
 AFLAGS=--workdir=$(TMPDIR) $(INCS)
 EFLAGS=--workdir=$(TMPDIR) $(INCS)
 
 MKDIR_P = mkdir -p
-MKLINK = ln -s
-RMLINK = unlink
 
 SRCS = $(wildcard src/*.vhd)
 OBJS = $(notdir $(SRCS:.vhd=.o))
@@ -46,8 +41,6 @@ all: dirs $(OBJS) $(TST_OBJS) $(TST_BENCHES)
 dirs:
 	${MKDIR_P} ${BLDDIR}
 	${MKDIR_P} ${TMPDIR}
-	${MKDIR_P} ${TST_OUTPUTDIR}
-	${MKLINK} ${TST_INPUT_SRC} ${TST_INPUTDIR}
 
 # Testbenches
 #%_tb: $(OBJS) $(TST_OBJS)
@@ -65,6 +58,3 @@ dirs:
 clean:
 	$(info removing temp folder)
 	@-rm -rf bld
-	@-rm -rf ${TST_OUTPUTDIR}
-	${RMLINK} ${TST_INPUTDIR}
-
