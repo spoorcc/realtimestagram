@@ -1,0 +1,101 @@
+#!/usr/bin/env python3
+
+import subprocess
+import re
+import argparse
+
+from copy import deepcopy
+from pprint import pprint
+
+class Entity(object):
+
+    def __init__(self, name):
+        self.name = name
+        self.ports = {'in':[],'out':[]}
+
+    def print(self):
+        print('Entity: ' + self.name)
+        print('inputs:')
+        pprint(self.ports['in'])
+        print('outputs:')
+        pprint(self.ports['out'])
+
+class Port(object):
+
+    def __init__(self, name):
+        self.name = name
+
+    def __repr__(self):
+        return self.name
+
+def parse_entities_from_vhdl(filepath):
+
+    cmd = "ghdl -s -dp {filepath}".format(filepath=filepath)
+    cmd += "| egrep 'entity_declaration|interface_signal_declaration|mode' "
+    cmd += "| egrep -v 'parent|has_mode'"
+    process = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
+    entities = process.communicate()[0]
+
+    entity_name_rgx = re.compile('.*entity_declaration.*\'(.*)\'')
+    intf_signal_rgx = re.compile('.*interface_signal_declaration.*\'(.*)\'')
+    intf_dir_rgx = re.compile('\s+mode:\s+(.*)')
+
+    port = None
+    for line in entities.decode().split("\n"):
+        match = entity_name_rgx.match(line)
+        if match:
+            entity = Entity(match.group(1))
+            continue
+        match = intf_signal_rgx.match(line)
+        if match:
+            port = Port(match.group(1))
+            continue
+        match = intf_dir_rgx.match(line)
+        if match and port:
+            entity.ports[match.group(1)] += [deepcopy(port)]
+
+    return entity
+
+class dot_graph(object):
+
+    def __init__(self, entity):
+        self.entity = entity
+
+    def __repr__(self):
+
+        result = ["digraph {name} {{".format(name=self.entity.name)]
+
+        result += ["    graph [ splines=ortho, rankdir=LR];"]
+        result += ["    node [ shape=record ];"]
+        result += ["    compound=true;"]
+
+        port_count = max(len(entity.ports['in']), len(entity.ports['out']))
+
+        result += ["    {name} [ label=\"{name}\", height={port_count}, width=2];".format(name=self.entity.name, port_count=port_count-1) ]
+
+        for input_port in entity.ports['in']:
+            result += ["    {port} -> {name};".format(port=input_port.name, name=self.entity.name) ]
+
+        for output_port in entity.ports['out']:
+            result += ["    {name} -> {port};".format(port=output_port.name, name=self.entity.name) ]
+
+        result += ["}"]
+        return "\n".join(result)
+
+def entity_to_dot(entity):
+
+    graph = dot_graph(entity)
+
+    print(graph)
+
+
+if __name__ == '__main__':
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("path", help="VHDL file to parse", type=str)
+
+    args = parser.parse_args()
+
+
+    entity = parse_entities_from_vhdl(args.path)
+    entity_to_dot(entity)
