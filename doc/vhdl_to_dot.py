@@ -66,7 +66,7 @@ class dot_graph(object):
         result = ["digraph {name} {{".format(name=self.entity.name)]
 
         result += ["    graph [ splines=ortho, rankdir=LR];"]
-        result += ["    node [ shape=record ];"]
+        result += ["    node [ shape=record, fontname=\"monospace\"];"]
         result += ["    compound=true;"]
 
         port_count = max(len(entity.ports['in']), len(entity.ports['out']))
@@ -74,9 +74,11 @@ class dot_graph(object):
         result += ["    {name} [ label=\"{name}\", height={port_count}, width=2];".format(name=self.entity.name, port_count=port_count-1) ]
 
         for input_port in entity.ports['in']:
+            result += ["    {port} [ color=\"#FFFFFF00\" ];".format(port=input_port.name) ]
             result += ["    {port} -> {name};".format(port=input_port.name, name=self.entity.name) ]
 
         for output_port in entity.ports['out']:
+            result += ["    {port} [ color=\"#FFFFFF00\" ];".format(port=output_port.name) ]
             result += ["    {name} -> {port};".format(port=output_port.name, name=self.entity.name) ]
 
         result += ["}"]
