@@ -51,7 +51,7 @@ dirs:
 
 test: all
 	$(info Running all tests in $(BLDDIR))
-	@$(foreach tb,$(shell ls ${BLDDIR}/*tb), $(info Starting $(tb)) $(tb);)
+	@$(foreach tb,$(shell ls ${BLDDIR}/*tb), $(info Starting $(tb)) $(tb) --wave=$(tb).ghw;)
 
 # Testbenches
 #%_tb: $(OBJS) $(TST_OBJS)
