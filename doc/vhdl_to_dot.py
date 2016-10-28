@@ -9,9 +9,10 @@ from pprint import pprint
 
 class Entity(object):
 
-    def __init__(self, name):
-        self.name = name
+    def __init__(self, name, src=None):
+        self.name = name.upper()
         self.ports = {'in':[],'out':[]}
+        self.src = src
 
     def print(self):
         print('Entity: ' + self.name)
@@ -44,7 +45,7 @@ def parse_entities_from_vhdl(filepath):
     for line in entities.decode().split("\n"):
         match = entity_name_rgx.match(line)
         if match:
-            entity = Entity(match.group(1))
+            entity = Entity(match.group(1), src=filepath)
             continue
         match = intf_signal_rgx.match(line)
         if match:
@@ -71,14 +72,14 @@ class dot_graph(object):
 
         port_count = max(len(entity.ports['in']), len(entity.ports['out']))
 
-        result += ["    {name} [ label=\"{name}\", height={port_count}, width=2];".format(name=self.entity.name, port_count=port_count-1) ]
+        result += ["    {entity.name} [ label=\"{entity.name}\", xlabel=\"src: {entity.src}\" height={port_count}, width=2, fontsize=30 ];".format(entity=self.entity, port_count=port_count-1) ]
 
         for input_port in entity.ports['in']:
-            result += ["    {port} [ color=\"#FFFFFF00\" ];".format(port=input_port.name) ]
+            result += ["    {port} [ shape=plaintext ];".format(port=input_port.name) ]
             result += ["    {port} -> {name};".format(port=input_port.name, name=self.entity.name) ]
 
         for output_port in entity.ports['out']:
-            result += ["    {port} [ color=\"#FFFFFF00\" ];".format(port=output_port.name) ]
+            result += ["    {port} [ shape=plaintext ];".format(port=output_port.name) ]
             result += ["    {name} -> {port};".format(port=output_port.name, name=self.entity.name) ]
 
         result += ["}"]
