@@ -33,4 +33,5 @@ src/*/tst/input
 
 # Doxygen documentation
 doc/html
+doc/latex
 doc/gh-pages
