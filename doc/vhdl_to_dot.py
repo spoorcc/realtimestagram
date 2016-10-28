@@ -2,7 +2,9 @@
 
 import subprocess
 import re
+import os.path
 import argparse
+import sys
 
 from copy import deepcopy
 from pprint import pprint
@@ -41,6 +43,7 @@ def parse_entities_from_vhdl(filepath):
     intf_signal_rgx = re.compile('.*interface_signal_declaration.*\'(.*)\'')
     intf_dir_rgx = re.compile('\s+mode:\s+(.*)')
 
+    entity = None
     port = None
     for line in entities.decode().split("\n"):
         match = entity_name_rgx.match(line)
@@ -52,7 +55,7 @@ def parse_entities_from_vhdl(filepath):
             port = Port(match.group(1))
             continue
         match = intf_dir_rgx.match(line)
-        if match and port:
+        if match and port and entity:
             entity.ports[match.group(1)] += [deepcopy(port)]
 
     return entity
@@ -85,11 +88,15 @@ class dot_graph(object):
         result += ["}"]
         return "\n".join(result)
 
-def entity_to_dot(entity):
+def entity_to_dot(entity, output_file):
 
     graph = dot_graph(entity)
 
-    print(graph)
+    if output_file == sys.stdout:
+        print(graph)
+    else:
+        with open(output_file, 'w') as output:
+            output.write(str(graph))
 
 
 if __name__ == '__main__':
@@ -97,8 +104,17 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("path", help="VHDL file to parse", type=str)
 
+    parser.add_argument("-o", "--output", default=sys.stdout, help="Output path", type=str)
+
     args = parser.parse_args()
 
+    if args.output != sys.stdout:
+       filename = os.path.basename(args.path)
+       filename = filename.replace(".vhd", ".dot")
+       args.output = os.path.join(args.output, filename)
 
     entity = parse_entities_from_vhdl(args.path)
-    entity_to_dot(entity)
+    if entity:
+        entity_to_dot(entity, args.output)
+
+

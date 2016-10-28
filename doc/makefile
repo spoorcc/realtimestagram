@@ -33,6 +33,9 @@ directories:
 images: directories
 	@cd img; gnuplot ./*.gnuplot
 
-docs: images
+block_diagrams: directories
+	@find  ../src/ -regex ".*\.vhd" | xargs -I '{}'  ./vhdl_to_dot.py -o ./$(BLDDIR) '{}'
+
+docs: images block_diagrams
 	@doxygen Doxyfile
 

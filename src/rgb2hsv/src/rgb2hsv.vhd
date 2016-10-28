@@ -24,6 +24,8 @@ use ieee.math_real.all;
 --! \class rgb2hsv
 --! \brief Creates seperate Hue Saturation Value channels from rgb signal
 --!
+--! \dotfile rgb2hsv.dot [Ports]
+--!
 --! Hue
 --! ---------------
 --! The Hue indicates the degrees on the color circle. Starting at 0 degrees with red, 
@@ -127,7 +129,8 @@ architecture behavioural of rgb2hsv is
 
 begin
 
-    hsv2rgb : process(clk, rst)
+    --! \vhdlflow [rgb2hsv flow]
+    rgb2hsv : process(clk, rst)
 
         variable red_i_int   : integer range 0 to 2**wordsize := 0;
         variable green_i_int : integer range 0 to 2**wordsize := 0;
