@@ -20,7 +20,7 @@ DOXYDIR=html
 
 MKDIR_P = mkdir -p
 
-.PHONY: all clean directories images docs
+.PHONY: all clean directories images block_diagrams timing_diagrams docs
 
 all: directories images docs
 
@@ -36,6 +36,11 @@ images: directories
 block_diagrams: directories
 	@find  ../src/ -regex ".*\.vhd" | xargs -I '{}'  ./vhdl_to_dot.py -o ./$(BLDDIR) '{}'
 
-docs: images block_diagrams
+timing_diagrams: directories
+	@find  ../src/ -regex ".*\.drom" | xargs -I '{}' ./WaveDromTikZ/wavedromtikz.py wavedrom -o ./$(BLDDIR) -s '{}'
+	@find  ./$(BLDDIR) -regex ".*\.tikz" | xargs -I '{}' pdflatex --output-directory=$(BLDDIR) '{}'
+	@find  ./$(BLDDIR) -regex ".*\.pdf" | xargs -I '{}' pdftoppm '{}' | pnmtopng > $(BLDDIR)/test.png
+
+docs: images block_diagrams timing_diagrams
 	@doxygen Doxyfile
 
