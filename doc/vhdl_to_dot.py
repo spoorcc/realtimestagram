@@ -75,7 +75,8 @@ class dot_graph(object):
 
         port_count = max(len(entity.ports['in']), len(entity.ports['out']))
 
-        result += ["    {entity.name} [ label=\"{entity.name}\", xlabel=\"src: {entity.src}\" height={port_count}, width=2, fontsize=30 ];".format(entity=self.entity, port_count=port_count-1) ]
+        result += ["    {entity.name} [ label=\"{entity.name}\", height={port_count}, width=2, fontsize=20 ];".format(entity=self.entity, port_count=port_count-1) ]
+        #result += ["    {entity.name} [ label=\"{entity.name}\", xlabel=\"src: {entity.src}\" height={port_count}, width=2, fontsize=30 ];".format(entity=self.entity, port_count=port_count-1) ]
 
         for input_port in entity.ports['in']:
             result += ["    {port} [ shape=plaintext ];".format(port=input_port.name) ]
