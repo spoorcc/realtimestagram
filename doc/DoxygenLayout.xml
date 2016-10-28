@@ -64,17 +64,6 @@
       <membergroups visible="yes"/>
     </memberdecl>
     <memberdef visible="no">
-      <inlineclasses visible="no" title=""/>
-      <typedefs visible="no" title=""/>
-      <enums visible="no" title=""/>
-      <services visible="no" title=""/>
-      <interfaces visible="no"  title=""/>
-      <constructors visible="no" title=""/>
-      <functions visible="no" title=""/>
-      <related visible="no" title=""/>
-      <variables visible="no" title=""/>
-      <properties visible="no" title=""/>
-      <events visible="no" title=""/>
     </memberdef>
     <allmemberslink visible="yes"/>
     <usedfiles visible="$SHOW_USED_FILES"/>
