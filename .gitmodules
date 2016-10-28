@@ -1,0 +1,3 @@
+[submodule "doc/WaveDromTikZ"]
+	path = doc/WaveDromTikZ
+	url = https://github.com/spoorcc/WaveDromTikZ.git
