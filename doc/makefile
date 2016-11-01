@@ -15,6 +15,7 @@
 
 # 
 # To seperate source from build files, export them to the seperate bld folder
+SRCDIR=../src
 BLDDIR=img/bld
 DOXYDIR=html
 
@@ -30,17 +31,35 @@ clean:
 directories:
 	${MKDIR_P} ${BLDDIR}
 
-images: directories
-	@cd img; gnuplot ./*.gnuplot
-
-block_diagrams: directories
-	@find  ../src/ -regex ".*\.vhd" | xargs -I '{}'  ./vhdl_to_dot.py -o ./$(BLDDIR) '{}'
-
-timing_diagrams: directories
-	@find  ../src/ -regex ".*\.drom" | xargs -I '{}' ./WaveDromTikZ/wavedromtikz.py wavedrom -o ./$(BLDDIR) -s '{}'
-	@find  ./$(BLDDIR) -regex ".*\.tikz" | xargs -I '{}' pdflatex --output-directory=$(BLDDIR) '{}'
-	@find  ./$(BLDDIR) -regex ".*\.pdf" | xargs -I '{}' pdftoppm '{}' | pnmtopng > $(BLDDIR)/test.png
-
 docs: images block_diagrams timing_diagrams
 	@doxygen Doxyfile
 
+images: directories
+	@cd img; gnuplot ./*.gnuplot
+
+# TODO Rewrite to use prerequisites 
+block_diagrams: directories
+	@find  $(SRCDIR) -regex ".*\.vhd" | xargs -I '{}'  ./vhdl_to_dot.py -o ./$(BLDDIR) '{}'
+
+# Timing Diagram section
+# ----------------------
+# Since timing diagrams are documented using wavedrom and generated using LaTeX
+# Several intermediate steps are necessary to generate usable images for in HTML
+# documentation
+
+TIMING_DIAGRAMS_SRCS = $(shell find $(SRCDIR) -regex ".*\.drom" )
+TIMING_DIAGRAMS_IMGS = $(notdir $(TIMING_DIAGRAMS_SRCS:%.drom=%.timing.png))
+
+# TODO Probably only workssince there is only 1 diagram
+%.tikz: $(filter %.drom, $(TIMING_DIAGRAMS_SRCS))
+	@./WaveDromTikZ/wavedromtikz.py wavedrom -o ./$(BLDDIR) -s $<
+
+%.timing.pdf: %.tikz
+	@pdflatex --interaction=batchmode --output-directory=$(BLDDIR) -jobname=$*.timing $<
+
+%.timing.png: %.timing.pdf
+	@pdftoppm $(BLDDIR)/$< | pnmtopng > $(BLDDIR)/$@
+
+timing_diagrams: directories $(TIMING_DIAGRAMS_IMGS)
+	@echo Generated Timing Diagrams:
+	@echo "    $(filter-out directories, $+)"
