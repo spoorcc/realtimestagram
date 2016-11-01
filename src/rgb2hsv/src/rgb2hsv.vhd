@@ -24,8 +24,13 @@ use ieee.math_real.all;
 --! \class rgb2hsv
 --! \brief Creates seperate Hue Saturation Value channels from rgb signal
 --!
---! \dotfile rgb2hsv.dot [Ports]
+--! \dotfile rgb2hsv.dot Input and output ports
 --!
+--! \par Timing diagram
+--! Below image shows timaing diagram iof entity
+--! \image html rgb2hsv.timing.png Placeholder for timing diagram
+--!
+--! \par Algorithm
 --! Hue
 --! ---------------
 --! The Hue indicates the degrees on the color circle. Starting at 0 degrees with red, 
