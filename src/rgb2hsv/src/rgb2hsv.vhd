@@ -26,37 +26,51 @@ use ieee.math_real.all;
 --!
 --! \dotfile rgb2hsv.dot Input and output ports
 --!
---! \par Timing diagram
---! Below image shows timaing diagram iof entity
---! \image html rgb2hsv.timing.png Placeholder for timing diagram
+--! # Introduction
 --!
---! \par Algorithm
---! Hue
---! ---------------
+--! rgb2hsv converts a stream of Red, Green and Blue pixels into their
+--! corresponding Hue, Saturation and Value pixels. For more information see
+--! the [algorithm](#rgb2hsv_algorithm) section.
+--!
+--! # Features
+--!
+--! - 6 clk delay
+--! - fully parameterized testbench
+--!
+--! # Functional description
+--!
+--! \image html rgb2hsv.timing.png Timing diagram of rgb2hsv
+--!
+--! # Algorithm {#rgb2hsv_algorithm}
+--!
+--! ## Hue
 --! The Hue indicates the degrees on the color circle. Starting at 0 degrees with red, 
 --! 120 degrees for green and 240 degrees for blue. 
 --! Because 360 degrees does map not correctly on the 8 bits of a byte everything is normalised 
 --! to the full range of a byte
 --! Hue is calculated following the function:
+--!
 --! \f[H =\left\{\begin{matrix} 0, & R=G=B\\
 --! \frac{(G-B)*60^{\circ}}{max(R,G,B)-min(R,G,B)}\textup{mod}\:360^{\circ}, & R \geq G,B\\
 --! \frac{(B-R)*60^{\circ}}{max(R,G,B)-min(R,G,B)}+120^{\circ}, & G \geq R,B\\ 
 --! \frac{(R-G)*60^{\circ}}{max(R,G,B)-min(R,G,B)}+240^{\circ} & B \geq R,G  \\
 --! \end{matrix}\right.\f]
 --!
---! Saturation
---! ----------------------
+--! ## Saturation
 --! The saturation indicates the strength of the color.
 --! Saturation is calculated following the function:
 --! \f[S =\left\{\begin{matrix} 0, & max(R,G,B)=0 \\
 --! \frac{max(R,G,B)-min(R,G,B)}{max(R,G,B)}, & otherwise\\
 --! \end{matrix}\right.\f]
 --!
---! Value
---! ----------------------
+--! ## Value
 --! The value indicates the intensity of the pixel.
 --! Value is calculated using the following function:
 --! \f[ V = max(R,G,B)\f]
+--!
+--! ## Rounding issues
+--!
+--! > TODO calculate the global quantization noise power
 --!
 
 entity rgb2hsv is
@@ -75,7 +89,7 @@ entity rgb2hsv is
     pixel_blue_i:         in std_logic_vector((wordsize-1) downto 0); --! blue input pixel
 
     -- outputs
-    pixel_hue_o:          out std_logic_vector((wordsize-1) downto 0); --! hue value of pixel
+    pixel_hue_o:          out std_logic_vector((wordsize-1) downto 0); --! hue of pixel
     pixel_sat_o:          out std_logic_vector((wordsize-1) downto 0); --! saturation of pixel
     pixel_val_o:          out std_logic_vector((wordsize-1) downto 0)  --! value of pixel
   );
