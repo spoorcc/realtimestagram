@@ -80,6 +80,16 @@ use ieee.math_real.all;
 --! - Currently limited to use for 8-bit words
 --! - Potentially unneeded multiplier in saturation calculation
 --!
+--! # Example images
+--!
+--!  RGB image                              | HSV image
+--!  -------------------------------------- | -------------------------------------
+--! ![Amersfoort](amersfoort.png)           | ![Amersfoort](rgb2hsv_amersfoort.png)
+--! ![Rainbow](rainbow.png)                 | ![Rainbow](rgb2hsv_rainbow.png)
+--! ![Hue gradient](hue_gradient.png)       | ![Hue gradient](rgb2hsv_hue_gradient.png)
+--! ![Saturation gradient](sat_gradient.png)| ![Saturation gradient](rgb2hsv_sat_gradient.png)
+--! ![Value gradient](val_gradient.png)     | ![Value gradient](rgb2hsv_val_gradient.png)
+--!
 
 entity rgb2hsv is
   generic (
