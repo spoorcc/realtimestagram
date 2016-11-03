@@ -28,7 +28,7 @@ AFLAGS=--workdir=$(TMPDIR) $(INCS)
 EFLAGS=--workdir=$(TMPDIR) $(INCS)
 
 MKDIR_P = mkdir -p
-MKLINK = ln -s
+MKLINK = ln -sf
 RMLINK = unlink
 
 SRCS = $(wildcard src/*.vhd)
