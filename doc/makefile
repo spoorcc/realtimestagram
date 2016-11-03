@@ -16,12 +16,13 @@
 # 
 # To seperate source from build files, export them to the seperate bld folder
 SRCDIR=../src
+TSTDIR=../tst
 BLDDIR=img/bld
 DOXYDIR=html
 
 MKDIR_P = mkdir -p
 
-.PHONY: all clean directories images block_diagrams timing_diagrams test_output_files docs
+.PHONY: all clean directories images block_diagrams timing_diagrams test_images docs
 
 all: directories images docs
 
@@ -31,12 +32,15 @@ clean:
 directories:
 	${MKDIR_P} ${BLDDIR}
 
-docs: images block_diagrams timing_diagrams test_output_files
+docs: images block_diagrams timing_diagrams test_images
 	@doxygen Doxyfile
 
-test_output_files: directories
+test_images: directories
 	$(foreach i,\
            $(shell find $(SRCDIR) -regex ".*tst/output/.*\.pnm" ),\
+           $(shell pnmtopng $i > $(BLDDIR)/`basename $i .pnm`.png ) )
+	$(foreach i,\
+           $(shell find $(TSTDIR) -regex ".*\.pnm" ),\
            $(shell pnmtopng $i > $(BLDDIR)/`basename $i .pnm`.png ) )
 
 images: directories
