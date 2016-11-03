@@ -21,7 +21,7 @@ DOXYDIR=html
 
 MKDIR_P = mkdir -p
 
-.PHONY: all clean directories images block_diagrams timing_diagrams docs
+.PHONY: all clean directories images block_diagrams timing_diagrams test_output_files docs
 
 all: directories images docs
 
@@ -31,8 +31,13 @@ clean:
 directories:
 	${MKDIR_P} ${BLDDIR}
 
-docs: images block_diagrams timing_diagrams
+docs: images block_diagrams timing_diagrams test_output_files
 	@doxygen Doxyfile
+
+test_output_files: directories
+	$(foreach i,\
+           $(shell find $(SRCDIR) -regex ".*tst/output/.*\.pnm" ),\
+           $(shell pnmtopng $i > $(BLDDIR)/`basename $i .pnm`.png ) )
 
 images: directories
 	@cd img; gnuplot ./*.gnuplot
@@ -63,3 +68,4 @@ TIMING_DIAGRAMS_IMGS = $(notdir $(TIMING_DIAGRAMS_SRCS:%.drom=%.timing.png))
 timing_diagrams: directories $(TIMING_DIAGRAMS_IMGS)
 	@echo Generated Timing Diagrams:
 	@echo "    $(filter-out directories, $+)"
+
