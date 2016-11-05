@@ -15,55 +15,22 @@
 
 # 
 # To seperate source from build files, export them to the seperate bld folder
-TMPDIR=tmp
-BLDTMPDIR=bld/tmp
-BLDDIR=bld
-TSTDIR=tst
-TST_OUT_DIR=tst/output
-
-MKDIR_P = mkdir -p
-
-TESTBENCHES = sigmoid_tb gamma_tb vignette_tb sepia_tb rgb2hsv_tb hsv2rgb_tb
-
-TESTSETS = lomo_testsets_tb sepia_testsets_tb rgb2hsv_testsets_tb hsv2rgb_testsets_tb 
-
 VIEW_CMD = /usr/bin/gtkwave
 
 .PHONY: all clean directories docs test
 
-all: directories test_benches
+all: test_benches
 
-test_benches: 
-	@cd src; make
+test_benches:
+	$(MAKE) -C src
 
 clean:
-	@cd doc; make clean
-	@cd src; make clean
-	@rm -rf $(BLDDIR)/*;echo "Cleared $(BLDDIR)"
-	@rm -rf $(TST_OUT_DIR)/*;echo "Cleared $(TST_OUT_DIR)"
+	$(MAKE) -C doc clean
+	$(MAKE) -C src clean
 
-directories:
-	${MKDIR_P} ${BLDDIR}
-	${MKDIR_P} ${BLDTMPDIR}
-	${MKDIR_P} ${TST_OUT_DIR}
-	${MKDIR_P} ${TMPDIR}
-
-docs:
+docs: test
 	@cd doc; make
-
-%_tb: all
-	@echo "Starting $@"
-	@$(BLDDIR)/$@ --wave=$(TMPDIR)/$@.ghw
-	@echo "> Done: wavefile saved as $(TMPDIR)/$@.ghw"
-
-%_testsets_tb: all
-	@echo "Starting $@"
-	@$(BLDDIR)/$@
-	@echo "> Done"
 
 test: $(TESTBENCHES)
 	@echo "> Done: running testbenches $(TESTBENCHES)"
-	@$(TSTDIR)/utils/run_tests.sh
-
-testsets: $(TESTSETS)
-	@echo "> Done: running testsets $(TESTSETS)"
+	$(MAKE) -C src test
