@@ -95,7 +95,8 @@ use ieee.numeric_std.all;
 --! Used for calculation of h_count and v_cunt port width
 use ieee.math_real.all;
 
-use work.curves_pkg.all;
+library common;
+use common.curves_pkg.all;
 --============================================================================--
 --!
 --!
