@@ -20,7 +20,11 @@ use ieee.numeric_std.all;
 --! Used for calculation of h_count and v_count port width
 use ieee.math_real.all;
 
-use work.config_const_pkg.all;
+library test;
+use test.test_bench_driver_color;
+
+library common;
+use common.config_const_pkg.all;
 
 --======================================================================================--
 

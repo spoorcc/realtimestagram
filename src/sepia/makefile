@@ -1,0 +1,75 @@
+#   This file is part of Realtimestagram.
+#
+#   Realtimestagram is free software: you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation, either version 2 of the License, or
+#   (at your option) any later version.
+#
+#   Realtimestagram is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#   along with Realtimestagram.  If not, see <http://www.gnu.org/licenses/>.
+
+
+CC=ghdl
+# 
+# To seperate source from build files, export them to the seperate bld folder
+TMPDIR=tmp
+BLDDIR=bld
+TST_INPUT_SRC=../../../tst/input
+TST_INPUTDIR=tst/input
+TST_OUTPUTDIR=tst/output
+
+INCS = -P../common/bld -P../testbench_drivers/bld
+AFLAGS=--workdir=$(TMPDIR) $(INCS)
+EFLAGS=--workdir=$(TMPDIR) $(INCS)
+
+MKDIR_P = mkdir -p
+MKLINK = ln -sf
+RMLINK = unlink
+
+SRCS = $(wildcard src/*.vhd)
+OBJS = $(notdir $(SRCS:.vhd=.o))
+
+
+TST_BENCHES_SRCS = $(wildcard tst/*_tb.vhd)
+TST_BENCHES = $(notdir $(TST_BENCHES_SRCS:.vhd=))
+TST_OBJS = $(notdir $(TST_BENCHES_SRCS:.vhd=.o))
+
+.PHONY: all dirs clean test docs
+
+all: dirs $(OBJS) $(TST_OBJS) $(TST_BENCHES)
+
+dirs:
+	${MKDIR_P} ${BLDDIR}
+	${MKDIR_P} ${TMPDIR}
+	${MKDIR_P} ${TST_OUTPUTDIR}
+	${MKLINK} ${TST_INPUT_SRC} ${TST_INPUTDIR}
+
+test: all
+	$(info Running all tests in $(BLDDIR))
+	@$(foreach tb,$(shell ls ${BLDDIR}/*tb), $(info Starting $(tb)) $(tb) --wave=$(tb).ghw;)
+
+# Testbenches
+#%_tb: $(OBJS) $(TST_OBJS)
+%_tb:
+	$(CC) -e $(AFLAGS) -o ${BLDDIR}/$@ $@ 
+
+# Objects
+%.o : src/%.vhd
+	$(CC) -a $(AFLAGS) $<
+
+%tb.o : tst/%tb.vhd
+	$(CC) -a $(AFLAGS) $<
+
+# Housekeeping
+clean:
+	$(info removing temp folder)
+	@-rm -rf ${BLDDIR}
+	@-rm -rf ${TMPDIR}
+	@-rm -rf ${TST_OUTPUTDIR}
+	${RMLINK} ${TST_INPUTDIR}
+
