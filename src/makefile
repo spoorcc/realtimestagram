@@ -14,56 +14,28 @@
 #   along with Realtimestagram.  If not, see <http://www.gnu.org/licenses/>.
 
 
-CC=ghdl
-# 
-# To seperate source from build files, export them to the seperate bld folder
-BLDTMPDIR=../bld/tmp
-BLDDIR=../bld
-AFLAGS='--workdir=$(BLDTMPDIR)'
-EFLAGS='--workdir=$(BLDTMPDIR)'
+SUBDIRS = $(shell find . -mindepth 1 -maxdepth 1 -type d)
+LIBS = ./common ./testbench_drivers
+COMPS = $(filter-out $(LIBS),$(SUBDIRS))
 
-MKDIR_P = mkdir -p
+all: $(LIBS) $(COMPS)
 
-COMPS = lookup_table \
-        vignette     \
-        lomo         \
-        sepia        \
-        rgb2hsv      \
-        hsv2rgb
+$(LIBS):
+	$(MAKE) -C $@
 
-PKGS = config_const_pkg curves_pkg
+$(COMPS):
+	$(MAKE) -C $@
 
-TST_UTILS = image_io_pkg            \
-            test_bench_driver       \
-            test_bench_driver_color
-
-TST_BENCHES = sigmoid_tb          \
-              gamma_tb            \
-              vignette_tb         \
-              lomo_tb             \
-              lomo_testsets_tb    \
-              sepia_tb            \
-              sepia_testsets_tb   \
-              rgb2hsv_tb          \
-              hsv2rgb_tb          \
-              rgb2hsv_testsets_tb \
-              hsv2rgb_testsets_tb
-
-TB_DEPS = $(addsuffix .o, $(PKGS)) $(addsuffix .o, $(TST_UTILS)) $(addsuffix .o, $(COMPS))
-
-.PHONY: all clean
-
-all: $(TST_BENCHES) 
-
-# Testbenches
-%_tb: $(TB_DEPS) %_tb.o 
-	$(CC) -e $(AFLAGS) -o ${BLDDIR}/$@ $@ 
-
-# Objects
-%.o : %.vhd
-	$(CC) -a $(AFLAGS) $<
+.PHONY: all $(LIBS) $(COMPS)
 
 # Housekeeping
 clean:
-	@echo Removing any temp files from syntax checking
-	@-rm -f *.cf
+	for dir in $(SUBDIRS); do \
+         $(MAKE) -C $$dir clean;\
+    done
+
+test: $(LIBS)
+	for dir in $(COMPS); do \
+         $(MAKE) -C $$dir test;\
+    done
+
