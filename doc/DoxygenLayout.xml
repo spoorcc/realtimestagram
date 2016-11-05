@@ -64,6 +64,7 @@
       <membergroups visible="yes"/>
     </memberdecl>
     <memberdef visible="no">
+      <functions title=""/>
     </memberdef>
     <allmemberslink visible="yes"/>
     <usedfiles visible="$SHOW_USED_FILES"/>
