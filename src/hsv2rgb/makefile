@@ -19,12 +19,17 @@ CC=ghdl
 # To seperate source from build files, export them to the seperate bld folder
 TMPDIR=tmp
 BLDDIR=bld
+TST_INPUT_SRC=../../../tst/input
+TST_INPUTDIR=tst/input
+TST_OUTPUTDIR=tst/output
 
 INCS = -P../common/bld -P../testbench_drivers/bld
 AFLAGS=--workdir=$(TMPDIR) $(INCS)
 EFLAGS=--workdir=$(TMPDIR) $(INCS)
 
 MKDIR_P = mkdir -p
+MKLINK = ln -sf
+RMLINK = unlink
 
 SRCS = $(wildcard src/*.vhd)
 OBJS = $(notdir $(SRCS:.vhd=.o))
@@ -34,13 +39,19 @@ TST_BENCHES_SRCS = $(wildcard tst/*_tb.vhd)
 TST_BENCHES = $(notdir $(TST_BENCHES_SRCS:.vhd=))
 TST_OBJS = $(notdir $(TST_BENCHES_SRCS:.vhd=.o))
 
-.PHONY: all dirs clean
+.PHONY: all dirs clean test docs
 
 all: dirs $(OBJS) $(TST_OBJS) $(TST_BENCHES)
 
 dirs:
 	${MKDIR_P} ${BLDDIR}
 	${MKDIR_P} ${TMPDIR}
+	${MKDIR_P} ${TST_OUTPUTDIR}
+	${MKLINK} ${TST_INPUT_SRC} ${TST_INPUTDIR}
+
+test: all
+	$(info Running all tests in $(BLDDIR))
+	@$(foreach tb,$(shell ls ${BLDDIR}/*tb), $(info Starting $(tb)) $(tb) --wave=$(tb).ghw;)
 
 # Testbenches
 #%_tb: $(OBJS) $(TST_OBJS)
@@ -57,4 +68,8 @@ dirs:
 # Housekeeping
 clean:
 	$(info removing temp folder)
-	@-rm -rf bld
+	@-rm -rf ${BLDDIR}
+	@-rm -rf ${TMPDIR}
+	@-rm -rf ${TST_OUTPUTDIR}
+	${RMLINK} ${TST_INPUTDIR}
+

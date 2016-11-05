@@ -30,49 +30,49 @@ begin
 
     Lenna: hsv2rgb_tb
         generic map(
-            input_file  => "tst/output/rgb2hsv_lenna.pnm",
+            input_file  => "tst/input/rgb2hsv_lenna.pnm",
             output_file => "tst/output/hsv2rgb_lenna.pnm"
         );
 
     windmill: hsv2rgb_tb
         generic map(
-            input_file  => "tst/output/rgb2hsv_windmill.pnm",
+            input_file  => "tst/input/rgb2hsv_windmill.pnm",
             output_file => "tst/output/hsv2rgb_windmill.pnm"
         );
 
     danger_zone: hsv2rgb_tb
         generic map(
-            input_file  => "tst/output/rgb2hsv_danger_zone.pnm",
+            input_file  => "tst/input/rgb2hsv_danger_zone.pnm",
             output_file => "tst/output/hsv2rgb_danger_zone.pnm"
         );
 
     amersfoort: hsv2rgb_tb
         generic map(
-            input_file  => "tst/output/rgb2hsv_amersfoort.pnm",
+            input_file  => "tst/input/rgb2hsv_amersfoort.pnm",
             output_file => "tst/output/hsv2rgb_amersfoort.pnm"
         );
 
     rainbow: hsv2rgb_tb
         generic map(
-            input_file  => "tst/output/rgb2hsv_rainbow.pnm",
+            input_file  => "tst/input/rgb2hsv_rainbow.pnm",
             output_file => "tst/output/hsv2rgb_rainbow.pnm"
         );
 
     hue_gradient: hsv2rgb_tb
         generic map(
-            input_file  => "tst/output/rgb2hsv_hue_gradient.pnm",
+            input_file  => "tst/input/rgb2hsv_hue_gradient.pnm",
             output_file => "tst/output/hsv2rgb_hue_gradient.pnm"
         );
 
     sat_gradient: hsv2rgb_tb
         generic map(
-            input_file  => "tst/output/rgb2hsv_sat_gradient.pnm",
+            input_file  => "tst/input/rgb2hsv_sat_gradient.pnm",
             output_file => "tst/output/hsv2rgb_sat_gradient.pnm"
         );
 
     val_gradient: hsv2rgb_tb
         generic map(
-            input_file  => "tst/output/rgb2hsv_val_gradient.pnm",
+            input_file  => "tst/input/rgb2hsv_val_gradient.pnm",
             output_file => "tst/output/hsv2rgb_val_gradient.pnm"
         );
 
