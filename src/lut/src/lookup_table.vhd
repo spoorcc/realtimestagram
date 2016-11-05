@@ -60,7 +60,8 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-use work.curves_pkg.all;
+library common;
+use common.curves_pkg.all;
 --============================================================================--
 --!
 --!

@@ -17,34 +17,30 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
---! Use the default constants from the project
-use work.config_const_pkg.all;
---! Use the create_gamma_lut function to generate the lookup table
-use work.curves_pkg.all;
+library test;
+use test.test_bench_driver;
+
+library common;
+use common.config_const_pkg.all;
+use common.curves_pkg.all;
 
 --======================================================================================--
---! \entity gamma_tb
---! Testbench for gamma design
---! \param [in] input_file  Input file used for test, must be plain text pnm file with pixel per line
---! \param [in] output_file Output file used for test, will be plain text pnm file with pixel per line
---! \param [in] gamma       Amount of contrast adjustment, see create_gamma_lut for more details.
---! \param [in] c_factor    Amount of contrast adjustment, see create_gamma_lut for more details.
-entity gamma_tb is
-    generic (
-        input_file:           string  := "tst/input/amersfoort_gray.pgm";
-        output_file:          string  := "tst/output/gamma_output.pgm";
 
-        gamma:                real    := 0.5;
-        c_factor:             real    := 1.0
+entity sigmoid_tb is
+    generic (
+        input_file:           string  := "tst/input/amersfoort_gray.pgm"; --! Input file of test 
+        output_file:          string  := "tst/output/sigmoid_output.pgm"; --! Output file of test 
+
+        c_factor:             real    := 15.0 --! Amount of contrast adjustment
     );
 end entity;
 
 --======================================================================================--
---! Architecture using test_bench_driver to supply input image and write out output image
-architecture structural of gamma_tb is
+
+architecture structural of sigmoid_tb is
 
   --===================component declaration===================--
-    --! \component test_bench_driver
+
     component test_bench_driver is
         generic (
             wordsize:           integer := const_wordsize;
@@ -74,7 +70,7 @@ architecture structural of gamma_tb is
     component lookup_table is
         generic (
             wordsize:      integer     := const_wordsize;
-            lut:           array_pixel := create_gamma_lut(2**const_wordsize, gamma, c_factor)
+            lut:           array_pixel := create_sigmoid_lut(2**const_wordsize, c_factor)
         );
         port (
             clk:           in std_logic;
