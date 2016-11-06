@@ -59,6 +59,8 @@ use ieee.math_real.all;
 --! \frac{(R-G)*60^{\circ}}{max(R,G,B)-min(R,G,B)}+240^{\circ} & B \geq R,G  \\
 --! \end{matrix}\right.\f]
 --!
+--! \image html hue_calc.png Calculation of Hue value from Red Green & Blue
+--!
 --! ## Saturation
 --! The saturation indicates the strength of the color.
 --! Saturation is calculated following the function:
