@@ -1,4 +1,25 @@
 var searchData=
 [
-  ['apply_5frgb_5fluts',['apply_rgb_luts',['../classsepia_1_1behavioural.html#adaa59ef23e96b3cb7b0d9846975e206d',1,'sepia::behavioural']]]
+  ['check_5fif_5finput_5fimage',['check_if_input_image',['../image__tool_8sh.html#a529dc43f9ca2ba96514e8deb748859cb',1,'image_tool.sh']]],
+  ['check_5finputs',['check_inputs',['../qualify__image_8sh.html#a64d8ab162f64d4309920bd109f9e8ca4',1,'qualify_image.sh']]],
+  ['check_5flimits',['check_limits',['../compare__images_8sh.html#a4e15a95b377fd6f4f4d718e721973135',1,'compare_images.sh']]],
+  ['create_5fcolor_5fimage',['create_color_image',['../image__tool_8sh.html#a2e8934ad0346657531362507b28360d3',1,'image_tool.sh']]],
+  ['create_5fdiff_5fimage',['create_diff_image',['../compare__images_8sh.html#a8dcf7e88c8eb35844e7bfa855cc61ee7',1,'compare_images.sh']]],
+  ['create_5fdiff_5fmask',['create_diff_mask',['../compare__images_8sh.html#a75e857374b5179995cd2bc8079983665',1,'compare_images.sh']]],
+  ['create_5fdiff_5fstatistics',['create_diff_statistics',['../compare__images_8sh.html#aa384ec4d01afde6bed3f01e23aac0f5b',1,'compare_images.sh']]],
+  ['create_5fdiff_5fstatistics_5fper_5fchannel',['create_diff_statistics_per_channel',['../compare__images_8sh.html#a89804dc0f1b168536a74c23d63f742a1',1,'compare_images.sh']]],
+  ['create_5fextended_5fdiff_5fstatistics_5fper_5fchannel',['create_extended_diff_statistics_per_channel',['../compare__images_8sh.html#a8cae2bdbfe1ef7e33be1982dcea32b86',1,'compare_images.sh']]],
+  ['create_5fgamma_5flut',['create_gamma_lut',['../classcurves__pkg.html#aa198ff09c88f7a78a25114f11819e45e',1,'curves_pkg.create_gamma_lut()'],['../class__curves__pkg.html#aa198ff09c88f7a78a25114f11819e45e',1,'_curves_pkg.create_gamma_lut()']]],
+  ['create_5fgray_5fimage',['create_gray_image',['../image__tool_8sh.html#a870b3d6072185ec0854937fd591eb8cb',1,'image_tool.sh']]],
+  ['create_5fhsv_5fimage',['create_HSV_image',['../image__tool_8sh.html#afb93886a1d394490b3642d145e5fd41b',1,'image_tool.sh']]],
+  ['create_5finput_5fimage_5fcolor',['create_input_image_color',['../image__tool_8sh.html#a41fb55d160362ebee62d5381a4a36a21',1,'image_tool.sh']]],
+  ['create_5finput_5fimage_5fgray',['create_input_image_gray',['../image__tool_8sh.html#a41430066761f303bfca335665f621e59',1,'image_tool.sh']]],
+  ['create_5fnegated_5flut',['create_negated_lut',['../classcurves__pkg.html#ad3cd27956d1deb3b8e8a3b462d8f0336',1,'curves_pkg.create_negated_lut()'],['../class__curves__pkg.html#ad3cd27956d1deb3b8e8a3b462d8f0336',1,'_curves_pkg.create_negated_lut()']]],
+  ['create_5fnormalized_5fdiff_5fimage',['create_normalized_diff_image',['../compare__images_8sh.html#a9230659746bf0fd32cf1fc9581c86ce2',1,'compare_images.sh']]],
+  ['create_5fsepia_5fimage',['create_sepia_image',['../image__tool_8sh.html#afa0854409f863b1b84bbe4e038de1384',1,'image_tool.sh']]],
+  ['create_5fsigmoid_5flut',['create_sigmoid_lut',['../classcurves__pkg.html#a8fafa5f71b6311fed392e47d6d1c8f21',1,'curves_pkg.create_sigmoid_lut()'],['../class__curves__pkg.html#a8fafa5f71b6311fed392e47d6d1c8f21',1,'_curves_pkg.create_sigmoid_lut()']]],
+  ['create_5fsine_5flut',['create_sine_lut',['../classcurves__pkg.html#a024b832bb6e22109412d6bc10bd9a1b4',1,'curves_pkg.create_sine_lut()'],['../class__curves__pkg.html#a024b832bb6e22109412d6bc10bd9a1b4',1,'_curves_pkg.create_sine_lut()']]],
+  ['create_5fsplit_5fhsv_5fimages',['create_split_HSV_images',['../image__tool_8sh.html#a473dd49140d14e1170229138e980cc5b',1,'image_tool.sh']]],
+  ['create_5fstraight_5flut',['create_straight_lut',['../classcurves__pkg.html#aea60257710eacad1d2e8cece770dc34b',1,'curves_pkg.create_straight_lut()'],['../class__curves__pkg.html#aea60257710eacad1d2e8cece770dc34b',1,'_curves_pkg.create_straight_lut()']]],
+  ['curve_5fadjustment',['curve_adjustment',['../classlookup__table_1_1behavioural.html#ad90a78d8c911ae7fa5d91bb41cb49654',1,'lookup_table.behavioural.curve_adjustment()'],['../classvignette_1_1behavioural.html#ad90a78d8c911ae7fa5d91bb41cb49654',1,'vignette.behavioural.curve_adjustment()']]]
 ];

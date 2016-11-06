@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['vignette_2evhd',['vignette.vhd',['../vignette_8vhd.html',1,'']]],
-  ['vignette_5ftb_2evhd',['vignette_tb.vhd',['../vignette__tb_8vhd.html',1,'']]]
+  ['test_5fbench_5fdriver_2evhd',['test_bench_driver.vhd',['../test__bench__driver_8vhd.html',1,'']]],
+  ['test_5fbench_5fdriver_5fcolor_2evhd',['test_bench_driver_color.vhd',['../test__bench__driver__color_8vhd.html',1,'']]]
 ];

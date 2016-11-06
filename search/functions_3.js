@@ -1,5 +1,8 @@
 var searchData=
 [
-  ['h_5fand_5fv_5fcounters',['h_and_v_counters',['../classtest__bench__driver_1_1behavioural.html#aba4dbc7d2718295012df3d004340d0ca',1,'test_bench_driver.behavioural.h_and_v_counters()'],['../classtest__bench__driver__color_1_1behavioural.html#aba4dbc7d2718295012df3d004340d0ca',1,'test_bench_driver_color.behavioural.h_and_v_counters()']]],
-  ['hsv2rgb',['hsv2rgb',['../classhsv2rgb_1_1bailey.html#ab5498a73e66e1a60494f36cb417b5e84',1,'hsv2rgb.bailey.hsv2rgb()'],['../classrgb2hsv_1_1behavioural.html#ab5498a73e66e1a60494f36cb417b5e84',1,'rgb2hsv.behavioural.hsv2rgb()']]]
+  ['pad_5fstring',['pad_string',['../classimage__io__pkg.html#aa1cac1581cc1ac68532fe5fe01928ce1',1,'image_io_pkg.pad_string()'],['../class__image__io__pkg.html#aa1cac1581cc1ac68532fe5fe01928ce1',1,'_image_io_pkg.pad_string()']]],
+  ['print_5fcomparison_5fheader',['print_comparison_header',['../compare__images_8sh.html#a8d51624aad4a686bf5dbbff1a3a947ae',1,'compare_images.sh']]],
+  ['print_5fextended_5fmetrics',['print_extended_metrics',['../compare__images_8sh.html#a00fb907614c1a352a59067d68d551444',1,'compare_images.sh']]],
+  ['print_5fmetrics',['print_metrics',['../compare__images_8sh.html#a31b61d8480a324aa7e7f668f11eafbf1',1,'compare_images.sh']]],
+  ['psnr',['psnr',['../compare__images_8sh.html#a41ac1967b5277554a4fec07b20935b12',1,'compare_images.sh']]]
 ];
