@@ -45,6 +45,7 @@ test_images: directories
 
 images: directories
 	@cd img; gnuplot ./*.gnuplot
+	@find  $(SRCDIR) -regex ".*\.gnuplot" | xargs -I '{}'  gnuplot '{}'
 
 # TODO Rewrite to use prerequisites 
 block_diagrams: directories
