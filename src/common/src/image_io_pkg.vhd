@@ -42,24 +42,24 @@ use ieee.math_real.all;
 --! Typical reading usage
 --! ---------------------
 --! 
---! ~~~~~~~~~~~~~{.vhdl}
+--! \verbatim
 --! -- First read the header
 --! read_pbmplus_header( pgm_width, pgm_height, max_pixel_value, pgm, file_input_pixel );
 --! 
 --! -- Then read the pixels
 --! read_pixel(file_input_pixel, pixel_tmp, end_of_file);
---! ~~~~~~~~~~~~~
+--! \endverbatim
 --! 
 --! Typical writing usage
 --! ---------------------
 --! 
---! ~~~~~~~~~~~~~{.vhdl}
+--! \verbatim
 --! -- First write the header
 --! write_pbmplus_header( pgm_width, pgm_height, max_pixel_value, pgm, file_output_pixel );
 --!
 --! -- Then write the pixels
 --! write_pixel( val, file_output_pixel);
---! ~~~~~~~~~~~~~
+--! \endverbatim
 --! 
 package image_io_pkg is
 
