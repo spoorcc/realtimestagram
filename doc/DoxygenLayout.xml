@@ -63,8 +63,12 @@
       <related title="" subtitle=""/>
       <membergroups visible="yes"/>
     </memberdecl>
-    <memberdef visible="no">
+    <memberdef visible="yes">
+      <typedefs title=""/>
+      <enums title=""/>
       <functions title=""/>
+      <variables title=""/>
+      <properties title=""/>
     </memberdef>
     <allmemberslink visible="yes"/>
     <usedfiles visible="$SHOW_USED_FILES"/>
