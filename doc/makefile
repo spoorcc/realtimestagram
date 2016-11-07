@@ -50,7 +50,7 @@ images: directories
 # TODO Rewrite to use prerequisites 
 block_diagrams: directories
 	$(foreach i,\
-           $(shell find $(SRCDIR) -regex ".*tst/output/.*\.vhd" ),\
+           $(shell find $(SRCDIR) -regex ".*\.vhd" ),\
            $(shell ./vhdl_to_dot.py -o ./$(BLDDIR) $i ) )
 
 # Timing Diagram section
