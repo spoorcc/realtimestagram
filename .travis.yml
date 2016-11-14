@@ -8,7 +8,7 @@ addons:
     packages:
       - imagemagick
       - doxygen
-      - gnuplot
+      - gnuplot-x11
       - graphviz
       - texlive-core
       - ghdl
