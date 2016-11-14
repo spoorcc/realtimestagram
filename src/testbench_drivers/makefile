@@ -25,7 +25,6 @@ MKDIR_P = mkdir -p
 SRCS = $(wildcard src/*.vhd)
 OBJS = $(notdir $(SRCS:.vhd=.o))
 
-$(info OBJS is $(OBJS))
 .PHONY: all dirs clean
 
 all: dirs $(OBJS)
