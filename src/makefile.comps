@@ -52,12 +52,11 @@ dirs:
 
 test: all
 	$(info Running all tests in $(BLDDIR))
-	@if [ -a tst/run_tests.sh ] ; \
-    then \
-         tst/run_tests.sh ; \
-    else \
-         $(foreach tb,$(shell ls ${BLDDIR}/*tb), $(info Starting $(tb)) $(tb) --wave=$(tb).ghw;) \
-    fi;
+	ifneq ("$(wildcard $(tst/run_tests.sh))","")
+        @ tst/run_tests.sh 
+        else 
+        $(foreach tb,$(shell ls ${BLDDIR}/*tb), $(info Starting $(tb)) $(tb) --wave=$(tb).ghw;)
+        endif
 
 # Testbenches
 #%_tb: $(OBJS) $(TST_OBJS)
