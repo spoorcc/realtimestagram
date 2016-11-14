@@ -11,4 +11,5 @@ addons:
       - bc
 script:
 - "make test"
+- "make docs"
 
