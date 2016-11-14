@@ -14,17 +14,23 @@
 #   You should have received a copy of the GNU General Public License
 #   along with Realtimestagram.  If not, see <http://www.gnu.org/licenses/>.
 
-TEST_INPUT_FOLDER="tst/input"
-TEST_OUTPUT_FOLDER="tst/output"
-TEST_SCRIPTING="../../tst/utils"
+declare -r TEST_INPUT_FOLDER="tst/input"
+declare -r TEST_OUTPUT_FOLDER="tst/output"
+declare -r TEST_SCRIPTING="../../tst/utils"
 
-TESTSET_FOLDER="bld"
+declare -r TESTSET_FOLDER="bld"
+
+## Threshold which output hsv images must at least adhere to.
+declare -r PSNR_THRESHOLD=13.05
 
 ## @fn qualify_rgb2hsv_image()
 ## @brief Qualifies a conversion of rgb to hsv colorspace
 ## @param INPUT_FILE  file used as input
 ## @param OUTPUT_FILE file that should be qualified
-## Creates a reference image and compares that to the OUTPUT_FILE 
+## 
+## @details Creates a reference image in the tmp folder using image_tool.sh and compares
+## that to the OUTPUT_FILE using compare_images.sh PSNR comparison. If the PSNR
+## is below PSNR_THRESHOLD, 1 is returned.
 qualify_rgb2hsv_image() {
 
     INPUT_FILE=$1
@@ -32,8 +38,6 @@ qualify_rgb2hsv_image() {
 
     INPUT_FILE_BASE="${INPUT_FILE##*/}"
     REF_FILE="tmp/${INPUT_FILE_BASE%.*}_hsv_ref"
-
-    PSNR_THRESHOLD=13.05
 
     printf "\n--> Qualifying %s" "$OUTPUT_FILE"
 
@@ -49,7 +53,8 @@ qualify_rgb2hsv_image() {
 }
 
 ## @fn run_rgb2hsv_test()
-## @brief Runs rgb2hsv test
+## @brief Runs rgb2hsv testbenches and compares output images
+## @test Runs rgb2hsv testsets and compares output images using qualify_rgb2hsv_image
 run_rgb2hsv_test() {
 
     # Run the test set
