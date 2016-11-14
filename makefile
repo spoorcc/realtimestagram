@@ -28,9 +28,8 @@ clean:
 	$(MAKE) -C doc clean
 	$(MAKE) -C src clean
 
-docs: test
-	@cd doc; make
+docs:
+	$(MAKE) -C doc
 
-test: $(TESTBENCHES)
-	@echo "> Done: running testbenches $(TESTBENCHES)"
+test:
 	$(MAKE) -C src test
