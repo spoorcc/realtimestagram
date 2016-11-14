@@ -14,9 +14,8 @@ addons:
       - graphviz
       - groff
       - imagemagick
-      - texlive-core
       - ttf-liberation
 script:
 - "make test"
-- "make docs"
+#- "make docs"
 
