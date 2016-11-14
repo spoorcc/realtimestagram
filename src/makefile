@@ -30,12 +30,12 @@ $(COMPS):
 
 # Housekeeping
 clean:
-	for dir in $(SUBDIRS); do \
+	@ for dir in $(SUBDIRS); do \
          $(MAKE) -C $$dir clean;\
     done
 
 test: $(LIBS)
-	for dir in $(COMPS); do \
+	@ for dir in $(COMPS); do \
          $(MAKE) -C $$dir test;\
     done
 
