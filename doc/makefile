@@ -52,6 +52,9 @@ block_diagrams: directories
 	$(foreach i,\
            $(shell find $(SRCDIR) -regex ".*\.vhd" ),\
            $(shell ./vhdl_to_dot.py -o ./$(BLDDIR) $i ) )
+	$(foreach i,\
+           $(shell find $(SRCDIR) -regex ".*\.dot" ),\
+           $(shell cp $i ./$(BLDDIR) ) )
 
 # Timing Diagram section
 # ----------------------
