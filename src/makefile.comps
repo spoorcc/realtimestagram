@@ -52,7 +52,7 @@ dirs:
 
 test: all
 	$(info Running all tests in $(BLDDIR))
-	ifneq ("$(wildcard tst/run_tests.sh)","")
+	ifneq ("$(wildcard tst/*.sh)","")
 	@ tst/run_tests.sh 
 	else 
 	$(foreach tb,$(shell ls ${BLDDIR}/*tb), $(info Starting $(tb)) $(tb) --wave=$(tb).ghw;)
