@@ -51,12 +51,9 @@ dirs:
 	${MKLINK} ${TST_INPUT_SRC} ${TST_INPUTDIR}
 
 test: all
-	$(info Running all tests in $(BLDDIR))
-	ifneq ("$(wildcard tst/*.sh)","")
-	@ tst/run_tests.sh 
-	else 
-	$(foreach tb,$(shell ls ${BLDDIR}/*tb), $(info Starting $(tb)) $(tb) --wave=$(tb).ghw;)
-	endif
+	$(if $(filter tst/run_tests.sh, $(wildcard tst/*.sh)), \
+	@ tst/run_tests.sh, \
+	$(foreach tb,$(shell ls ${BLDDIR}/*tb), $(info Starting $(tb)) $(tb) --wave=$(tb).ghw;))
 
 # Testbenches
 #%_tb: $(OBJS) $(TST_OBJS)
