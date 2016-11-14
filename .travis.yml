@@ -6,13 +6,16 @@ addons:
     sources:
       - pgavin-ghdl
     packages:
-      - imagemagick
+      - bc
       - doxygen
+      - doxygen-latex
+      - ghdl
       - gnuplot-x11
       - graphviz
+      - groff
+      - imagemagick
       - texlive-core
-      - ghdl
-      - bc
+      - ttf-liberation
 script:
 - "make test"
 - "make docs"
