@@ -7,6 +7,10 @@ addons:
       - pgavin-ghdl
     packages:
       - imagemagick
+      - doxygen
+      - gnuplot
+      - graphviz
+      - texlive-core
       - ghdl
       - bc
 script:
