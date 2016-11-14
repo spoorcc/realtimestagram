@@ -1,0 +1,112 @@
+digraph rgb2hsv{
+  
+  graph [rankdir=LR, splines=ortho, sep=5];
+  edge  [penwidth=2.2, arrowsize=.5]
+  node  [height=0.25,  style=filled, fontname=sans]
+
+  /* single or multibit registers */
+  subgraph inputs {
+      node [fontcolor=white, fontname=serif, fillcolor=gray32, shape=box, tailport=e]
+      rank=same; pixel_red_i pixel_green_i pixel_blue_i
+  }
+
+  subgraph cluster_component {
+        
+    color=gray64
+    label="rgb2hsv";
+    fontcolor=black;
+    fontname=sans;
+
+    subgraph operators{
+        node [ shape=circle, fillcolor=white, fontcolor=black, labelloc=c, fixedsize=true, tailport=e]
+        add0 [label="+"] 
+        add1 [label="+"] 
+
+        min0 [label="-"] 
+        min1 [label="-"] 
+        min2 [label="-"] 
+        min3 [label="-"] 
+
+        mult0 [label="x"]
+        mult1 [label="x"]
+        mult2 [label="x"]
+        mult3 [label="x"]
+
+        div0 [label="/"]
+        div1 [label="/"]
+        div2 [label="/"]
+        div3 [label="/"]
+    }
+
+    subgraph registers{
+        node [fontcolor=white, fontname=serif, fillcolor=gray32, shape=box, headport=w]
+        reg0 [label="r0"]
+        reg1 [label="r1"]
+        reg2 [label="r2"]
+        reg3 [label="r3"]
+        reg4 [label="r4"]
+        reg5 [label="r5"]
+    }
+
+    subgraph consts{
+        node [fontcolor=white, fontname=serif, fillcolor=gray64, shape=box, tailport=n]
+        const0 [label="43"]
+        const1 [label="43"]
+        const2 [label="43"]
+        const3 [label="255"]
+        const4 [label="85"]
+        const5 [label="171"]
+    }
+
+    subgraph knots {
+        node [shape=point, height=0.02, width=0.02, headport=w, tailport=e]
+        k_max
+        k_max_min_min
+    }
+
+    subgraph function_blocks{
+        node [ height=1, shape=box, fillcolor=gray96, fontcolor=black, headport=w, tailport=e]
+        mux  [label="mux"] 
+        comp [label="comp"] 
+    }
+  }
+
+  subgraph output{
+      node [fontcolor=white, fontname=serif, fillcolor=gray32, shape=box, headport=w]
+      rank=same; pixel_hue_o pixel_val_o pixel_sat_o
+  }
+
+  pixel_red_i   -> min0 
+  pixel_green_i -> min0 -> mult0 -> div0 -> reg0 -> mux
+  const0 -> mult0
+
+  pixel_blue_i -> min1 
+  pixel_red_i  -> min1 -> mult1 -> div1 -> add0 -> mux -> pixel_hue_o
+  const1 -> mult1
+  const4 -> add0
+
+  pixel_green_i -> min2 
+  pixel_blue_i  -> min2 -> mult2 -> div2 -> add1 -> mux
+  const2 -> mult2
+  const5 -> add1
+
+  pixel_red_i   -> comp
+  pixel_green_i -> comp
+  pixel_blue_i  -> comp
+
+  comp -> k_max [label="max"]
+  comp -> min3  [label="min"]
+
+  min3 -> k_max_min_min 
+ 
+  k_max_min_min -> div0
+  k_max_min_min -> div1
+  k_max_min_min -> div2
+
+  k_max_min_min -> mult3 -> div3 -> reg1 ->  pixel_sat_o
+  const3 -> div3
+  k_max -> reg2 -> reg3 -> reg4 -> reg5 -> pixel_val_o
+
+
+
+}

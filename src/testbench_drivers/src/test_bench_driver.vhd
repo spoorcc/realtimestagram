@@ -28,6 +28,10 @@ library common;
 use common.image_io_pkg.all;
 use common.config_const_pkg.all;
 
+--! \brief drives image based designs
+--!
+--! \dotfile test_bench_driver.dot
+--!
 entity test_bench_driver is
     generic (
         wordsize:             integer; --! size of input pixel value in bits

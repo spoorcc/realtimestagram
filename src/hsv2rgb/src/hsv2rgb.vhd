@@ -24,6 +24,8 @@ use ieee.math_real.all;
 --! \class hsv2rgb
 --! \brief Creates Red Green and Blue channels from Hue Saturation Value inputs
 --!
+--! \dotfile hsv2rgb.dot Input and output ports
+--!
 --! Calculation of RGB to HSV
 --! ---------------
 --! \f[I_{RGB} = \left\{\begin{matrix}
